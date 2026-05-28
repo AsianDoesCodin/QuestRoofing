@@ -1,0 +1,21 @@
+{
+  "scannedAt": "2026-05-28",
+  "cwd": "C:\\Users\\Joshua\\Desktop\\Quest roofing",
+  "designSystem": null,
+  "fontStack": null,
+  "palette": null,
+  "motion": "motion-cut",
+  "spacing": null,
+  "framework": "vanilla-html",
+  "preserve": [],
+  "introduce": [
+    "tokenized color and type system",
+    "static one-page macrostructure",
+    "lightweight interaction layer",
+    "honest-copy guardrails"
+  ],
+  "inferredAudience": "East Valley homeowners comparing roofing contractors and looking for a local company they can verify quickly",
+  "inferredUseCase": "Drive free estimate and inspection requests",
+  "inferredTone": "utilitarian",
+  "note": "No pre-flight signals were present in the workspace. Build direction was inferred from the live Quest Roofing site."
+}
