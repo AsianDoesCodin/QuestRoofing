@@ -6,24 +6,106 @@ const mailtoForms = document.querySelectorAll("[data-mailto-form]");
 const guidedForms = document.querySelectorAll("[data-guided-form]");
 const serviceMapElement = document.getElementById("service-map");
 const galleryCarousels = document.querySelectorAll("[data-gallery-carousel]");
+const mobileNavQuery = window.matchMedia("(max-width: 56rem)");
 
 if (footerYear) {
   footerYear.textContent = `Copyright ${new Date().getFullYear()} Quest Roofing`;
 }
 
 if (navToggle && siteNav) {
+  const navTriggers = Array.from(siteNav.querySelectorAll(".nav-trigger"));
+  const navGroups = navTriggers
+    .map((trigger) => ({
+      trigger,
+      group: trigger.closest(".nav-group"),
+      menu: trigger.closest(".nav-group")?.querySelector(".nav-menu")
+    }))
+    .filter(({ group, menu }) => group && menu);
+
+  const closeSubmenus = (exceptGroup = null) => {
+    navGroups.forEach(({ trigger, group }) => {
+      if (group === exceptGroup) {
+        return;
+      }
+
+      group.classList.remove("is-submenu-open");
+      trigger.setAttribute("aria-expanded", "false");
+    });
+  };
+
+  const closeMobileNav = () => {
+    navToggle.setAttribute("aria-expanded", "false");
+    navToggle.setAttribute("aria-label", "Open navigation");
+    siteNav.classList.remove("is-open");
+    document.body.classList.remove("nav-open");
+    closeSubmenus();
+  };
+
+  const openMobileNav = () => {
+    navToggle.setAttribute("aria-expanded", "true");
+    navToggle.setAttribute("aria-label", "Close navigation");
+    siteNav.classList.add("is-open");
+    document.body.classList.add("nav-open");
+  };
+
   navToggle.addEventListener("click", () => {
     const expanded = navToggle.getAttribute("aria-expanded") === "true";
-    navToggle.setAttribute("aria-expanded", String(!expanded));
-    siteNav.classList.toggle("is-open", !expanded);
+
+    if (expanded) {
+      closeMobileNav();
+    } else {
+      openMobileNav();
+    }
+  });
+
+  navTriggers.forEach((trigger) => {
+    trigger.addEventListener("click", () => {
+      const group = trigger.closest(".nav-group");
+      const shouldOpen = trigger.getAttribute("aria-expanded") !== "true";
+
+      closeSubmenus(shouldOpen ? group : null);
+      group?.classList.toggle("is-submenu-open", shouldOpen);
+      trigger.setAttribute("aria-expanded", String(shouldOpen));
+    });
   });
 
   siteNav.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
-      navToggle.setAttribute("aria-expanded", "false");
-      siteNav.classList.remove("is-open");
+      closeMobileNav();
     });
   });
+
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+
+    if (!(target instanceof Element) || siteNav.contains(target) || navToggle.contains(target)) {
+      return;
+    }
+
+    if (mobileNavQuery.matches) {
+      closeMobileNav();
+    } else {
+      closeSubmenus();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeMobileNav();
+    }
+  });
+
+  const handleNavBreakpointChange = (event) => {
+    if (!event.matches) {
+      closeMobileNav();
+    }
+  };
+
+  if (typeof mobileNavQuery.addEventListener === "function") {
+    mobileNavQuery.addEventListener("change", handleNavBreakpointChange);
+  } else if (typeof mobileNavQuery.addListener === "function") {
+    mobileNavQuery.addListener(handleNavBreakpointChange);
+  }
 }
 
 faqItems.forEach((item) => {

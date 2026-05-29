@@ -174,7 +174,7 @@ const layout = ({ title, meta, canonical, h1, eyebrow, body, schema, pathPrefix 
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation"><span></span><span></span></button>
         <nav class="site-nav" id="site-nav" aria-label="Primary">
           <div class="nav-group">
-            <button class="nav-trigger" type="button" aria-haspopup="true">About</button>
+            <button class="nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">About</button>
             <div class="nav-menu" aria-label="About pages">
               <a href="${pathPrefix}/about-us/our-team/index.html">Our Team</a>
               <a href="${pathPrefix}/about-us/completed-projects/index.html">Completed Projects</a>
@@ -184,8 +184,9 @@ const layout = ({ title, meta, canonical, h1, eyebrow, body, schema, pathPrefix 
             </div>
           </div>
           <div class="nav-group">
-            <a href="${pathPrefix}/index.html#services">Services</a>
+            <button class="nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Services</button>
             <div class="nav-menu" aria-label="Service pages">
+              <a href="${pathPrefix}/index.html#services">Services Overview</a>
               ${publishedServices.map((service) => `<a href="${pathPrefix}/services/${service.slug}/index.html">${serviceLabel(service)}</a>`).join("\n              ")}
             </div>
           </div>
