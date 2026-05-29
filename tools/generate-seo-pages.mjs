@@ -96,11 +96,11 @@ const services = [
 ];
 
 const officialServiceSlugs = [
+  "roof-repair",
   "tile-roofing",
   "shingle-roofing",
   "metal-roofing",
   "foam-roofing",
-  "roof-repair",
   "roof-inspection"
 ];
 
@@ -189,8 +189,8 @@ const layout = ({ title, meta, canonical, h1, eyebrow, body, schema, pathPrefix 
               ${publishedServices.map((service) => `<a href="${pathPrefix}/services/${service.slug}/index.html">${serviceLabel(service)}</a>`).join("\n              ")}
             </div>
           </div>
-          <a href="${pathPrefix}/index.html#areas">Areas</a>
-          <a href="${pathPrefix}/index.html#reviews">Reviews</a>
+          <a href="${pathPrefix}/index.html#process">Process</a>
+          <a href="${pathPrefix}/index.html#why-quest">Why Quest</a>
           <a href="${pathPrefix}/gallery/index.html">Gallery</a>
           <a href="${pathPrefix}/resources/design-your-roof/index.html">Resources</a>
           <a class="nav-cta" href="${pathPrefix}/index.html#estimate">Request Quote</a>
