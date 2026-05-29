@@ -5,6 +5,7 @@ const footerYear = document.getElementById("footer-year");
 const mailtoForms = document.querySelectorAll("[data-mailto-form]");
 const guidedForms = document.querySelectorAll("[data-guided-form]");
 const serviceMapElement = document.getElementById("service-map");
+const galleryCarousels = document.querySelectorAll("[data-gallery-carousel]");
 
 if (footerYear) {
   footerYear.textContent = `Copyright ${new Date().getFullYear()} Quest Roofing`;
@@ -100,6 +101,112 @@ if (serviceMapElement && typeof window.L !== "undefined") {
     map.invalidateSize();
   }, 150);
 }
+
+galleryCarousels.forEach((carousel) => {
+  const track = carousel.querySelector("[data-gallery-track]");
+  const slides = Array.from(carousel.querySelectorAll(".real-gallery-slide"));
+  const prevButton = carousel.querySelector("[data-gallery-prev]");
+  const nextButton = carousel.querySelector("[data-gallery-next]");
+  const currentText = carousel.querySelector("[data-gallery-current]");
+  const totalText = carousel.querySelector("[data-gallery-total]");
+  const dotsWrap = carousel.querySelector("[data-gallery-dots]");
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let activeIndex = 0;
+  let ticking = false;
+
+  if (!track || !slides.length) {
+    return;
+  }
+
+  if (totalText) {
+    totalText.textContent = String(slides.length);
+  }
+
+  const dots = slides.map((slide, index) => {
+    if (!dotsWrap) {
+      return null;
+    }
+
+    const dot = document.createElement("button");
+    dot.className = "gallery-dot";
+    dot.type = "button";
+    dot.setAttribute("aria-label", `Show gallery photo ${index + 1}`);
+    dot.addEventListener("click", () => setActive(index));
+    dotsWrap.appendChild(dot);
+    return dot;
+  });
+
+  const updateState = (index) => {
+    activeIndex = Math.min(Math.max(index, 0), slides.length - 1);
+
+    if (currentText) {
+      currentText.textContent = String(activeIndex + 1);
+    }
+
+    if (prevButton) {
+      prevButton.disabled = activeIndex === 0;
+    }
+
+    if (nextButton) {
+      nextButton.disabled = activeIndex === slides.length - 1;
+    }
+
+    dots.forEach((dot, dotIndex) => {
+      if (!dot) {
+        return;
+      }
+
+      const isActive = dotIndex === activeIndex;
+      dot.classList.toggle("is-active", isActive);
+      dot.setAttribute("aria-current", isActive ? "true" : "false");
+    });
+  };
+
+  function setActive(index) {
+    const nextIndex = Math.min(Math.max(index, 0), slides.length - 1);
+    slides[nextIndex].scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      block: "nearest",
+      inline: "start"
+    });
+    updateState(nextIndex);
+  }
+
+  const syncFromScroll = () => {
+    const nearestIndex = slides.reduce((bestIndex, slide, index) => {
+      const bestDistance = Math.abs(slides[bestIndex].offsetLeft - track.scrollLeft);
+      const distance = Math.abs(slide.offsetLeft - track.scrollLeft);
+      return distance < bestDistance ? index : bestIndex;
+    }, 0);
+
+    updateState(nearestIndex);
+    ticking = false;
+  };
+
+  track.addEventListener("scroll", () => {
+    if (!ticking) {
+      window.requestAnimationFrame(syncFromScroll);
+      ticking = true;
+    }
+  });
+
+  track.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      setActive(activeIndex - 1);
+    }
+
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      setActive(activeIndex + 1);
+    }
+  });
+
+  prevButton?.addEventListener("click", () => setActive(activeIndex - 1));
+  nextButton?.addEventListener("click", () => setActive(activeIndex + 1));
+
+  updateState(0);
+});
 
 guidedForms.forEach((form) => {
   const steps = Array.from(form.querySelectorAll("[data-step]"));
