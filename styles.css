@@ -2947,7 +2947,7 @@ h3 {
   gap: var(--space-4);
   overflow-x: auto;
   overscroll-behavior-x: contain;
-  padding: 0 12vw var(--space-2) 0;
+  padding: 0 0 var(--space-2);
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -2964,7 +2964,7 @@ h3 {
 
 .real-gallery-card {
   position: relative;
-  flex: 0 0 min(84vw, 64rem);
+  flex: 0 0 100%;
   overflow: hidden;
   min-height: clamp(23rem, 52vw, 42rem);
   margin: 0;
@@ -3498,7 +3498,6 @@ h3 {
   }
 
   .real-gallery-card {
-    flex-basis: 100%;
     min-height: 20rem;
   }
 

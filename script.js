@@ -246,10 +246,9 @@ galleryCarousels.forEach((carousel) => {
 
   function setActive(index) {
     const nextIndex = Math.min(Math.max(index, 0), slides.length - 1);
-    slides[nextIndex].scrollIntoView({
+    track.scrollTo({
+      left: slides[nextIndex].offsetLeft,
       behavior: prefersReducedMotion ? "auto" : "smooth",
-      block: "nearest",
-      inline: "start"
     });
     updateState(nextIndex);
   }
