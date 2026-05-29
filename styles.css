@@ -1,4 +1,4 @@
-/* Hallmark · macrostructure: Trust-Led Contractor · tone: authoritative · anchor hue: orange */
+/* Hallmark - pre-emit critique: P4 H4 E4 S4 R4 V4 | Trust-Led Contractor | authoritative | orange */
 @import url("tokens.css");
 
 :root {
@@ -31,14 +31,19 @@
   --color-hero-overlay: rgba(15, 24, 36, 0.52);
   --color-card-overlay: rgba(22, 33, 49, 0.88);
   --color-form-strip: #d6d7dc;
-  --roof-photo-house: url("https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Daws-Keys_House.jpg/1280px-Daws-Keys_House.jpg");
-  --roof-photo-tile: url("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Tile_Roof.jpg/1280px-Tile_Roof.jpg");
-  --roof-photo-shingle: url("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/14._Roof_Shingle_Installation._%28c0ced7a8-89a3-4d95-b699-5f0bed179b1d%29.jpg/1280px-14._Roof_Shingle_Installation._%28c0ced7a8-89a3-4d95-b699-5f0bed179b1d%29.jpg");
-  --roof-photo-metal: url("https://upload.wikimedia.org/wikipedia/commons/2/26/Standing_seam_metal_roof.jpg");
-  --roof-photo-flat: url("https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Flat_roof_%281%29.jpg/1280px-Flat_roof_%281%29.jpg");
-  --roof-photo-repair: url("https://upload.wikimedia.org/wikipedia/commons/7/7a/Roof_repair_-_DPLA_-_2193f7c3ac2b48e693a96a9934514fc6.jpg");
-  --roof-photo-install: url("https://upload.wikimedia.org/wikipedia/commons/d/dd/Men_working_on_roof.jpg");
-  --roof-photo-metal-alt: url("https://upload.wikimedia.org/wikipedia/commons/3/33/Metal-roof.jpg");
+  --roof-photo-house: url("assets/roofing-tile-process/quest-roofing-home-exterior.jpg");
+  --roof-photo-tile: url("assets/roofing-tile-process/tile-roof-underlayment-rows.jpg");
+  --roof-photo-shingle: var(--roof-photo-house);
+  --roof-photo-metal: var(--roof-photo-house);
+  --roof-photo-flat: var(--roof-photo-house);
+  --roof-photo-repair: url("assets/roofing-tile-process/tile-roof-flashing-repair.jpg");
+  --roof-photo-install: url("assets/roofing-tile-process/crew-installing-tile-roof.jpg");
+  --roof-photo-underlayment: url("assets/roofing-tile-process/underlayment-roll-detail.jpg");
+  --roof-photo-deck-repair: url("assets/roofing-tile-process/roof-deck-repair-open-area.jpg");
+  --roof-photo-pipe-detail: url("assets/roofing-tile-process/roof-pipe-flashing-detail.jpg");
+  --roof-photo-tile-stack: url("assets/roofing-tile-process/tile-stacks-and-battens.jpg");
+  --roof-photo-tile-finished: url("assets/roofing-tile-process/finished-tile-roof-slope.jpg");
+  --roof-photo-metal-alt: var(--roof-photo-house);
   --color-field-dark: rgba(255, 255, 255, 0.06);
   --color-field-dark-focus: rgba(255, 255, 255, 0.1);
   --color-shadow: rgba(24, 35, 50, 0.08);
@@ -2580,10 +2585,30 @@ h3 {
   border-radius: var(--radius-lg);
   background:
     linear-gradient(180deg, oklch(18% 0.07 260 / 0.12), oklch(18% 0.07 260 / 0.68)),
-    var(--roof-photo-repair);
+    var(--seo-photo-image, var(--roof-photo-house));
   background-position: center;
   background-size: cover;
   box-shadow: var(--shadow-card);
+}
+
+.seo-photo-card-tile {
+  --seo-photo-image: var(--roof-photo-tile);
+}
+
+.seo-photo-card-repair {
+  --seo-photo-image: var(--roof-photo-repair);
+}
+
+.seo-photo-card-inspection {
+  --seo-photo-image: var(--roof-photo-pipe-detail);
+}
+
+.seo-photo-card-install {
+  --seo-photo-image: var(--roof-photo-install);
+}
+
+.seo-photo-card-finished {
+  --seo-photo-image: var(--roof-photo-tile-finished);
 }
 
 .seo-proof-copy {
@@ -2667,6 +2692,67 @@ h3 {
   margin: 0;
 }
 
+.real-gallery-section .section-heading {
+  max-width: none;
+}
+
+.real-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.real-gallery-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 19rem;
+  margin: 0;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-contrast);
+  box-shadow: var(--shadow-card);
+}
+
+.real-gallery-card-large {
+  grid-column: span 2;
+  min-height: 24rem;
+}
+
+.real-gallery-card img {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.real-gallery-card figcaption {
+  position: absolute;
+  inset: auto 0 0;
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-6);
+  background: linear-gradient(180deg, var(--color-transparent), var(--color-card-overlay));
+  color: var(--color-text-on-dark);
+}
+
+.real-gallery-card strong,
+.real-gallery-card span {
+  position: relative;
+  z-index: 1;
+}
+
+.real-gallery-card strong {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: 1.1;
+}
+
+.real-gallery-card span {
+  color: var(--color-text-on-dark-soft);
+}
+
 .seo-section {
   background: var(--color-page);
 }
@@ -2694,6 +2780,7 @@ h3 {
   .seo-proof-grid,
   .seo-card-grid,
   .seo-card-grid-3,
+  .real-gallery-grid,
   .value-grid,
   .recognition-cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2732,12 +2819,19 @@ h3 {
   .seo-proof-grid,
   .seo-card-grid,
   .seo-card-grid-3,
+  .real-gallery-grid,
   .value-grid,
   .recognition-cards,
   .quick-estimate-form,
   .form-step,
   .footer-seo-links {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .real-gallery-card,
+  .real-gallery-card-large {
+    grid-column: auto;
+    min-height: 17rem;
   }
 
   .site-nav .nav-group {
@@ -2899,15 +2993,39 @@ h3 {
 }
 
 .process-item {
-  display: grid;
-  align-items: start;
-  min-height: 16rem;
-  padding: var(--space-6);
+  display: flex;
+  align-items: flex-end;
+  min-height: 18rem;
+  padding: var(--space-4);
+  overflow: hidden;
   border: 1px solid var(--color-line);
-  border-top: 0.38rem solid var(--color-orange);
   border-radius: var(--radius-lg);
-  background: var(--color-white);
-  box-shadow: var(--shadow-card);
+  background:
+    linear-gradient(180deg, var(--color-transparent) 8%, var(--color-card-overlay) 100%),
+    var(--process-image, var(--roof-photo-tile));
+  background-position: var(--process-position, center);
+  background-size: cover;
+  box-shadow: var(--shadow-panel);
+}
+
+.process-item:nth-child(1) {
+  --process-image: var(--roof-photo-house);
+  --process-position: center;
+}
+
+.process-item:nth-child(2) {
+  --process-image: var(--roof-photo-pipe-detail);
+  --process-position: 50% 48%;
+}
+
+.process-item:nth-child(3) {
+  --process-image: var(--roof-photo-underlayment);
+  --process-position: 52% 58%;
+}
+
+.process-item:nth-child(4) {
+  --process-image: var(--roof-photo-install);
+  --process-position: 50% 42%;
 }
 
 .process-item::before,
@@ -2917,26 +3035,28 @@ h3 {
 
 .process-card-copy {
   gap: var(--space-3);
-  min-height: 0;
-  padding: 0;
+  width: 100%;
+  min-height: 10rem;
+  padding: var(--space-5);
   border: 0;
-  background: transparent;
+  border-radius: var(--radius-md);
+  background: var(--color-card-overlay);
   box-shadow: none;
 }
 
 .process-kicker {
-  color: var(--color-orange-strong);
+  color: var(--color-brand-soft);
 }
 
 .process-card-copy h3 {
-  color: var(--color-navy);
+  color: var(--color-text-on-dark);
   font-size: clamp(1.35rem, 1.7vw, 1.75rem);
   line-height: 1.1;
 }
 
 .process-item p {
   max-width: none;
-  color: var(--color-ink-soft);
+  color: var(--color-text-on-dark-soft);
 }
 
 @media (max-width: 70rem) {
@@ -2990,7 +3110,7 @@ h3 {
   }
 
   .process-item {
-    min-height: 0;
+    min-height: 16rem;
   }
 }
 
