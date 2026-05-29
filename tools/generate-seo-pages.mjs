@@ -399,6 +399,7 @@ const supportPages = [
   },
   {
     path: "about-us/completed-projects/",
+    manual: true,
     title: "Completed Roofing Projects | Quest Roofing",
     h1: "Project proof belongs in the open.",
     eyebrow: "Completed projects",
