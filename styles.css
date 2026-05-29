@@ -1676,6 +1676,11 @@ h3 {
     width: min(100% - 1.5rem, 78rem);
   }
 
+  .seo-layout.container {
+    width: min(100% - 1.5rem, 78rem);
+    margin-inline: auto;
+  }
+
   .footer-inner,
   .footer-meta,
   .hero-actions {
@@ -3039,4 +3044,216 @@ h3,
 .form-step-tab {
   font-weight: 700;
   letter-spacing: 0;
+}
+
+/* UI rhythm QA pass: tighten excess whitespace without flattening the layout. */
+.section-band {
+  padding: clamp(3.5rem, 6.5vw, 5.5rem) 0;
+}
+
+.section-heading {
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.hero {
+  min-height: clamp(40rem, 76vh, 52rem);
+}
+
+.hero-content {
+  min-height: clamp(35rem, 68vh, 45rem);
+  padding-top: clamp(3rem, 5vw, 4.5rem);
+  padding-bottom: clamp(3rem, 5vw, 4rem);
+}
+
+.seo-hero {
+  padding: clamp(3rem, 5.5vw, 5rem) 0 clamp(2.75rem, 5vw, 4.5rem);
+}
+
+.seo-layout {
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4.5rem);
+}
+
+.seo-hero h1 {
+  max-width: 17ch;
+  margin: var(--space-3) 0 var(--space-4);
+  font-size: clamp(2.35rem, 4.6vw, 4.25rem);
+  line-height: 1.04;
+  overflow-wrap: normal;
+}
+
+.seo-hero p:not(.eyebrow, .panel-label) {
+  max-width: 40rem;
+  margin-top: 0;
+  font-size: clamp(1rem, 1.25vw, 1.14rem);
+  line-height: 1.65;
+}
+
+.seo-aside {
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  border-radius: var(--radius-md);
+}
+
+.seo-aside h2 {
+  max-width: 18rem;
+  font-size: clamp(1.45rem, 2vw, 2.1rem);
+  line-height: 1.12;
+}
+
+.seo-aside .contact-points {
+  gap: var(--space-3);
+}
+
+.seo-aside .contact-points li {
+  padding-bottom: var(--space-3);
+}
+
+.seo-proof-band {
+  padding: clamp(2.75rem, 5vw, 4.5rem) 0;
+}
+
+.seo-proof-grid {
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: center;
+}
+
+.seo-photo-card {
+  min-height: clamp(18rem, 30vw, 24rem);
+}
+
+.seo-proof-copy {
+  padding: clamp(1.75rem, 3.5vw, 3rem);
+}
+
+.seo-proof-copy h2 {
+  max-width: 15ch;
+  margin-bottom: var(--space-4);
+  font-size: clamp(1.9rem, 3.2vw, 3.15rem);
+  line-height: 1.05;
+}
+
+.seo-proof-list {
+  margin: var(--space-5) 0;
+}
+
+.seo-section {
+  padding: clamp(2.75rem, 4.8vw, 4.25rem) 0;
+}
+
+.seo-section .container {
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.seo-section h2 {
+  margin-bottom: var(--space-4);
+  font-size: clamp(1.75rem, 3vw, 2.65rem);
+  line-height: 1.12;
+}
+
+.seo-card-grid {
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.seo-card-grid article {
+  min-height: 0;
+  padding: var(--space-5);
+}
+
+.seo-link-row {
+  margin-top: var(--space-4);
+}
+
+@media (max-width: 70rem) {
+  .seo-layout,
+  .seo-proof-grid {
+    align-items: start;
+  }
+
+  .seo-aside h2 {
+    max-width: 22rem;
+  }
+}
+
+@media (max-width: 56rem) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .container {
+    width: min(100% - 1.5rem, 78rem);
+  }
+
+  .hero {
+    min-height: auto;
+  }
+
+  .hero-content {
+    min-height: auto;
+    padding: clamp(2.75rem, 9vw, 4rem) 0;
+  }
+
+  .hero-lead {
+    max-width: 34ch;
+  }
+
+  .seo-hero {
+    padding: clamp(2.5rem, 10vw, 4rem) 0;
+  }
+
+  .seo-hero h1 {
+    max-width: 100%;
+    font-size: clamp(2rem, 9vw, 3rem);
+    line-height: 1.08;
+  }
+
+  .seo-aside {
+    width: 100%;
+    max-width: 100%;
+    padding: var(--space-5);
+    overflow: clip;
+  }
+
+  .seo-layout,
+  .hero-actions,
+  .hero-badges,
+  .hero-badges li,
+  .seo-hero p:not(.eyebrow, .panel-label) {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .seo-hero .hero-actions .button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hero-badges {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero-badges li {
+    text-align: center;
+    white-space: normal;
+  }
+
+  .seo-aside .contact-points a,
+  .seo-aside .contact-points strong {
+    overflow-wrap: anywhere;
+  }
+
+  .seo-hero p:not(.eyebrow, .panel-label) {
+    max-width: 34ch;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .seo-proof-band,
+  .seo-section {
+    padding: clamp(2.25rem, 9vw, 3.75rem) 0;
+  }
 }
