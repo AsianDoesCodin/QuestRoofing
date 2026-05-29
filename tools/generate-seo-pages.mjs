@@ -111,11 +111,11 @@ const cities = [
   ["phoenix", "Phoenix", "Phoenix is the broadest metro target. Homeowners search across central, north, and surrounding Phoenix areas for roof repair, replacement, inspections, and storm response.", ["Tile and shingle systems both appear throughout Phoenix neighborhoods", "Flat and foam roof sections are common on many desert homes", "Monsoon wind and heat exposure make written inspections important"]],
   ["scottsdale", "Scottsdale", "Scottsdale roofing work often involves tile, foam, and metal systems where appearance, HOA expectations, and clear documentation matter.", ["Tile roofs are common across many Scottsdale homes", "Foam and flat roof sections need coating attention", "Written scopes help homeowners compare repair versus replacement clearly"]],
   ["paradise-valley", "Paradise Valley", "Paradise Valley homeowners tend to value clean process, documentation, and roof systems that match higher-end residential properties.", ["Tile and specialty roof details need careful inspection", "Leak diagnosis should document valleys, penetrations, and transitions", "Clear written estimates matter before approving work"]],
-  ["gilbert", "Gilbert", "Gilbert is a strong East Valley market for Quest Roofing because it is close to Queen Creek and has many residential roof types.", ["Tile and shingle roofs are common", "Monsoon leaks can show up around penetrations", "East Valley scheduling keeps this area practical for the crew"]],
+  ["gilbert", "Gilbert", "Gilbert is a nearby Phoenix-area market for Quest Roofing because it is close to Queen Creek and has many residential roof types.", ["Tile and shingle roofs are common", "Monsoon leaks can show up around penetrations", "Local scheduling keeps this area practical for the crew"]],
   ["queen-creek", "Queen Creek", "Queen Creek is Quest Roofing's home base, making it the most natural service area for inspections, repairs, and replacements.", ["Local proximity supports faster scheduling", "Tile, shingle, foam, and metal systems are all relevant", "Homeowners can ask for written estimates and inspection photos"]],
   ["mesa", "Mesa", "Mesa has a wide mix of older and newer residential roofs, making roof repair, replacement, inspections, tile, shingle, and foam service pages important.", ["Older roof systems may need careful repair-versus-replace review", "Tile underlayment concerns are common in Arizona", "Foam and flat roof sections need coating attention"]],
-  ["chandler", "Chandler", "Chandler is a priority East Valley city for Quest Roofing, with homeowners needing clear repair guidance, written estimates, and roof system options.", ["Tile and shingle systems are common", "Storm-season leak response matters", "Written estimates help avoid pressure selling"]],
-  ["tempe", "Tempe", "Tempe roofing searches include repair, inspection, shingle, tile, foam, and replacement needs across a dense East Valley market.", ["Mixed roof ages make inspection detail important", "Flat and low-slope sections appear on many properties", "Clear scope helps homeowners compare options"]]
+  ["chandler", "Chandler", "Chandler homeowners need clear repair guidance, written estimates, and roof system options from a nearby Arizona roofing contractor.", ["Tile and shingle systems are common", "Storm-season leak response matters", "Written estimates help avoid pressure selling"]],
+  ["tempe", "Tempe", "Tempe roofing searches include repair, inspection, shingle, tile, foam, and replacement needs across a dense Phoenix-area market.", ["Mixed roof ages make inspection detail important", "Flat and low-slope sections appear on many properties", "Clear scope helps homeowners compare options"]]
 ].map(([slug, name, intro, localNotes]) => ({
   slug,
   name,
@@ -293,7 +293,7 @@ const proofPanel = (title, text, pathPrefix) => `
       <ul class="seo-proof-list">
         <li><strong>License:</strong> AZ ROC #355136</li>
         <li><strong>Estimate:</strong> written scope before approval</li>
-        <li><strong>Coverage:</strong> Queen Creek and East Valley priority</li>
+        <li><strong>Coverage:</strong> Queen Creek-based service across greater Phoenix</li>
       </ul>
       <a class="button button-primary" href="${pathPrefix}/index.html#estimate">Request a written estimate</a>
     </div>
@@ -308,7 +308,7 @@ publishedServices.forEach((service) => {
     section(`What ${service.name} includes`, `<p>${service.intro}</p>${list(service.process)}`),
     section(`Signs you may need ${service.name.toLowerCase()}`, `<div class="seo-card-grid">${service.signs.map((sign) => `<article><span></span><h3>${sign}</h3><p>Document this during inspection so the estimate is tied to the actual roof condition.</p></article>`).join("")}</div>`),
     section("How Quest keeps the request clear", `<div class="seo-card-grid seo-card-grid-3"><article><h3>Photo-backed inspection</h3><p>Roof concerns are easier to evaluate when the homeowner can see the problem areas.</p></article><article><h3>Repair-versus-replace context</h3><p>The estimate should explain whether a targeted repair is enough or whether the system needs larger work.</p></article><article><h3>Closeout expectations</h3><p>Cleanup, workmanship coverage, and manufacturer materials are part of the project conversation.</p></article></div>`),
-    section("Service areas", `<p>Quest Roofing prioritizes Queen Creek and the East Valley, with premium secondary service across Scottsdale, Paradise Valley, Fountain Hills, and select North Phoenix projects.</p><p class="seo-link-row">${cityLinkList}</p>`),
+    section("Service areas", `<p>Quest Roofing is based in Queen Creek and serves homeowners across the greater Phoenix area, including Scottsdale, Paradise Valley, Fountain Hills, and Phoenix-area communities.</p><p class="seo-link-row">${cityLinkList}</p>`),
     section(`${service.name} FAQ`, faqHtml(service.faq))
   ].join("");
   const schema = pageSchema({
@@ -335,7 +335,7 @@ cities.forEach((city) => {
   const canonical = `${siteUrl}/roofing-${city.slug}-az/`;
   const serviceLinkList = publishedServices.map((service) => `<a href="../services/${service.slug}/index.html">${serviceLabel(service)}</a>`).join(", ");
   const faq = [
-    [`Does Quest Roofing serve ${city.name}?`, `Yes. Quest Roofing serves ${city.name} as part of its Arizona roofing service area, with Queen Creek and the East Valley as the primary base.`],
+    [`Does Quest Roofing serve ${city.name}?`, `Yes. Quest Roofing serves ${city.name} as part of its Arizona roofing service area from its Queen Creek base.`],
     [`What roofing services are available in ${city.name}?`, "Quest Roofing lists roof repair, roof inspection, tile, shingle, foam, and metal roofing services."],
     [`Can I get a written estimate in ${city.name}?`, "Yes. Inspection photos and written estimates help make the scope clear before work starts."]
   ];
@@ -444,7 +444,7 @@ const supportPages = [
     title: "Community Outreach | Quest Roofing",
     h1: "Community-first roofing support without made-up claims.",
     eyebrow: "Community Outreach",
-    meta: "Quest Roofing community outreach page for homeowner education, storm readiness, and practical roof guidance in the East Valley.",
+    meta: "Quest Roofing community outreach page for homeowner education, storm readiness, and practical roof guidance in Arizona.",
     body: (pathPrefix) => [
       proofPanel("Community pages should be useful before they are promotional.", "Until Quest has approved specific sponsorships or outreach events, this page focuses on homeowner education and storm-readiness resources.", pathPrefix),
       section("Useful local support", `${cardGrid([
@@ -481,6 +481,7 @@ const supportPages = [
   },
   {
     path: "gallery/",
+    manual: true,
     title: "Roofing Gallery | Quest Roofing",
     h1: "A gallery for roof conditions, repairs, and completed work.",
     eyebrow: "Gallery",
@@ -546,7 +547,7 @@ const supportPages = [
     title: "Contact Quest Roofing",
     h1: "Contact Quest Roofing.",
     eyebrow: "Contact",
-    meta: "Contact Quest Roofing for a free inspection or written roofing estimate in Queen Creek and the East Valley.",
+    meta: "Contact Quest Roofing for a free inspection or written roofing estimate from a Queen Creek-based Arizona roofing contractor.",
     body: (pathPrefix) => [
       proofPanel("A contact page should help the homeowner make a clean request.", `Call ${phone} or email ${email} to start a roof inspection request.`, pathPrefix),
       section("Fastest ways to start", `${cardGrid([
@@ -561,6 +562,10 @@ const supportPages = [
 ];
 
 supportPages.forEach((page) => {
+  if (page.manual) {
+    return;
+  }
+
   const canonical = `${siteUrl}/${page.path}`;
   const pathPrefix = page.path.split("/").length > 2 ? "../.." : "..";
   const body = `${page.body(pathPrefix)}${section("Start a request", `<p>Use the main estimate form when you are ready to talk through the roof condition with Quest.</p><p class="seo-link-row"><a href="${pathPrefix}/index.html#estimate">Request an estimate</a></p>`)}`;

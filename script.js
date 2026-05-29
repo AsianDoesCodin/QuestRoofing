@@ -125,19 +125,19 @@ faqItems.forEach((item) => {
 if (serviceMapElement && typeof window.L !== "undefined") {
   const serviceAreas = [
     {
-      name: "East Valley Priority",
-      detail: "Queen Creek, Gilbert, Chandler, Mesa, Tempe, Apache Junction, San Tan Valley",
+      name: "Queen Creek Base",
+      detail: "Local base for scheduling, inspections, and estimates",
       center: [33.292, -111.72],
-      radius: 36000,
+      radius: 18000,
       color: "#2458ad",
       fillOpacity: 0.22,
       weight: 3
     },
     {
-      name: "Premium Northeast Valley",
-      detail: "Scottsdale, Paradise Valley, Fountain Hills, North Phoenix",
-      center: [33.58, -111.88],
-      radius: 31000,
+      name: "Greater Phoenix Area",
+      detail: "Phoenix, Scottsdale, Paradise Valley, Gilbert, Chandler, Mesa, Tempe, Fountain Hills, and nearby communities",
+      center: [33.43, -112.02],
+      radius: 65000,
       color: "#2f7fc1",
       fillOpacity: 0.14,
       weight: 2
