@@ -3377,3 +3377,299 @@ h3,
     padding: clamp(2.25rem, 9vw, 3.75rem) 0;
   }
 }
+
+/* Service pages: each destination needs a distinct visual system, not a cloned SEO shell. */
+.service-page {
+  --service-accent: var(--color-orange);
+  --service-soft: var(--color-surface-blue);
+  --service-dark: var(--color-navy-strong);
+  --service-hero-image: var(--roof-photo-house);
+  background:
+    radial-gradient(circle at 12% 12%, color-mix(in oklch, var(--service-soft), var(--color-transparent) 28%), var(--color-transparent) 34rem),
+    linear-gradient(180deg, var(--service-soft), var(--color-page) 28rem);
+}
+
+.service-page-tile {
+  --service-accent: var(--color-orange);
+  --service-soft: var(--color-orange-soft);
+  --service-dark: var(--color-navy-strong);
+  --service-hero-image: var(--roof-photo-tile);
+}
+
+.service-page-shingle {
+  --service-accent: var(--color-gold);
+  --service-soft: var(--color-page-warm);
+  --service-dark: var(--color-navy);
+}
+
+.service-page-metal {
+  --service-accent: var(--color-brand);
+  --service-soft: var(--color-brand-soft);
+  --service-dark: var(--color-contrast);
+}
+
+.service-page-foam {
+  --service-accent: var(--color-green);
+  --service-soft: var(--color-success);
+  --service-dark: var(--color-navy);
+}
+
+.service-page-repair {
+  --service-accent: var(--color-orange);
+  --service-soft: var(--color-orange-soft);
+  --service-dark: var(--color-contrast-strong);
+  --service-hero-image: var(--roof-photo-repair);
+}
+
+.service-page-inspection {
+  --service-accent: var(--color-brand);
+  --service-soft: var(--color-surface-blue);
+  --service-dark: var(--color-navy);
+  --service-hero-image: var(--roof-photo-pipe-detail);
+}
+
+.service-page .service-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 78% 16%, color-mix(in oklch, var(--service-accent), var(--color-transparent) 32%), var(--color-transparent) 20rem),
+    linear-gradient(100deg, color-mix(in oklch, var(--service-dark), var(--color-transparent) 5%) 0%, color-mix(in oklch, var(--service-dark), var(--color-transparent) 20%) 52%, color-mix(in oklch, var(--service-dark), var(--color-transparent) 42%) 100%),
+    var(--service-hero-image);
+  background-position: center;
+  background-size: cover;
+}
+
+.service-page .service-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 0.45rem;
+  background: linear-gradient(90deg, var(--service-accent), var(--color-transparent));
+}
+
+.service-page .seo-layout {
+  position: relative;
+  z-index: 1;
+}
+
+.service-page .service-aside {
+  border: 0;
+  border-top: 0.42rem solid var(--service-accent);
+  background: color-mix(in oklch, var(--color-white), var(--service-soft) 16%);
+}
+
+.service-page .service-aside .panel-label,
+.service-page .eyebrow,
+.service-page .seo-aside .contact-points span,
+.service-page .seo-proof-list strong,
+.service-page .seo-card-grid article span {
+  color: var(--service-accent);
+}
+
+.service-page .hero-badges li {
+  border-color: color-mix(in oklch, var(--service-accent), var(--color-white) 62%);
+}
+
+.service-page .service-proof {
+  background:
+    linear-gradient(135deg, color-mix(in oklch, var(--service-soft), var(--color-white) 18%), var(--color-page));
+}
+
+.service-page .seo-proof-copy {
+  border-top: 0.42rem solid var(--service-accent);
+}
+
+.service-page .service-visual {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.service-page .service-visual::after {
+  content: "";
+  position: absolute;
+  inset: 1rem;
+  border: 1px solid color-mix(in oklch, var(--color-white), var(--service-accent) 32%);
+  border-radius: calc(var(--radius-lg) - 0.15rem);
+  opacity: 0.72;
+}
+
+.service-visual-shingle {
+  background:
+    linear-gradient(180deg, color-mix(in oklch, var(--service-dark), var(--color-transparent) 38%), color-mix(in oklch, var(--service-dark), var(--color-transparent) 12%)),
+    repeating-linear-gradient(150deg, var(--color-surface) 0 1.1rem, var(--color-page-warm) 1.1rem 2.2rem, color-mix(in oklch, var(--color-gold), var(--color-page-warm) 78%) 2.2rem 2.35rem);
+}
+
+.service-visual-metal {
+  background:
+    linear-gradient(145deg, color-mix(in oklch, var(--color-brand), var(--color-transparent) 34%), var(--color-transparent)),
+    repeating-linear-gradient(90deg, var(--color-navy-strong) 0 2.4rem, var(--color-navy-soft) 2.4rem 2.55rem, var(--color-contrast) 2.55rem 4.8rem);
+}
+
+.service-visual-foam {
+  background:
+    radial-gradient(circle at 28% 30%, var(--color-white), var(--color-transparent) 12rem),
+    radial-gradient(circle at 68% 66%, color-mix(in oklch, var(--color-green), var(--color-transparent) 42%), var(--color-transparent) 14rem),
+    linear-gradient(145deg, var(--color-success), var(--color-surface-blue));
+}
+
+.service-page > .seo-section:nth-of-type(3) .container {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr);
+  gap: var(--space-8);
+  align-items: start;
+  border-top: 0.42rem solid var(--service-accent);
+}
+
+.service-page > .seo-section:nth-of-type(3) .seo-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.service-page > .seo-section:nth-of-type(3) .seo-list li {
+  padding: var(--space-4);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: color-mix(in oklch, var(--service-soft), var(--color-white) 62%);
+  color: var(--color-navy);
+  font-weight: 800;
+}
+
+.service-page > .seo-section:nth-of-type(4) .container {
+  background: var(--service-dark);
+}
+
+.service-page > .seo-section:nth-of-type(4) h2,
+.service-page > .seo-section:nth-of-type(4) .seo-card-grid h3 {
+  color: var(--color-text-on-dark);
+}
+
+.service-page > .seo-section:nth-of-type(4) .seo-card-grid article {
+  border-color: color-mix(in oklch, var(--service-accent), var(--color-white) 70%);
+  background: color-mix(in oklch, var(--service-dark), var(--color-white) 8%);
+}
+
+.service-page > .seo-section:nth-of-type(4) .seo-card-grid p {
+  color: var(--color-text-on-dark-soft);
+}
+
+.service-page > .seo-section:nth-of-type(5) .seo-card-grid article {
+  background: var(--color-white);
+  box-shadow: none;
+}
+
+.service-page-shingle .service-hero {
+  background:
+    linear-gradient(125deg, color-mix(in oklch, var(--service-dark), var(--color-transparent) 4%) 0%, color-mix(in oklch, var(--service-dark), var(--color-transparent) 22%) 60%),
+    repeating-linear-gradient(150deg, var(--color-navy-soft) 0 1rem, var(--color-navy-strong) 1rem 2rem);
+}
+
+.service-page-shingle .seo-card-grid article {
+  border-radius: var(--radius-xs);
+  border-left: 0.42rem solid var(--service-accent);
+}
+
+.service-page-metal .service-hero,
+.service-page-metal > .seo-section:nth-of-type(4) .container {
+  background:
+    linear-gradient(135deg, color-mix(in oklch, var(--color-brand), var(--color-transparent) 40%), var(--color-transparent)),
+    repeating-linear-gradient(90deg, var(--color-contrast-strong) 0 4rem, var(--color-contrast) 4rem 4.2rem, var(--color-navy-strong) 4.2rem 8rem);
+}
+
+.service-page-metal .seo-card-grid article {
+  border-radius: 0;
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--service-accent), var(--color-transparent) 45%);
+}
+
+.service-page-foam .service-hero {
+  color: var(--color-navy);
+  background:
+    radial-gradient(circle at 18% 20%, color-mix(in oklch, var(--color-white), var(--color-transparent) 4%), var(--color-transparent) 14rem),
+    radial-gradient(circle at 82% 12%, color-mix(in oklch, var(--service-accent), var(--color-transparent) 38%), var(--color-transparent) 20rem),
+    linear-gradient(135deg, color-mix(in oklch, var(--color-success), var(--color-navy) 9%), color-mix(in oklch, var(--color-surface-blue), var(--color-navy) 8%));
+}
+
+.service-page-foam .service-hero h1 {
+  color: var(--color-navy);
+}
+
+.service-page-foam .service-hero p:not(.eyebrow, .panel-label) {
+  color: var(--color-ink-soft);
+}
+
+.service-page-foam .button-ghost-light {
+  color: var(--color-navy);
+  border-color: color-mix(in oklch, var(--color-navy), var(--color-transparent) 54%);
+}
+
+.service-page-foam .hero-badges li {
+  color: var(--color-navy);
+  background: color-mix(in oklch, var(--color-white), var(--service-soft) 18%);
+}
+
+.service-page-foam .seo-card-grid article,
+.service-page-foam .seo-section .container,
+.service-page-foam .seo-proof-copy,
+.service-page-foam .service-aside {
+  border-radius: 1.35rem;
+}
+
+.service-page-repair .service-hero {
+  background:
+    linear-gradient(100deg, color-mix(in oklch, var(--color-contrast-strong), var(--color-transparent) 2%) 0%, color-mix(in oklch, var(--color-contrast-strong), var(--color-transparent) 26%) 100%),
+    var(--roof-photo-repair);
+  background-position: center;
+  background-size: cover;
+}
+
+.service-page-repair .seo-proof-copy,
+.service-page-repair .service-aside {
+  box-shadow: 0 22px 52px color-mix(in oklch, var(--color-orange), var(--color-transparent) 72%);
+}
+
+.service-page-inspection > .seo-section:nth-of-type(4) .seo-card-grid {
+  counter-reset: inspection-card;
+}
+
+.service-page-inspection .seo-card-grid article::before {
+  counter-increment: inspection-card;
+  content: "0" counter(inspection-card);
+  display: inline-grid;
+  place-items: center;
+  width: 2.45rem;
+  height: 2.45rem;
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--service-accent);
+  color: var(--color-white);
+  font-weight: 900;
+}
+
+.service-page-inspection .seo-card-grid article span {
+  display: none;
+}
+
+@media (max-width: 70rem) {
+  .service-page > .seo-section:nth-of-type(3) .container,
+  .service-page > .seo-section:nth-of-type(3) .seo-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 56rem) {
+  .service-page .service-hero {
+    background-position: center;
+  }
+
+  .service-page > .seo-section:nth-of-type(3) .container {
+    gap: var(--space-5);
+  }
+
+  .service-page > .seo-section:nth-of-type(3) .seo-list li {
+    padding: var(--space-3);
+  }
+}
