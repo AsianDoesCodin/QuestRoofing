@@ -1,0 +1,71 @@
+/* Hallmark · tokens: Quest Roofing reference-DNA · theme: contractor trust · anchor hue: orange */
+:root {
+  --font-display: "Montserrat", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --color-page: oklch(97% 0.013 235);
+  --color-page-warm: oklch(96% 0.018 82);
+  --color-surface: oklch(100% 0 0);
+  --color-surface-blue: oklch(96% 0.023 232);
+  --color-surface-strong: oklch(93% 0.032 235);
+  --color-ink: oklch(23% 0.052 257);
+  --color-ink-soft: oklch(43% 0.045 258);
+  --color-ink-faint: oklch(58% 0.034 255);
+  --color-line: oklch(88% 0.018 244);
+  --color-line-strong: oklch(78% 0.034 246);
+  --color-navy: oklch(25% 0.08 259);
+  --color-navy-strong: oklch(19% 0.07 260);
+  --color-navy-soft: oklch(34% 0.082 257);
+  --color-orange: oklch(62% 0.18 37);
+  --color-orange-strong: oklch(55% 0.18 35);
+  --color-orange-soft: oklch(91% 0.058 49);
+  --color-gold: oklch(75% 0.15 82);
+  --color-green: oklch(57% 0.12 148);
+  --color-white: oklch(100% 0 0);
+  --color-text-on-dark: oklch(98% 0.008 240);
+  --color-text-on-dark-soft: oklch(86% 0.02 248);
+  --color-shadow: oklch(20% 0.06 260 / 0.12);
+  --color-shadow-strong: oklch(18% 0.07 260 / 0.24);
+  --color-focus: oklch(75% 0.15 82);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-14: 3.5rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: clamp(1.55rem, 2.1vw, 2rem);
+  --text-3xl: clamp(2rem, 3vw, 3rem);
+  --text-display: clamp(2.85rem, 7vw, 5.75rem);
+
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-pill: 999px;
+  --rule-hairline: 1px;
+
+  --shadow-card: 0 18px 48px var(--color-shadow);
+  --shadow-panel: 0 30px 80px var(--color-shadow-strong);
+  --shadow-button: 0 14px 30px oklch(55% 0.18 35 / 0.28);
+
+  --dur-fast: 160ms;
+  --dur-base: 240ms;
+  --dur-slow: 420ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.32, 0, 0.67, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}

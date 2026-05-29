@@ -3,6 +3,7 @@ const siteNav = document.querySelector(".site-nav");
 const faqItems = document.querySelectorAll(".faq-item");
 const footerYear = document.getElementById("footer-year");
 const mailtoForms = document.querySelectorAll("[data-mailto-form]");
+const guidedForms = document.querySelectorAll("[data-guided-form]");
 const serviceMapElement = document.getElementById("service-map");
 
 if (footerYear) {
@@ -99,6 +100,70 @@ if (serviceMapElement && typeof window.L !== "undefined") {
     map.invalidateSize();
   }, 150);
 }
+
+guidedForms.forEach((form) => {
+  const steps = Array.from(form.querySelectorAll("[data-step]"));
+  const tabs = Array.from(form.querySelectorAll("[data-step-target]"));
+  let activeStep = 1;
+
+  const fieldsForStep = (stepNumber) => {
+    const step = form.querySelector(`[data-step="${stepNumber}"]`);
+    return step ? Array.from(step.querySelectorAll("input, select, textarea")) : [];
+  };
+
+  const setStep = (stepNumber) => {
+    activeStep = Math.min(Math.max(stepNumber, 1), steps.length);
+
+    steps.forEach((step) => {
+      const isActive = Number(step.dataset.step) === activeStep;
+      step.classList.toggle("is-active", isActive);
+      step.toggleAttribute("hidden", !isActive);
+    });
+
+    tabs.forEach((tab) => {
+      const isActive = Number(tab.dataset.stepTarget) === activeStep;
+      tab.classList.toggle("is-active", isActive);
+      tab.setAttribute("aria-current", isActive ? "step" : "false");
+    });
+  };
+
+  const validateStep = (stepNumber) => {
+    const invalidField = fieldsForStep(stepNumber).find((field) => !field.checkValidity());
+
+    if (invalidField) {
+      invalidField.reportValidity();
+      return false;
+    }
+
+    return true;
+  };
+
+  form.querySelectorAll("[data-next-step]").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (validateStep(activeStep)) {
+        setStep(activeStep + 1);
+      }
+    });
+  });
+
+  form.querySelectorAll("[data-prev-step]").forEach((button) => {
+    button.addEventListener("click", () => {
+      setStep(activeStep - 1);
+    });
+  });
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const targetStep = Number(tab.dataset.stepTarget);
+
+      if (targetStep <= activeStep || validateStep(activeStep)) {
+        setStep(targetStep);
+      }
+    });
+  });
+
+  setStep(activeStep);
+});
 
 mailtoForms.forEach((form) => {
   const status = form.querySelector(".form-status");

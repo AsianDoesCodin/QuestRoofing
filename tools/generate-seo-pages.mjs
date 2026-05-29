@@ -24,20 +24,6 @@ const services = [
     ]
   },
   {
-    slug: "residential-roof-replacement",
-    title: "Roof Replacement Phoenix AZ | Quest Roofing",
-    h1: "Residential Roof Replacement in Phoenix, AZ",
-    meta: "Phoenix residential roof replacement for tile, shingle, foam and metal systems. Licensed Quest Roofing offers free written estimates.",
-    name: "Residential Roof Replacement",
-    intro: "Quest Roofing replaces residential roofing systems across the Phoenix metro when repair is no longer the right long-term answer. The estimate should spell out materials, scope, timing, cleanup, and warranty coverage.",
-    signs: ["Roof near the end of its expected life", "Multiple recurring leaks", "Aged underlayment beneath tile", "Storm damage across several roof areas", "Large sections of worn shingles or foam"],
-    process: ["Inspect the existing roof system", "Review repair versus replacement options", "Prepare a written replacement scope", "Coordinate tear-off, installation, cleanup, and permits where needed", "Close out with warranty documentation"],
-    faq: [
-      ["How much does a roof replacement cost?", "Most replacements depend on size, material, access, and complexity. A written estimate gives the real project number before work starts."],
-      ["Which roof systems does Quest replace?", "Tile, shingle, foam, and metal roofing are all part of Quest Roofing's service mix."]
-    ]
-  },
-  {
     slug: "roof-inspection",
     title: "Roof Inspection Phoenix AZ | Quest Roofing",
     h1: "Roof Inspection in Phoenix, AZ",
@@ -49,20 +35,6 @@ const services = [
     faq: [
       ["Are inspections free?", "Yes. Roof inspection requests can start with a free inspection."],
       ["Will I get photos?", "Inspections are photo-backed so the problem areas are easier to understand."]
-    ]
-  },
-  {
-    slug: "storm-hail-damage-repair",
-    title: "Storm Damage Roof Repair Phoenix AZ | Quest Roofing",
-    h1: "Storm and Hail Damage Roof Repair in Phoenix, AZ",
-    meta: "Phoenix storm damage roof repair for monsoon leaks, wind damage, tile, shingle, foam and metal roofs. Free Quest inspection.",
-    name: "Storm and Hail Damage Repair",
-    intro: "Monsoon wind, heavy rain, and hail can expose weak points fast. Quest Roofing inspects storm damage, documents roof conditions, and explains the repair scope before work begins.",
-    signs: ["Fresh leaks after a storm", "Missing or shifted roofing material", "Impact marks or cracked tiles", "Damaged flashing", "Debris-driven roof punctures"],
-    process: ["Prioritize active leaks when possible", "Inspect storm-hit sections", "Document visible damage", "Separate urgent repair from longer-term replacement needs", "Prepare a written estimate"],
-    faq: [
-      ["Can Quest respond to active leaks?", "Active leaks should be called in quickly. During monsoon conditions, urgent roof leaks are prioritized when scheduling allows."],
-      ["Does storm damage always mean replacement?", "No. A proper inspection should separate repairable issues from larger replacement needs."]
     ]
   },
   {
@@ -123,6 +95,18 @@ const services = [
   }
 ];
 
+const officialServiceSlugs = [
+  "tile-roofing",
+  "shingle-roofing",
+  "metal-roofing",
+  "foam-roofing",
+  "roof-repair",
+  "roof-inspection"
+];
+
+const publishedServices = officialServiceSlugs.map((slug) => services.find((service) => service.slug === slug));
+const serviceLabel = (service) => service.slug === "roof-inspection" ? "Free Inspection" : service.name;
+
 const cities = [
   ["phoenix", "Phoenix", "Phoenix is the broadest metro target. Homeowners search across central, north, and surrounding Phoenix areas for roof repair, replacement, inspections, and storm response.", ["Tile and shingle systems both appear throughout Phoenix neighborhoods", "Flat and foam roof sections are common on many desert homes", "Monsoon wind and heat exposure make written inspections important"]],
   ["scottsdale", "Scottsdale", "Scottsdale roofing work often involves tile, foam, and metal systems where appearance, HOA expectations, and clear documentation matter.", ["Tile roofs are common across many Scottsdale homes", "Foam and flat roof sections need coating attention", "Written scopes help homeowners compare repair versus replacement clearly"]],
@@ -166,12 +150,22 @@ const layout = ({ title, meta, canonical, h1, eyebrow, body, schema, pathPrefix 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="${pathPrefix}/tokens.css">
   <link rel="stylesheet" href="${pathPrefix}/styles.css">
   <script type="application/ld+json">${JSON.stringify(schema)}</script>
 </head>
 <body>
   <div class="site-shell">
     <header class="site-header" id="top">
+      <div class="top-bar">
+        <div class="container top-bar-inner">
+          <p>AZ ROC #355136 - GAF Certified - Free written estimates</p>
+          <div class="top-bar-actions">
+            <a href="${phoneHref}">${phone}</a>
+            <a href="mailto:${email}">${email}</a>
+          </div>
+        </div>
+      </div>
       <div class="container header-inner">
         <a class="brand" href="${pathPrefix}/index.html" aria-label="Quest Roofing home">
           <span class="brand-mark"><img src="${logo}" alt="Quest Roofing" width="92" height="92"></span>
@@ -179,9 +173,26 @@ const layout = ({ title, meta, canonical, h1, eyebrow, body, schema, pathPrefix 
         </a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation"><span></span><span></span></button>
         <nav class="site-nav" id="site-nav" aria-label="Primary">
-          <a href="${pathPrefix}/index.html#services">Services</a>
+          <div class="nav-group">
+            <button class="nav-trigger" type="button" aria-haspopup="true">About</button>
+            <div class="nav-menu" aria-label="About pages">
+              <a href="${pathPrefix}/about-us/our-team/index.html">Our Team</a>
+              <a href="${pathPrefix}/about-us/completed-projects/index.html">Completed Projects</a>
+              <a href="${pathPrefix}/about-us/core-values/index.html">Core Values</a>
+              <a href="${pathPrefix}/about-us/community-outreach/index.html">Community Outreach</a>
+              <a href="${pathPrefix}/about-us/reviews/index.html">Reviews</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a href="${pathPrefix}/index.html#services">Services</a>
+            <div class="nav-menu" aria-label="Service pages">
+              ${publishedServices.map((service) => `<a href="${pathPrefix}/services/${service.slug}/index.html">${serviceLabel(service)}</a>`).join("\n              ")}
+            </div>
+          </div>
           <a href="${pathPrefix}/index.html#areas">Areas</a>
           <a href="${pathPrefix}/index.html#reviews">Reviews</a>
+          <a href="${pathPrefix}/gallery/index.html">Gallery</a>
+          <a href="${pathPrefix}/resources/design-your-roof/index.html">Resources</a>
           <a class="nav-cta" href="${pathPrefix}/index.html#estimate">Request Quote</a>
         </nav>
       </div>
@@ -197,9 +208,15 @@ const layout = ({ title, meta, canonical, h1, eyebrow, body, schema, pathPrefix 
               <a class="button button-primary" href="${pathPrefix}/index.html#estimate">Get My Free Estimate</a>
               <a class="button button-ghost button-ghost-light" href="${phoneHref}">Call ${phone}</a>
             </div>
+            <ul class="hero-badges" aria-label="Quest Roofing credentials">
+              <li>AZ ROC #355136</li>
+              <li>GAF Certified</li>
+              <li>Written estimates</li>
+            </ul>
           </div>
           <aside class="seo-aside">
-            <p class="panel-label">Quest Roofing</p>
+            <p class="panel-label">Quest Roofing proof</p>
+            <h2>Documented roof help before work starts.</h2>
             <ul class="contact-points">
               <li><span>Phone</span><a href="${phoneHref}">${phone}</a></li>
               <li><span>Email</span><a href="mailto:${email}">${email}</a></li>
@@ -208,19 +225,19 @@ const layout = ({ title, meta, canonical, h1, eyebrow, body, schema, pathPrefix 
           </aside>
         </div>
       </section>
-      ${body}
+${body}
     </main>
     <footer class="site-footer">
       <div class="container footer-inner footer-inner-wide">
         <div>
           <p class="footer-brand">Quest Roofing</p>
           <p class="footer-copy">Licensed roofing contractor based in Queen Creek, Arizona.</p>
+          <p class="footer-meta"><span>AZ ROC #355136</span><span>GAF Certified</span><span>Copyright 2026 Quest Roofing</span></p>
         </div>
         <nav class="footer-seo-links" aria-label="SEO footer links">
-          <div><strong>Services</strong>${services.map((service) => `<a href="${pathPrefix}/services/${service.slug}/">${service.name}</a>`).join("")}</div>
-          <div><strong>Cities</strong>${cities.map((city) => `<a href="${pathPrefix}/roofing-${city.slug}-az/">${city.name}</a>`).join("")}</div>
+          <div><strong>Services</strong>${publishedServices.map((service) => `<a href="${pathPrefix}/services/${service.slug}/index.html">${serviceLabel(service)}</a>`).join("")}</div>
+          <div><strong>Cities</strong>${cities.map((city) => `<a href="${pathPrefix}/roofing-${city.slug}-az/index.html">${city.name}</a>`).join("")}</div>
         </nav>
-        <p class="footer-meta"><span>AZ ROC #355136</span><span>GAF Certified</span><span>Copyright 2026 Quest Roofing</span></p>
       </div>
     </footer>
   </div>
@@ -264,13 +281,32 @@ const pageSchema = ({ canonical, title, meta, breadcrumbs = [], extra = [] }) =>
 const section = (heading, content) => `<section class="section-band section-light seo-section"><div class="container"><h2>${heading}</h2>${content}</div></section>`;
 const list = (items) => `<ul class="seo-list">${items.map((item) => `<li>${item}</li>`).join("")}</ul>`;
 const faqHtml = (faq) => `<div class="faq-list">${faq.map(([q, a]) => `<details class="faq-item"><summary>${q}</summary><p>${a}</p></details>`).join("")}</div>`;
+const proofPanel = (title, text, pathPrefix) => `
+<section class="seo-proof-band">
+  <div class="container seo-proof-grid">
+    <div class="seo-photo-card" aria-hidden="true"></div>
+    <div class="seo-proof-copy">
+      <p class="eyebrow">Inspection proof</p>
+      <h2>${title}</h2>
+      <p>${text}</p>
+      <ul class="seo-proof-list">
+        <li><strong>License:</strong> AZ ROC #355136</li>
+        <li><strong>Estimate:</strong> written scope before approval</li>
+        <li><strong>Coverage:</strong> Queen Creek and East Valley priority</li>
+      </ul>
+      <a class="button button-primary" href="${pathPrefix}/index.html#estimate">Request a written estimate</a>
+    </div>
+  </div>
+</section>`;
 
-services.forEach((service) => {
+publishedServices.forEach((service) => {
   const canonical = `${siteUrl}/services/${service.slug}/`;
-  const cityLinkList = cities.map((city) => `<a href="../../roofing-${city.slug}-az/">${city.name}</a>`).join(", ");
+  const cityLinkList = cities.map((city) => `<a href="../../roofing-${city.slug}-az/index.html">${city.name}</a>`).join(", ");
   const body = [
+    proofPanel(`${service.name} should start with documentation.`, "The stronger contractor experience is simple: visible license information, roof-condition photos, and a scope that explains what is being repaired or replaced before the job is scheduled.", "../.."),
     section(`What ${service.name} includes`, `<p>${service.intro}</p>${list(service.process)}`),
-    section(`Signs you may need ${service.name.toLowerCase()}`, list(service.signs)),
+    section(`Signs you may need ${service.name.toLowerCase()}`, `<div class="seo-card-grid">${service.signs.map((sign) => `<article><span></span><h3>${sign}</h3><p>Document this during inspection so the estimate is tied to the actual roof condition.</p></article>`).join("")}</div>`),
+    section("How Quest keeps the request clear", `<div class="seo-card-grid seo-card-grid-3"><article><h3>Photo-backed inspection</h3><p>Roof concerns are easier to evaluate when the homeowner can see the problem areas.</p></article><article><h3>Repair-versus-replace context</h3><p>The estimate should explain whether a targeted repair is enough or whether the system needs larger work.</p></article><article><h3>Closeout expectations</h3><p>Cleanup, workmanship coverage, and manufacturer materials are part of the project conversation.</p></article></div>`),
     section("Service areas", `<p>Quest Roofing prioritizes Queen Creek and the East Valley, with premium secondary service across Scottsdale, Paradise Valley, Fountain Hills, and select North Phoenix projects.</p><p class="seo-link-row">${cityLinkList}</p>`),
     section(`${service.name} FAQ`, faqHtml(service.faq))
   ].join("");
@@ -296,15 +332,16 @@ services.forEach((service) => {
 
 cities.forEach((city) => {
   const canonical = `${siteUrl}/roofing-${city.slug}-az/`;
-  const serviceLinkList = services.map((service) => `<a href="../services/${service.slug}/">${service.name}</a>`).join(", ");
+  const serviceLinkList = publishedServices.map((service) => `<a href="../services/${service.slug}/index.html">${serviceLabel(service)}</a>`).join(", ");
   const faq = [
     [`Does Quest Roofing serve ${city.name}?`, `Yes. Quest Roofing serves ${city.name} as part of its Arizona roofing service area, with Queen Creek and the East Valley as the primary base.`],
-    [`What roofing services are available in ${city.name}?`, "Quest Roofing lists roof repair, roof replacement, roof inspection, tile, shingle, foam, and metal roofing services."],
+    [`What roofing services are available in ${city.name}?`, "Quest Roofing lists roof repair, roof inspection, tile, shingle, foam, and metal roofing services."],
     [`Can I get a written estimate in ${city.name}?`, "Yes. Inspection photos and written estimates help make the scope clear before work starts."]
   ];
   const body = [
+    proofPanel(`${city.name} roofing calls need local clarity.`, `Quest positions ${city.name} requests around direct roof documentation, written estimates, and practical scheduling from its Queen Creek base.`, ".."),
     section(`Roofing services in ${city.name}`, `<p>${city.intro}</p><p class="seo-link-row">${serviceLinkList}</p>`),
-    section(`${city.name} roof concerns`, list(city.localNotes)),
+    section(`${city.name} roof concerns`, `<div class="seo-card-grid">${city.localNotes.map((note) => `<article><span></span><h3>${note}</h3><p>Quest can review this during inspection and put the recommendation in writing.</p></article>`).join("")}</div>`),
     section(`Why ${city.name} homeowners call Quest`, `<p>Quest Roofing keeps recommendations direct: inspect the roof, explain what is wrong, and provide a written estimate instead of a vague verbal guess. The public site lists AZ ROC #355136, GAF certification, and warranty-backed work.</p>`),
     section(`${city.name} roofing FAQ`, faqHtml(faq))
   ].join("");
@@ -328,10 +365,224 @@ cities.forEach((city) => {
   writeFileSync(file, html);
 });
 
+const cardGrid = (cards) => `<div class="seo-card-grid seo-card-grid-3">${cards.map(({ title, text }) => `<article><h3>${title}</h3><p>${text}</p></article>`).join("")}</div>`;
+const roofSystemGrid = () => cardGrid([
+  { title: "Tile roofing", text: "Good for Arizona style and heat, but underlayment, valleys, and broken tiles need careful review." },
+  { title: "Shingle roofing", text: "A practical residential option where ventilation, heat exposure, flashing, and storm wear affect life span." },
+  { title: "Foam and flat roofing", text: "Strong low-slope options when drainage, coating condition, and recoat timing are managed correctly." },
+  { title: "Metal roofing", text: "Durable in the desert when seams, fasteners, edges, and penetrations are inspected and maintained." }
+]);
+
+const supportPages = [
+  {
+    path: "about-us/our-team/",
+    title: "Our Team | Quest Roofing",
+    h1: "Roofing help from a Queen Creek team.",
+    eyebrow: "About Quest",
+    meta: "Meet Quest Roofing, a licensed Queen Creek roofing contractor focused on photo-backed inspections and written estimates.",
+    body: (pathPrefix) => [
+      proofPanel("The team page should make the contractor feel accountable.", "Quest's public story is strongest when it shows how the homeowner moves from first call to documented roof decision.", pathPrefix),
+      section("How the team works", `<p>Quest Roofing should feel reachable before the first appointment: clear contact paths, a documented inspection, and recommendations explained in plain language.</p>${cardGrid([
+        { title: "First contact", text: "Collect roof type, service area, visible concerns, leak timing, and photos when available." },
+        { title: "Field inspection", text: "Review the roof condition and document visible findings instead of relying on vague statements." },
+        { title: "Estimate handoff", text: "Explain repair, replacement, materials, timing, and cleanup in a written scope." }
+      ])}`),
+      section("Who homeowners interact with", `<p>The page is structured around roles rather than invented staff bios. Add real names and photos only when Quest has approved them.</p>${cardGrid([
+        { title: "Scheduling", text: "Coordinates the request and helps set realistic appointment expectations." },
+        { title: "Inspection", text: "Looks at the roof system, photographs concern areas, and explains what was found." },
+        { title: "Project closeout", text: "Confirms approved work, cleanup expectations, and warranty or material notes." }
+      ])}`),
+      section("Before the appointment", `<p>Homeowners can make the first visit sharper by gathering roof age, leak history, storm timing, HOA notes, and interior stain photos.</p><p class="seo-link-row"><a href="${pathPrefix}/resources/design-your-roof/index.html">Compare roof systems</a><a href="${pathPrefix}/resources/roofing-glossary/index.html">Read the glossary</a></p>`)
+    ].join("")
+  },
+  {
+    path: "about-us/completed-projects/",
+    title: "Completed Roofing Projects | Quest Roofing",
+    h1: "Project proof belongs in the open.",
+    eyebrow: "Completed projects",
+    meta: "Completed roofing project examples and inspection-oriented proof points from Quest Roofing.",
+    body: (pathPrefix) => [
+      proofPanel("A projects page should show conditions, scope, and closeout.", "This page is ready for real Quest project photos without fabricating project addresses, dates, or customer names.", pathPrefix),
+      section("Project categories", `${cardGrid([
+        { title: "Tile repair and underlayment", text: "Document cracked tile, valley concerns, underlayment age, repair limits, and completed closeout photos." },
+        { title: "Shingle replacement", text: "Show roof plane condition, material selection, tear-off scope, flashing work, and final shingle installation." },
+        { title: "Foam or flat roof recoat", text: "Track coating wear, ponding areas, penetration details, surface prep, and finished protective coating." },
+        { title: "Storm damage repair", text: "Organize visible damage, temporary leak control, repair scope, and post-repair roof details." },
+        { title: "Metal roofing", text: "Capture panel, seam, trim, flashing, and fastener details for homeowners comparing system options." },
+        { title: "Inspection-only findings", text: "Some of the most useful proof is a clear inspection that prevents unnecessary work." }
+      ])}`),
+      section("Project proof template", `<p>Each future project should answer four questions: what roof system was inspected, what problem was found, what scope was approved, and what closeout proof was captured.</p>${cardGrid([
+        { title: "Before", text: "Roof condition photo, visible issue, and homeowner concern." },
+        { title: "During", text: "Material, access, prep, tear-off, repair, or installation detail." },
+        { title: "After", text: "Finished work, cleanup, and the warranty or workmanship note that applies." }
+      ])}`),
+      section("Related services", `<p class="seo-link-row"><a href="${pathPrefix}/services/roof-repair/index.html">Roof repair</a><a href="${pathPrefix}/services/roof-inspection/index.html">Free inspection</a><a href="${pathPrefix}/services/tile-roofing/index.html">Tile roofing</a></p>`)
+    ].join("")
+  },
+  {
+    path: "about-us/core-values/",
+    title: "Core Values | Quest Roofing",
+    h1: "Clear scope. Honest guidance. Clean closeout.",
+    eyebrow: "Core values",
+    meta: "Quest Roofing values for clear communication, documented estimates, repair-first guidance, and respectful jobsite cleanup.",
+    body: (pathPrefix) => [
+      proofPanel("Values should be visible in the estimate, not only the headline.", "Quest's values translate into documentation, direct recommendations, and a cleaner handoff for homeowners.", pathPrefix),
+      section("The working standard", `${cardGrid([
+        { title: "Repair-first when appropriate", text: "If a targeted repair solves the problem, the recommendation should not jump straight to replacement." },
+        { title: "Replacement when justified", text: "If the system is past practical repair, the estimate should explain the reason in plain language." },
+        { title: "Written accountability", text: "Photos, materials, timeline, and price should be visible before work begins." },
+        { title: "Respectful cleanup", text: "The yard, driveway, access path, and final walkthrough matter as part of the job." },
+        { title: "Local roof knowledge", text: "Arizona heat, monsoon rain, tile underlayment, and flat roof coating all shape the recommendation." },
+        { title: "No pressure language", text: "Homeowners should understand the roof condition well enough to make a calm decision." }
+      ])}`),
+      section("What this means during a roof call", `<p>Quest should be able to explain the problem area, the proposed fix, the material or system involved, and the next step without hiding behind jargon.</p><p class="seo-link-row"><a href="${pathPrefix}/resources/roofing-glossary/index.html">Roofing glossary</a><a href="${pathPrefix}/index.html#estimate">Request a written estimate</a></p>`)
+    ].join("")
+  },
+  {
+    path: "about-us/community-outreach/",
+    title: "Community Outreach | Quest Roofing",
+    h1: "Community-first roofing support without made-up claims.",
+    eyebrow: "Community Outreach",
+    meta: "Quest Roofing community outreach page for homeowner education, storm readiness, and practical roof guidance in the East Valley.",
+    body: (pathPrefix) => [
+      proofPanel("Community pages should be useful before they are promotional.", "Until Quest has approved specific sponsorships or outreach events, this page focuses on homeowner education and storm-readiness resources.", pathPrefix),
+      section("Useful local support", `${cardGrid([
+        { title: "Storm readiness", text: "Help homeowners know what to check before monsoon season and when to call after wind or hail." },
+        { title: "Estimate education", text: "Make roofing terms, roof systems, and repair-versus-replace decisions easier to understand." },
+        { title: "Neighborhood roof questions", text: "Support HOAs, property managers, and homeowners who need clear roof documentation." }
+      ])}`),
+      section("No fabricated partnerships", `<p>This page intentionally avoids claiming donations, sponsorships, school projects, or nonprofit work unless Quest approves real details. That is the right long-term trust move.</p>${cardGrid([
+        { title: "Add real events later", text: "Use event name, date, location, photos, and what Quest actually contributed." },
+        { title: "Add education resources now", text: "Storm checklists, roof terminology, and service guides help local homeowners immediately." },
+        { title: "Keep claims verifiable", text: "Community proof should be as documented as a roof estimate." }
+      ])}`),
+      section("Homeowner resources", `<p class="seo-link-row"><a href="${pathPrefix}/resources/design-your-roof/index.html">Design your roof</a><a href="${pathPrefix}/resources/roofing-glossary/index.html">Roofing glossary</a><a href="${pathPrefix}/services/roof-inspection/index.html">Free inspection</a></p>`)
+    ].join("")
+  },
+  {
+    path: "about-us/reviews/",
+    title: "Reviews | Quest Roofing",
+    h1: "Reviews should prove the process.",
+    eyebrow: "Homeowner stories",
+    meta: "Quest Roofing reviews focused on communication, clean work, and honest recommendations.",
+    body: (pathPrefix) => [
+      proofPanel("Review pages should explain what a good roofing experience feels like.", "The strongest reviews mention communication, cleanup, cost transparency, and whether the recommendation matched the actual roof issue.", pathPrefix),
+      section("Review themes homeowners compare", `${cardGrid([
+        { title: "Communication", text: "Calls are returned, the appointment is clear, and the homeowner knows what happens next." },
+        { title: "Clean work", text: "The jobsite is treated like part of the project, not an afterthought." },
+        { title: "Honest recommendation", text: "Repair, replacement, or monitoring is explained with roof-condition evidence." },
+        { title: "Written scope", text: "The estimate gives enough detail to compare options and approve the work confidently." },
+        { title: "Storm response", text: "After monsoon damage, urgency and documentation both matter." },
+        { title: "Closeout", text: "The homeowner understands what was completed and what warranty or material notes apply." }
+      ])}`),
+      section("Add verified review sources", `<p>When Quest provides approved review feeds or screenshots, place the source, date, and service type here. Do not inflate counts or invent star ratings.</p><p class="seo-link-row"><a href="${pathPrefix}/index.html#reviews">Homepage review section</a><a href="${pathPrefix}/index.html#estimate">Request an estimate</a></p>`)
+    ].join("")
+  },
+  {
+    path: "gallery/",
+    title: "Roofing Gallery | Quest Roofing",
+    h1: "A gallery for roof conditions, repairs, and completed work.",
+    eyebrow: "Gallery",
+    meta: "Quest Roofing gallery structure for roof inspections, repair details, and completed Arizona roofing work.",
+    body: (pathPrefix) => [
+      proofPanel("A roofing gallery should do more than look pretty.", "Use this page to show roof conditions, repair details, and finished work so the homeowner sees proof before calling.", pathPrefix),
+      section("Gallery categories", `${cardGrid([
+        { title: "Tile details", text: "Broken tile, slipped tile, valley work, underlayment clues, and finished replacement areas." },
+        { title: "Shingle details", text: "Granule loss, lifted shingles, flashing, tear-off prep, and installed architectural shingles." },
+        { title: "Foam and flat details", text: "Coating cracks, ponding patterns, penetration repairs, surface prep, and finished recoats." },
+        { title: "Storm damage", text: "Wind movement, impact marks, debris damage, urgent leak points, and completed repair details." },
+        { title: "Metal roofing", text: "Panel details, seams, fasteners, trim, and roof-to-wall transitions." },
+        { title: "Cleanup and closeout", text: "Final roof condition, yard cleanup, and handoff photos after approved work." }
+      ])}`),
+      section("Photo standards", `<p>Each gallery entry should include roof system, concern, service area, scope type, and whether the image is before, during, or after work.</p>${roofSystemGrid()}`),
+      section("Start from what you are seeing", `<p class="seo-link-row"><a href="${pathPrefix}/services/roof-inspection/index.html">Roof inspection</a><a href="${pathPrefix}/services/roof-repair/index.html">Roof repair</a><a href="${pathPrefix}/services/tile-roofing/index.html">Tile roofing</a></p>`)
+    ].join("")
+  },
+  {
+    path: "resources/design-your-roof/",
+    title: "Design Your Roof | Quest Roofing",
+    h1: "Compare roofing options before the estimate.",
+    eyebrow: "Resources",
+    meta: "Roof material planning resource for tile, shingle, foam, and metal roofing decisions in Arizona.",
+    body: (pathPrefix) => [
+      proofPanel("Roof design starts with the roof you actually have.", "Tile, shingle, foam, flat, and metal each solve different Arizona roof needs. The right choice depends on slope, age, budget, HOA expectations, and heat exposure.", pathPrefix),
+      section("Compare roof systems", roofSystemGrid()),
+      section("Questions to answer before choosing", `${cardGrid([
+        { title: "What is the roof slope?", text: "Flat and low-slope sections need different systems than steep shingle or tile areas." },
+        { title: "What is failing?", text: "Underlayment, coating, flashing, fasteners, and surface material call for different fixes." },
+        { title: "What does the neighborhood require?", text: "HOA expectations, color, profile, and visible roof style can affect the final recommendation." },
+        { title: "How long will you own the home?", text: "A short-term repair and a long-term replacement may both be valid, depending on your plan." },
+        { title: "What has leaked before?", text: "Past leak history helps the inspection focus on valleys, penetrations, transitions, and drainage." },
+        { title: "What proof do you need?", text: "Photos and a written scope help compare estimates without pressure." }
+      ])}`),
+      section("Bring this to the estimate", `<p>Roof age, leak history, photos, storm timing, HOA notes, and preferred roof material make the first conversation more useful.</p><p class="seo-link-row"><a href="${pathPrefix}/services/tile-roofing/index.html">Tile</a><a href="${pathPrefix}/services/shingle-roofing/index.html">Shingle</a><a href="${pathPrefix}/services/foam-roofing/index.html">Foam</a><a href="${pathPrefix}/services/metal-roofing/index.html">Metal</a></p>`)
+    ].join("")
+  },
+  {
+    path: "resources/roofing-glossary/",
+    title: "Roofing Glossary | Quest Roofing",
+    h1: "Plain-English roofing terms.",
+    eyebrow: "Resources",
+    meta: "Simple roofing glossary for Arizona homeowners comparing estimates and inspection findings.",
+    body: (pathPrefix) => [
+      proofPanel("A glossary makes estimates easier to compare.", "A written estimate is easier to understand when the homeowner knows what part of the roof is being repaired or replaced.", pathPrefix),
+      section("Common estimate terms", `${cardGrid([
+        { title: "Underlayment", text: "The protective layer beneath tile that often matters more than the tile surface itself." },
+        { title: "Flashing", text: "Metal or roof detail used around walls, edges, chimneys, and transitions to control water." },
+        { title: "Penetration", text: "Anything passing through the roof surface, such as vents, pipes, skylights, or equipment." },
+        { title: "Valley", text: "The area where roof planes meet and water concentrates during rain." },
+        { title: "Coating", text: "The protective top layer used on foam and some flat roof systems." },
+        { title: "Decking", text: "The structural roof surface below the roofing assembly." },
+        { title: "Fastener", text: "Screws, nails, or other attachments that can loosen or age over time." },
+        { title: "Ridge", text: "The high line where two roof planes meet." },
+        { title: "Scope", text: "The written description of what work is included, excluded, and priced." }
+      ])}`),
+      section("Why these terms matter", `<p>When a contractor says the problem is flashing, underlayment, coating, or decking, the estimate should connect that term to a specific roof condition photo.</p><p class="seo-link-row"><a href="${pathPrefix}/services/roof-inspection/index.html">Schedule an inspection</a><a href="${pathPrefix}/resources/design-your-roof/index.html">Compare roof systems</a></p>`)
+    ].join("")
+  },
+  {
+    path: "contact/",
+    title: "Contact Quest Roofing",
+    h1: "Contact Quest Roofing.",
+    eyebrow: "Contact",
+    meta: "Contact Quest Roofing for a free inspection or written roofing estimate in Queen Creek and the East Valley.",
+    body: (pathPrefix) => [
+      proofPanel("A contact page should help the homeowner make a clean request.", `Call ${phone} or email ${email} to start a roof inspection request.`, pathPrefix),
+      section("Fastest ways to start", `${cardGrid([
+        { title: "Call", text: `${phone} for urgent leaks, scheduling questions, or a direct estimate request.` },
+        { title: "Email", text: `${email} with your name, address or cross streets, service need, and photos if available.` },
+        { title: "Estimate form", text: "Use the homepage form when you want to organize the request by roof service and contact details." }
+      ])}`),
+      section("What to send", `<p>Include your address or nearest cross streets, roof type if known, leak location, storm timing, interior stain photos, exterior roof photos if safe, and whether the property is residential or commercial.</p><p class="seo-link-row"><a href="${pathPrefix}/index.html#estimate">Open estimate form</a><a href="tel:6023996455">Call ${phone}</a><a href="mailto:${email}">Email Quest</a></p>`),
+      section("Common request paths", `<p class="seo-link-row"><a href="${pathPrefix}/services/roof-repair/index.html">Roof repair</a><a href="${pathPrefix}/services/roof-inspection/index.html">Free inspection</a><a href="${pathPrefix}/services/tile-roofing/index.html">Tile roofing</a><a href="${pathPrefix}/services/foam-roofing/index.html">Foam roofing</a></p>`)
+    ].join("")
+  }
+];
+
+supportPages.forEach((page) => {
+  const canonical = `${siteUrl}/${page.path}`;
+  const pathPrefix = page.path.split("/").length > 2 ? "../.." : "..";
+  const body = `${page.body(pathPrefix)}${section("Start a request", `<p>Use the main estimate form when you are ready to talk through the roof condition with Quest.</p><p class="seo-link-row"><a href="${pathPrefix}/index.html#estimate">Request an estimate</a></p>`)}`;
+  const schema = pageSchema({
+    canonical,
+    title: page.title,
+    meta: page.meta,
+    breadcrumbs: [
+      { name: "Home", url: `${siteUrl}/` },
+      { name: page.eyebrow, url: canonical }
+    ]
+  });
+  const html = layout({ title: page.title, meta: page.meta, canonical, h1: page.h1, eyebrow: page.eyebrow, body, schema, pathPrefix });
+  const file = join(page.path, "index.html");
+  mkdirSync(dirname(file), { recursive: true });
+  writeFileSync(file, html);
+});
+
 const urls = [
   ["", "1.0"],
-  ...services.map((service) => [`services/${service.slug}/`, "0.9"]),
-  ...cities.map((city) => [`roofing-${city.slug}-az/`, "0.85"])
+  ...publishedServices.map((service) => [`services/${service.slug}/`, "0.9"]),
+  ...cities.map((city) => [`roofing-${city.slug}-az/`, "0.85"]),
+  ...supportPages.map((page) => [page.path, "0.75"])
 ];
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

@@ -43,6 +43,7 @@
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
     crossorigin=""
   >
+  <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="styles.css">
   <script type="application/ld+json">
     {
@@ -161,15 +162,19 @@
 <body>
   <div class="site-shell">
     <header class="site-header" id="top">
+      <div class="top-bar">
+        <div class="container top-bar-inner">
+          <p>AZ ROC #355136 - GAF Certified - Free written estimates</p>
+          <div class="top-bar-actions">
+            <a href="tel:6023996455">602-399-6455</a>
+            <a href="mailto:info@questroofing.com">info@questroofing.com</a>
+          </div>
+        </div>
+      </div>
       <div class="container header-inner">
         <a class="brand" href="#top" aria-label="Quest Roofing home">
           <span class="brand-mark">
-            <img
-              src="https://questroofing.com/wp-content/uploads/2024/12/Untitled-design-92-1.png"
-              alt="Quest Roofing"
-              width="92"
-              height="92"
-            >
+            <img src="https://questroofing.com/wp-content/uploads/2024/12/Untitled-design-92-1.png" alt="Quest Roofing" width="92" height="92">
           </span>
           <span class="brand-copy">
             <strong>Quest Roofing</strong>
@@ -177,23 +182,37 @@
           </span>
         </a>
 
-        <button
-          class="nav-toggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="site-nav"
-          aria-label="Open navigation"
-        >
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation">
           <span></span>
           <span></span>
         </button>
 
         <nav class="site-nav" id="site-nav" aria-label="Primary">
-          <a href="#services">Services</a>
+          <div class="nav-group">
+            <button class="nav-trigger" type="button" aria-haspopup="true">About</button>
+            <div class="nav-menu" aria-label="About pages">
+              <a href="about-us/our-team/index.html">Our Team</a>
+              <a href="about-us/completed-projects/index.html">Completed Projects</a>
+              <a href="about-us/core-values/index.html">Core Values</a>
+              <a href="about-us/community-outreach/index.html">Community Outreach</a>
+              <a href="about-us/reviews/index.html">Reviews</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a href="#services">Services</a>
+            <div class="nav-menu" aria-label="Service pages">
+              <a href="services/roof-repair/index.html">Roof Repair</a>
+              <a href="services/tile-roofing/index.html">Tile Roofing</a>
+              <a href="services/shingle-roofing/index.html">Shingle Roofing</a>
+              <a href="services/metal-roofing/index.html">Metal Roofing</a>
+              <a href="services/foam-roofing/index.html">Foam Roofing</a>
+              <a href="services/roof-inspection/index.html">Free Inspection</a>
+            </div>
+          </div>
           <a href="#process">Process</a>
           <a href="#why-quest">Why Quest</a>
-          <a href="#reviews">Reviews</a>
-          <a href="#areas">Areas</a>
+          <a href="gallery/index.html">Gallery</a>
+          <a href="resources/design-your-roof/index.html">Resources</a>
           <a class="nav-cta" href="#estimate">Request Quote</a>
         </nav>
       </div>
@@ -202,209 +221,264 @@
     <main>
       <section class="hero">
         <div class="hero-media">
-          <img
-            src="https://images.pexels.com/photos/18098286/pexels-photo-18098286.jpeg?cs=srgb&dl=pexels-nikolaeva-nastia-3312562-18098286.jpg&fm=jpg"
-            alt="Residential roof exterior"
-            width="1920"
-            height="1280"
-            fetchpriority="high"
-          >
+          <img src="https://images.pexels.com/photos/18098286/pexels-photo-18098286.jpeg?cs=srgb&dl=pexels-nikolaeva-nastia-3312562-18098286.jpg&fm=jpg" alt="Residential roof exterior" width="1920" height="1280" fetchpriority="high">
           <div class="hero-overlay"></div>
         </div>
 
         <div class="container hero-content">
           <div class="hero-copy">
-            <p class="hero-kicker">Tile - Shingle - Metal - Foam</p>
-            <h1>East Valley roofing without the runaround.</h1>
+            <p class="hero-kicker">Roof repair - Replacement - Tile - Shingle - Foam - Metal</p>
+            <h1>Roofing estimates without the runaround.</h1>
             <p class="hero-lead">
-              Quest Roofing is based in Queen Creek and serves the East Valley first,
-              with select Scottsdale, Paradise Valley, Fountain Hills, and North Phoenix projects.
+              Quest Roofing serves Queen Creek and the East Valley with photo-backed inspections,
+              written scopes, and straight answers before you approve roof work.
             </p>
-            <p class="hero-meta">Licensed - Bonded - Insured - Free written estimates</p>
-
             <div class="hero-actions">
               <a class="button button-primary" href="#estimate">Get My Free Estimate</a>
               <a class="button button-ghost" href="tel:6023996455">Call 602-399-6455</a>
             </div>
+            <ul class="hero-badges" aria-label="Quest Roofing credentials">
+              <li>AZ ROC #355136</li>
+              <li>GAF Certified</li>
+              <li>Licensed - Bonded - Insured</li>
+            </ul>
           </div>
 
           <aside class="hero-panel">
-            <p class="panel-label">Why homeowners call Quest</p>
-            <ul class="hero-points">
-              <li>Free roof inspections with photos</li>
-              <li>Written estimates instead of verbal guesses</li>
-              <li>Tile, shingle, foam, metal, and leak repair</li>
-              <li>Workmanship warranty plus manufacturer coverage</li>
-            </ul>
-
-            <div class="hero-review">
-              <p>
-                "Incredible service and very honest. They told me I just needed a
-                repair when another company tried to sell me a whole new roof."
-              </p>
-              <strong>John M. - Chandler</strong>
-            </div>
+            <p class="panel-label">Get your free roof estimate</p>
+            <h2>Start with a quick request.</h2>
+            <form class="quick-estimate-form" data-mailto-form data-compact="true">
+              <label>
+                <span>Name</span>
+                <input type="text" name="name" autocomplete="name" required>
+              </label>
+              <label>
+                <span>Email</span>
+                <input type="email" name="email" autocomplete="email" required>
+              </label>
+              <label>
+                <span>Phone</span>
+                <input type="tel" name="phone" autocomplete="tel" required>
+              </label>
+              <label>
+                <span>Service</span>
+                <select name="service_interest" required>
+                  <option value="">Select one</option>
+                  <option>Roof Repair</option>
+                  <option>Tile Roofing</option>
+                  <option>Shingle Roofing</option>
+                  <option>Metal Roofing</option>
+                  <option>Foam Roofing</option>
+                  <option>Free Inspection</option>
+                </select>
+              </label>
+              <button class="button button-primary" type="submit">Prepare Request</button>
+              <p class="form-status" aria-live="polite"></p>
+            </form>
+            <ol class="hero-points hero-points-compact">
+              <li><span>01</span> Submit the request.</li>
+              <li><span>02</span> Get a photo-backed inspection.</li>
+              <li><span>03</span> Review a written estimate.</li>
+            </ol>
           </aside>
+        </div>
+      </section>
+
+      <section class="proof-strip" aria-label="Quest Roofing proof points">
+        <div class="container proof-strip-grid">
+          <div><span>Based in</span><strong>Queen Creek</strong></div>
+          <div><span>Priority area</span><strong>East Valley</strong></div>
+          <div><span>Estimate style</span><strong>Written scope</strong></div>
+          <div><span>Inspection style</span><strong>Photo-backed</strong></div>
+        </div>
+      </section>
+
+      <section class="section-band section-story" id="story">
+        <div class="container story-layout">
+          <div class="story-media" aria-hidden="true"></div>
+          <div class="story-copy">
+            <p class="eyebrow">People before paperwork</p>
+            <h2>Every roof starts with a homeowner who needs a straight answer.</h2>
+            <p>
+              The reference flow works because it makes the contractor feel visible,
+              reachable, and accountable. Quest should do the same: show the license,
+              explain the roof system, document the condition, and keep the owner part
+              of the decision before work begins.
+            </p>
+            <div class="story-callout">
+              <strong>Quest's promise</strong>
+              <span>Inspect the roof, explain the options, and put the scope in writing.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-band section-light section-safety">
+        <div class="container">
+          <div class="section-heading section-heading-split">
+            <div>
+              <p class="eyebrow">Your home, your safety, your roof</p>
+              <h2>Your home. Your safety. Your roof.</h2>
+            </div>
+            <p>
+              From the first call to final cleanup, Quest keeps the work practical,
+              documented, and respectful of the property beneath the roof.
+            </p>
+          </div>
+          <div class="value-grid">
+            <article>
+              <h3>Clear communication</h3>
+              <p>Know what is wrong, what can wait, and what needs attention now.</p>
+            </article>
+            <article>
+              <h3>Dependable service</h3>
+              <p>Prioritize East Valley projects and schedule work around realistic crew capacity.</p>
+            </article>
+            <article>
+              <h3>Respect for property</h3>
+              <p>Keep the roof, yard, cleanup, and closeout part of the same standard.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-band section-light" id="services">
+        <div class="container">
+          <div class="section-heading section-heading-split">
+            <div>
+              <p class="eyebrow">Roofing services</p>
+              <h2>Roofing services for Arizona homes.</h2>
+            </div>
+            <p>
+              Pick the service that fits what you are seeing. If you are not sure,
+              start with an inspection and review the condition before approving work.
+            </p>
+          </div>
+
+          <div class="service-grid service-grid-featured">
+            <article class="service-card">
+              <div class="service-card-copy">
+                <p class="service-kicker">High-heat mainstay</p>
+                <h3><a href="services/tile-roofing/index.html">Tile Roofing</a></h3>
+                <p>Concrete and clay tile installation, repair, and underlayment replacement for desert heat and monsoon rain.</p>
+              </div>
+            </article>
+            <article class="service-card">
+              <div class="service-card-copy">
+                <p class="service-kicker">Architectural asphalt</p>
+                <h3><a href="services/shingle-roofing/index.html">Shingle Roofing</a></h3>
+                <p>Architectural asphalt shingle replacements and new installs using GAF and Owens Corning systems.</p>
+              </div>
+            </article>
+            <article class="service-card">
+              <div class="service-card-copy">
+                <p class="service-kicker">Reflective systems</p>
+                <h3><a href="services/metal-roofing/index.html">Metal Roofing</a></h3>
+                <p>Standing seam and exposed-fastener systems that reflect heat and handle monsoon weather.</p>
+              </div>
+            </article>
+            <article class="service-card">
+              <div class="service-card-copy">
+                <p class="service-kicker">Foam systems</p>
+                <h3><a href="services/foam-roofing/index.html">Foam Roofing</a></h3>
+                <p>Spray polyurethane foam roofing and recoats for flat roofs with seamless, reflective coverage.</p>
+              </div>
+            </article>
+            <article class="service-card">
+              <div class="service-card-copy">
+                <p class="service-kicker">Leak and storm response</p>
+                <h3><a href="services/roof-repair/index.html">Roof Repair</a></h3>
+                <p>Leak detection, storm damage repair, flashing work, tile replacement, and insurance claim assistance.</p>
+              </div>
+            </article>
+            <article class="service-card">
+              <div class="service-card-copy">
+                <p class="service-kicker">Photo-backed estimate</p>
+                <h3><a href="services/roof-inspection/index.html">Free Inspection</a></h3>
+                <p>Detailed inspection with photos, an honest assessment, and a written estimate without upselling.</p>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
 
       <section class="section-band section-process" id="process">
         <div class="container">
-          <div class="section-heading section-heading-light">
-            <p class="eyebrow">The Quest Process</p>
-            <h2>From inspection to closeout, the steps are obvious.</h2>
+          <div class="section-heading section-heading-light section-heading-split">
+            <div>
+              <p class="eyebrow">Process</p>
+              <h2>A clearer roofing process.</h2>
+            </div>
             <p>
-              A cleaner roofing project starts with photos, plain-language scope,
-              and a written number before the work begins.
+              Every step should make the next decision easier: request, inspect,
+              estimate, approve, build, and close out the project.
             </p>
           </div>
 
           <ol class="process-track">
             <li class="process-item">
               <div class="process-card-copy">
-                <p class="process-kicker">Start with the call</p>
-                <h3>Consultation</h3>
-                <p>Call or submit a request for a free roof inspection.</p>
+                <p class="process-kicker">Request</p>
+                <h3>Tell us what you are seeing</h3>
+                <p>Call or submit the guided form with service type, address, and roof concern.</p>
               </div>
             </li>
             <li class="process-item">
               <div class="process-card-copy">
-                <p class="process-kicker">On-site review</p>
-                <h3>Inspection</h3>
-                <p>On-site roof assessment with photos of actual problem areas.</p>
+                <p class="process-kicker">Inspect</p>
+                <h3>Document the roof condition</h3>
+                <p>Inspection photos make the problem easier to understand before any work is sold.</p>
               </div>
             </li>
             <li class="process-item">
               <div class="process-card-copy">
-                <p class="process-kicker">Written scope</p>
-                <h3>Proposal</h3>
-                <p>Written scope, materials, pricing, and timing in plain terms.</p>
+                <p class="process-kicker">Estimate</p>
+                <h3>Review written options</h3>
+                <p>Repair, replacement, materials, timing, and cost are explained in writing.</p>
               </div>
             </li>
             <li class="process-item">
               <div class="process-card-copy">
-                <p class="process-kicker">Build day</p>
-                <h3>Installation</h3>
-                <p>Proper tear-off, installation, cleanup, and permit support.</p>
-              </div>
-            </li>
-            <li class="process-item">
-              <div class="process-card-copy">
-                <p class="process-kicker">Final closeout</p>
-                <h3>Warranty</h3>
-                <p>Final walkthrough and warranty documentation at closeout.</p>
+                <p class="process-kicker">Build</p>
+                <h3>Complete approved work</h3>
+                <p>Approved work is scheduled, installed, cleaned up, and reviewed at closeout.</p>
               </div>
             </li>
           </ol>
         </div>
       </section>
 
-      <section class="section-band section-light" id="services">
-        <div class="container">
-          <div class="section-heading">
-            <p class="eyebrow">Services</p>
-            <h2>Residential roofing systems common across the East Valley.</h2>
-            <p>
-              Tile, shingle, metal, foam, repair, and inspection work for Arizona
-              homes that need clear answers before crews arrive.
-            </p>
-          </div>
-
-          <div class="service-grid">
-            <article class="service-card">
-              <div class="service-card-copy">
-                <p class="service-kicker">High-heat mainstay</p>
-                <h3><a href="services/tile-roofing/">Tile Roofing</a></h3>
-                <p>Tile repair, underlayment replacement, and new tile installation built for Arizona heat.</p>
-              </div>
-            </article>
-            <article class="service-card">
-              <div class="service-card-copy">
-                <p class="service-kicker">Architectural asphalt</p>
-                <h3><a href="services/shingle-roofing/">Shingle Roofing</a></h3>
-                <p>Architectural asphalt systems using GAF and Owens Corning materials.</p>
-              </div>
-            </article>
-            <article class="service-card">
-              <div class="service-card-copy">
-                <p class="service-kicker">Low-maintenance system</p>
-                <h3><a href="services/metal-roofing/">Metal Roofing</a></h3>
-                <p>Standing seam and exposed-fastener systems that handle heat and monsoon weather.</p>
-              </div>
-            </article>
-            <article class="service-card">
-              <div class="service-card-copy">
-                <p class="service-kicker">Flat-roof coverage</p>
-                <h3><a href="services/foam-roofing/">Foam Roofing</a></h3>
-                <p>Spray polyurethane foam roofing and recoats for flat and low-slope roofs.</p>
-              </div>
-            </article>
-            <article class="service-card">
-              <div class="service-card-copy">
-                <p class="service-kicker">Leak and storm response</p>
-                <h3><a href="services/roof-repair/">Roof Repair</a></h3>
-                <p>Leak detection, storm damage repair, flashing work, and tile replacement.</p>
-              </div>
-            </article>
-            <article class="service-card">
-              <div class="service-card-copy">
-                <p class="service-kicker">Photo-backed estimate</p>
-                <h3><a href="services/roof-inspection/">Free Inspection</a></h3>
-                <p>Photo-backed inspection and a written estimate without upselling.</p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
       <section class="section-band section-dark" id="why-quest">
         <div class="container why-layout">
-          <div class="section-heading section-heading-light">
-            <p class="eyebrow">Why Quest</p>
-            <h2>Clear communication, local work, and honest recommendations.</h2>
+          <div class="section-heading section-heading-light section-heading-split">
+            <div>
+              <p class="eyebrow">Why Quest</p>
+              <h2>Trust before roof work starts.</h2>
+            </div>
             <p>
-              Homeowners should know what is wrong, what it costs, and whether a
-              repair is enough before they approve roofing work.
+              Homeowners compare roofing companies quickly. Quest puts the license,
+              certification, local base, and written estimate process where people can see them.
             </p>
           </div>
 
-          <div class="why-stage">
-            <aside class="why-art why-art-left" aria-hidden="true">
-              <figure class="why-photo why-photo-house">
-                <span class="why-photo-tag">Queen Creek base</span>
-              </figure>
-              <figure class="why-photo why-photo-repair">
-                <span class="why-photo-tag">Repair-first mindset</span>
-              </figure>
-            </aside>
-
-            <div class="why-grid">
-              <article class="why-card">
-                <h3>Local East Valley focus</h3>
-                <p>Based in Queen Creek and serving the East Valley daily instead of routing work through a distant call center.</p>
-              </article>
-              <article class="why-card">
-                <h3>Written estimates</h3>
-                <p>Quotes cover materials, scope, timeline, and price instead of vague ballpark numbers.</p>
-              </article>
-              <article class="why-card">
-                <h3>Honest repair guidance</h3>
-                <p>If a repair is the right fix, say so. The goal is to solve the roofing problem, not sell more work than the home actually needs.</p>
-              </article>
-              <article class="why-card">
-                <h3>Warranty-backed work</h3>
-                <p>Manufacturer warranties plus Quest's workmanship warranty are part of the closeout package.</p>
-              </article>
-            </div>
-
-            <aside class="why-art why-art-right" aria-hidden="true">
-              <figure class="why-photo why-photo-metal">
-                <span class="why-photo-tag">System knowledge</span>
-              </figure>
-              <figure class="why-photo why-photo-install">
-                <span class="why-photo-tag">Photo-backed inspections</span>
-              </figure>
-            </aside>
+          <div class="trust-grid">
+            <article class="trust-card trust-card-feature">
+              <p class="panel-label">Credential</p>
+              <h3>AZ ROC #355136</h3>
+              <p>Make licensing visible where homeowners are deciding whether to call.</p>
+            </article>
+            <article class="trust-card">
+              <h3>GAF Certified</h3>
+              <p>Manufacturer-backed material confidence belongs near the call path.</p>
+            </article>
+            <article class="trust-card">
+              <h3>Written estimates</h3>
+              <p>Scope, timing, materials, and price are easier to compare in writing.</p>
+            </article>
+            <article class="trust-card">
+              <h3>East Valley focus</h3>
+              <p>Queen Creek base with priority service across nearby East Valley cities.</p>
+            </article>
           </div>
         </div>
       </section>
@@ -416,8 +490,8 @@
               <p class="eyebrow">Reviews</p>
               <h2>Homeowner feedback that speaks to the work.</h2>
               <p>
-                Straightforward communication, clean work, and honest recommendations
-                show up in the details customers remember.
+                Keep proof close to conversion: clean work, clear explanations,
+                and honest recommendations are the details customers remember.
               </p>
             </div>
 
@@ -443,27 +517,20 @@
 
           <aside class="proof-sidebar" id="areas">
             <p class="panel-label">Service area</p>
+            <h3>East Valley first, premium northeast Valley by fit.</h3>
             <div class="service-map-shell">
               <div id="service-map" class="service-map" aria-label="Quest Roofing service area map"></div>
-              <ul class="service-area-legend" aria-label="Service area legend">
-                <li><span class="legend-swatch legend-east"></span><strong>East Valley priority</strong></li>
-                <li><span class="legend-swatch legend-northeast"></span><strong>Northeast Valley</strong></li>
-                <li><span class="legend-swatch legend-north"></span><strong>Premium northeast Valley</strong></li>
-              </ul>
-              <p class="map-note">East Valley is the priority. Scottsdale, Paradise Valley, Fountain Hills, and North Phoenix are premium secondary areas.</p>
             </div>
-            <p class="area-summary">
-              Based in Queen Creek, Quest is positioned for East Valley projects first. Premium northeast Valley work is reviewed by fit, schedule, and project scope.
-            </p>
-
-            <div class="proof-contact">
-              <p class="panel-label">Contact</p>
-              <ul class="contact-points">
-                <li><span>Phone</span><a href="tel:6023996455">602-399-6455</a></li>
-                <li><span>Email</span><a href="mailto:info@questroofing.com">info@questroofing.com</a></li>
-                <li><span>Status</span><strong>AZ ROC #355136</strong></li>
-              </ul>
-            </div>
+            <ul class="area-list">
+              <li>Queen Creek</li>
+              <li>Gilbert</li>
+              <li>Chandler</li>
+              <li>Mesa</li>
+              <li>Tempe</li>
+              <li>Scottsdale</li>
+              <li>Paradise Valley</li>
+              <li>Phoenix</li>
+            </ul>
           </aside>
         </div>
       </section>
@@ -497,61 +564,128 @@
         </div>
       </section>
 
+      <section class="cta-band" aria-labelledby="cta-heading">
+        <div class="container cta-band-inner">
+          <p class="eyebrow">Ready when the roof needs attention</p>
+          <h2 id="cta-heading">Let's get your roof in shape.</h2>
+          <p>Your roof protects everything beneath it. Start with inspection photos and a written estimate before approving work.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#estimate">Request Estimate</a>
+            <a class="button button-ghost" href="tel:6023996455">Call 602-399-6455</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-band section-light recognition-section">
+        <div class="container recognition-layout">
+          <div>
+            <p class="eyebrow">Recognized standards</p>
+            <h2>Credentials should be easy to find before a homeowner calls.</h2>
+            <p>
+              Quest’s site should keep license status, material certification, and estimate expectations
+              visible across the whole flow instead of hiding them in footer text.
+            </p>
+          </div>
+          <div class="recognition-cards">
+            <article>
+              <h3>AZ ROC #355136</h3>
+              <p>Visible license information for homeowner verification.</p>
+            </article>
+            <article>
+              <h3>GAF Certified</h3>
+              <p>Material-system confidence for shingle and replacement conversations.</p>
+            </article>
+            <article>
+              <h3>Written scope</h3>
+              <p>Clear repair or replacement expectations before scheduling.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section class="section-band section-estimate" id="estimate">
         <div class="container estimate-layout">
           <div class="estimate-copy">
             <p class="eyebrow">Free Estimate</p>
             <h2>Request a roof inspection or quote.</h2>
             <p>
-              Tell us what you are seeing. A clear request helps the team prepare
-              the right inspection, repair conversation, or replacement estimate.
+              The guided form keeps the request focused so the first conversation can
+              move faster. It still prepares the same email lead for Quest.
             </p>
-
             <ul class="contact-points contact-points-large">
               <li><span>Phone</span><a href="tel:6023996455">602-399-6455</a></li>
               <li><span>Email</span><a href="mailto:info@questroofing.com">info@questroofing.com</a></li>
-              <li><span>Coverage</span><strong>East Valley priority, with premium secondary projects in Scottsdale, Paradise Valley, Fountain Hills, and North Phoenix</strong></li>
+              <li><span>Coverage</span><strong>East Valley priority with select premium secondary projects</strong></li>
             </ul>
           </div>
 
-          <form class="estimate-form" data-mailto-form>
-            <label>
-              <span>Name</span>
-              <input type="text" name="name" required>
-            </label>
-            <label>
-              <span>Email</span>
-              <input type="email" name="email" required>
-            </label>
-            <label>
-              <span>Phone</span>
-              <input type="tel" name="phone" required>
-            </label>
-            <label>
-              <span>Address</span>
-              <input type="text" name="address" required>
-            </label>
-            <label class="form-full">
-              <span>Service interest</span>
-              <select name="service_interest" required>
-                <option value="">Select one</option>
-                <option>Roof Repair</option>
-                <option>Tile Roofing</option>
-                <option>Shingle Roofing</option>
-                <option>Metal Roofing</option>
-                <option>Foam Roofing</option>
-                <option>Free Inspection</option>
-                <option>Other / Not Sure</option>
-              </select>
-            </label>
-            <label class="form-full">
-              <span>Project details</span>
-              <textarea name="details" rows="5" required></textarea>
-            </label>
-            <div class="form-actions form-full">
-              <button class="button button-primary" type="submit">Prepare Estimate Email</button>
-              <p class="form-status" aria-live="polite"></p>
+          <form class="estimate-form guided-form" data-mailto-form data-guided-form>
+            <div class="form-progress" aria-label="Estimate request progress">
+              <button class="form-step-tab is-active" type="button" data-step-target="1">1. Roof</button>
+              <button class="form-step-tab" type="button" data-step-target="2">2. Contact</button>
+              <button class="form-step-tab" type="button" data-step-target="3">3. Details</button>
             </div>
+
+            <fieldset class="form-step is-active" data-step="1">
+              <legend>What do you need help with?</legend>
+              <label class="form-full">
+                <span>Service interest</span>
+                <select name="service_interest" required>
+                  <option value="">Select one</option>
+                  <option>Roof Repair</option>
+                  <option>Tile Roofing</option>
+                  <option>Shingle Roofing</option>
+                  <option>Metal Roofing</option>
+                  <option>Foam Roofing</option>
+                  <option>Free Inspection</option>
+                  <option>Other / Not Sure</option>
+                </select>
+              </label>
+              <label class="form-full">
+                <span>Address or nearest cross streets</span>
+                <input type="text" name="address" required>
+              </label>
+              <div class="form-actions form-full">
+                <button class="button button-primary" type="button" data-next-step>Continue</button>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-step" data-step="2">
+              <legend>How should Quest reach you?</legend>
+              <label>
+                <span>Name</span>
+                <input type="text" name="name" required>
+              </label>
+              <label>
+                <span>Email</span>
+                <input type="email" name="email" required>
+              </label>
+              <label class="form-full">
+                <span>Phone</span>
+                <input type="tel" name="phone" required>
+              </label>
+              <div class="form-actions form-full">
+                <button class="button button-ghost button-form-back" type="button" data-prev-step>Back</button>
+                <button class="button button-primary" type="button" data-next-step>Continue</button>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-step" data-step="3">
+              <legend>What should the estimator know?</legend>
+              <label class="form-full">
+                <span>Project details</span>
+                <textarea name="details" rows="5" required placeholder="Leak location, roof type, recent storm damage, age of roof, or anything you already know."></textarea>
+              </label>
+              <div class="form-review" aria-live="polite">
+                <strong>Ready to prepare the email</strong>
+                <p>Your browser will open an email draft addressed to Quest Roofing.</p>
+              </div>
+              <div class="form-actions form-full">
+                <button class="button button-ghost button-form-back" type="button" data-prev-step>Back</button>
+                <button class="button button-primary" type="submit">Prepare Estimate Email</button>
+                <p class="form-status" aria-live="polite"></p>
+              </div>
+            </fieldset>
           </form>
         </div>
       </section>
@@ -562,36 +696,30 @@
         <div>
           <p class="footer-brand">Quest Roofing</p>
           <p class="footer-copy">Licensed East Valley roofing contractor based in Queen Creek, Arizona.</p>
+          <p class="footer-meta"><span>AZ ROC #355136</span><span>GAF Certified</span><span id="footer-year"></span></p>
         </div>
         <nav class="footer-seo-links" aria-label="SEO footer links">
           <div>
             <strong>Services</strong>
-            <a href="services/roof-repair/">Roof Repair</a>
-            <a href="services/residential-roof-replacement/">Roof Replacement</a>
-            <a href="services/roof-inspection/">Roof Inspection</a>
-            <a href="services/storm-hail-damage-repair/">Storm Damage Repair</a>
-            <a href="services/tile-roofing/">Tile Roofing</a>
-            <a href="services/shingle-roofing/">Shingle Roofing</a>
-            <a href="services/metal-roofing/">Metal Roofing</a>
-            <a href="services/foam-roofing/">Foam Roofing</a>
+            <a href="services/roof-repair/index.html">Roof Repair</a>
+            <a href="services/tile-roofing/index.html">Tile Roofing</a>
+            <a href="services/shingle-roofing/index.html">Shingle Roofing</a>
+            <a href="services/metal-roofing/index.html">Metal Roofing</a>
+            <a href="services/foam-roofing/index.html">Foam Roofing</a>
+            <a href="services/roof-inspection/index.html">Free Inspection</a>
           </div>
           <div>
             <strong>Cities</strong>
-            <a href="roofing-phoenix-az/">Phoenix</a>
-            <a href="roofing-scottsdale-az/">Scottsdale</a>
-            <a href="roofing-paradise-valley-az/">Paradise Valley</a>
-            <a href="roofing-gilbert-az/">Gilbert</a>
-            <a href="roofing-queen-creek-az/">Queen Creek</a>
-            <a href="roofing-mesa-az/">Mesa</a>
-            <a href="roofing-chandler-az/">Chandler</a>
-            <a href="roofing-tempe-az/">Tempe</a>
+            <a href="roofing-phoenix-az/index.html">Phoenix</a>
+            <a href="roofing-scottsdale-az/index.html">Scottsdale</a>
+            <a href="roofing-paradise-valley-az/index.html">Paradise Valley</a>
+            <a href="roofing-gilbert-az/index.html">Gilbert</a>
+            <a href="roofing-queen-creek-az/index.html">Queen Creek</a>
+            <a href="roofing-mesa-az/index.html">Mesa</a>
+            <a href="roofing-chandler-az/index.html">Chandler</a>
+            <a href="roofing-tempe-az/index.html">Tempe</a>
           </div>
         </nav>
-        <p class="footer-meta">
-          <span>AZ ROC #355136</span>
-          <span>GAF Certified</span>
-          <span id="footer-year"></span>
-        </p>
       </div>
     </footer>
   </div>
