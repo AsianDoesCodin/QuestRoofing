@@ -6,6 +6,7 @@ const phone = "602-399-6455";
 const phoneHref = "tel:6023996455";
 const email = "info@questroofing.com";
 const logo = "https://questroofing.com/wp-content/uploads/2024/12/Untitled-design-92-1.png";
+const socialImage = `${siteUrl}/assets/quest-roofing-real/quest-roofing-social-card.jpg`;
 const today = "2026-05-29";
 
 const services = [
@@ -142,11 +143,11 @@ const layout = ({ title, meta, canonical, h1, eyebrow, body, schema, pathPrefix 
   <meta property="og:title" content="${title}">
   <meta property="og:description" content="${meta}">
   <meta property="og:url" content="${canonical}">
-  <meta property="og:image" content="${logo}">
+  <meta property="og:image" content="${socialImage}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${title}">
   <meta name="twitter:description" content="${meta}">
-  <meta name="twitter:image" content="${logo}">
+  <meta name="twitter:image" content="${socialImage}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
