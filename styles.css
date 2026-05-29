@@ -4237,7 +4237,7 @@ h3,
   background-size: cover;
 }
 
-.service-page > .seo-section:nth-of-type(3) .container {
+.service-page main > .seo-section:nth-of-type(3) .container {
   display: grid;
   grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr);
   gap: var(--space-8);
@@ -4245,7 +4245,7 @@ h3,
   border-top: 0.42rem solid var(--service-accent);
 }
 
-.service-page > .seo-section:nth-of-type(3) .seo-list {
+.service-page main > .seo-section:nth-of-type(3) .seo-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-3);
@@ -4254,7 +4254,7 @@ h3,
   list-style: none;
 }
 
-.service-page > .seo-section:nth-of-type(3) .seo-list li {
+.service-page main > .seo-section:nth-of-type(3) .seo-list li {
   padding: var(--space-4);
   border: 1px solid var(--color-line);
   border-radius: var(--radius-md);
@@ -4263,25 +4263,25 @@ h3,
   font-weight: 800;
 }
 
-.service-page > .seo-section:nth-of-type(4) .container {
+.service-page main > .seo-section:nth-of-type(4) .container {
   background: var(--service-dark);
 }
 
-.service-page > .seo-section:nth-of-type(4) h2,
-.service-page > .seo-section:nth-of-type(4) .seo-card-grid h3 {
+.service-page main > .seo-section:nth-of-type(4) h2,
+.service-page main > .seo-section:nth-of-type(4) .seo-card-grid h3 {
   color: var(--color-text-on-dark);
 }
 
-.service-page > .seo-section:nth-of-type(4) .seo-card-grid article {
+.service-page main > .seo-section:nth-of-type(4) .seo-card-grid article {
   border-color: color-mix(in oklch, var(--service-accent), var(--color-white) 70%);
   background: color-mix(in oklch, var(--service-dark), var(--color-white) 8%);
 }
 
-.service-page > .seo-section:nth-of-type(4) .seo-card-grid p {
+.service-page main > .seo-section:nth-of-type(4) .seo-card-grid p {
   color: var(--color-text-on-dark-soft);
 }
 
-.service-page > .seo-section:nth-of-type(5) .seo-card-grid article {
+.service-page main > .seo-section:nth-of-type(5) .seo-card-grid article {
   background: var(--color-white);
   box-shadow: none;
 }
@@ -4399,8 +4399,8 @@ h3,
 }
 
 @media (max-width: 70rem) {
-  .service-page > .seo-section:nth-of-type(3) .container,
-  .service-page > .seo-section:nth-of-type(3) .seo-list {
+  .service-page main > .seo-section:nth-of-type(3) .container,
+  .service-page main > .seo-section:nth-of-type(3) .seo-list {
     grid-template-columns: minmax(0, 1fr);
   }
 }
@@ -4410,12 +4410,264 @@ h3,
     background-position: center;
   }
 
-  .service-page > .seo-section:nth-of-type(3) .container {
+  .service-page main > .seo-section:nth-of-type(3) .container {
     gap: var(--space-5);
   }
 
-  .service-page > .seo-section:nth-of-type(3) .seo-list li {
+  .service-page main > .seo-section:nth-of-type(3) .seo-list li {
     padding: var(--space-3);
+  }
+}
+
+/* Area pages: city pages should read like local service-area pages, not cloned service pages. */
+.area-page {
+  --area-accent: var(--color-brand);
+  --area-soft: var(--color-surface-blue);
+  --area-dark: var(--color-contrast-strong);
+  background:
+    radial-gradient(circle at 18% 8%, color-mix(in oklch, var(--area-accent), var(--color-transparent) 82%), var(--color-transparent) 26rem),
+    linear-gradient(180deg, var(--area-soft), var(--color-page) 30rem);
+}
+
+.area-page-phoenix,
+.area-page-tempe {
+  --area-accent: var(--color-orange);
+  --area-soft: var(--color-orange-soft);
+}
+
+.area-page-scottsdale,
+.area-page-paradise-valley {
+  --area-accent: var(--color-gold);
+  --area-soft: var(--color-page-warm);
+}
+
+.area-page-gilbert,
+.area-page-queen-creek,
+.area-page-mesa,
+.area-page-chandler {
+  --area-accent: var(--color-green);
+  --area-soft: var(--color-success);
+}
+
+.area-page .area-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(115deg, color-mix(in oklch, var(--area-dark), var(--color-transparent) 0%) 0%, color-mix(in oklch, var(--area-dark), var(--color-transparent) 12%) 55%, color-mix(in oklch, var(--area-dark), var(--color-transparent) 34%) 100%),
+    var(--roof-photo-house);
+  background-position: center;
+  background-size: cover;
+}
+
+.area-page .area-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, color-mix(in oklch, var(--area-accent), var(--color-transparent) 70%) 1px, transparent 1px),
+    linear-gradient(0deg, color-mix(in oklch, var(--color-white), var(--color-transparent) 90%) 1px, transparent 1px);
+  background-size: 4.5rem 4.5rem;
+  opacity: 0.26;
+  pointer-events: none;
+}
+
+.area-page .area-hero .seo-layout {
+  position: relative;
+  z-index: 1;
+  grid-template-columns: minmax(0, 1.15fr) minmax(17rem, 22rem);
+}
+
+.area-page .area-aside {
+  border: 1px solid color-mix(in oklch, var(--area-accent), var(--color-white) 58%);
+  border-left: 0.45rem solid var(--area-accent);
+  background: color-mix(in oklch, var(--color-white), var(--area-soft) 22%);
+}
+
+.area-page .area-aside .panel-label,
+.area-page .area-aside .contact-points span,
+.area-page .eyebrow,
+.area-page .seo-proof-list strong,
+.area-page .seo-card-grid article span {
+  color: var(--area-accent);
+}
+
+.area-page .area-aside h2,
+.area-page .area-aside .contact-points a,
+.area-page .area-aside .contact-points strong {
+  color: var(--color-navy);
+}
+
+.area-page .seo-proof-band {
+  background:
+    linear-gradient(135deg, color-mix(in oklch, var(--area-soft), var(--color-white) 10%), var(--color-page));
+}
+
+.area-page .seo-proof-copy {
+  border-left: 0.45rem solid var(--area-accent);
+}
+
+.area-page main > .seo-section:nth-of-type(3) .container {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr);
+  gap: var(--space-8);
+  align-items: center;
+}
+
+.area-page main > .seo-section:nth-of-type(4) .container {
+  background:
+    radial-gradient(circle at 92% 12%, color-mix(in oklch, var(--area-accent), var(--color-transparent) 72%), var(--color-transparent) 18rem),
+    var(--color-contrast-strong);
+}
+
+.area-page main > .seo-section:nth-of-type(4) h2,
+.area-page main > .seo-section:nth-of-type(4) .seo-card-grid h3 {
+  color: var(--color-text-on-dark);
+}
+
+.area-page main > .seo-section:nth-of-type(4) p,
+.area-page main > .seo-section:nth-of-type(4) .seo-card-grid p {
+  color: var(--color-text-on-dark-soft);
+}
+
+.area-page main > .seo-section:nth-of-type(4) .seo-card-grid article {
+  border-color: color-mix(in oklch, var(--area-accent), var(--color-white) 64%);
+  background: color-mix(in oklch, var(--color-contrast), var(--color-white) 8%);
+}
+
+/* Support/resource/contact pages: each group gets its own page identity. */
+.support-page {
+  --support-accent: var(--color-orange);
+  --support-soft: var(--color-page-warm);
+  --support-dark: var(--color-navy);
+  background:
+    radial-gradient(circle at 88% 8%, color-mix(in oklch, var(--support-accent), var(--color-transparent) 82%), var(--color-transparent) 25rem),
+    linear-gradient(180deg, var(--support-soft), var(--color-page) 30rem);
+}
+
+.support-page-about-us-core-values {
+  --support-accent: var(--color-gold);
+  --support-soft: var(--color-contrast);
+  --support-dark: var(--color-contrast-strong);
+}
+
+.support-page-about-us-community-outreach {
+  --support-accent: var(--color-green);
+  --support-soft: var(--color-success);
+  --support-dark: var(--color-navy);
+}
+
+.support-page-about-us-reviews {
+  --support-accent: var(--color-brand);
+  --support-soft: var(--color-surface-blue);
+  --support-dark: var(--color-navy);
+}
+
+.resource-page {
+  --support-accent: var(--color-brand);
+  --support-soft: var(--color-surface-blue);
+}
+
+.contact-page {
+  --support-accent: var(--color-orange);
+  --support-soft: var(--color-contrast);
+  --support-dark: var(--color-contrast-strong);
+}
+
+.support-page .support-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, color-mix(in oklch, var(--support-soft), var(--color-white) 10%), var(--color-white));
+}
+
+.support-page .support-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 8% 0;
+  height: 0.5rem;
+  border-radius: var(--radius-pill) var(--radius-pill) 0 0;
+  background: linear-gradient(90deg, var(--support-accent), color-mix(in oklch, var(--support-accent), var(--color-transparent) 72%));
+}
+
+.support-page-about-us-core-values .support-hero,
+.contact-page .support-hero {
+  color: var(--color-text-on-dark);
+  background:
+    radial-gradient(circle at 82% 14%, color-mix(in oklch, var(--support-accent), var(--color-transparent) 58%), var(--color-transparent) 20rem),
+    linear-gradient(135deg, var(--support-dark), var(--color-navy));
+}
+
+.support-page-about-us-community-outreach .support-hero {
+  background:
+    linear-gradient(135deg, color-mix(in oklch, var(--color-green), var(--color-white) 74%), var(--color-white)),
+    var(--roof-photo-tile-finished);
+}
+
+.resource-page .support-hero {
+  background:
+    linear-gradient(90deg, color-mix(in oklch, var(--color-brand), var(--color-transparent) 88%) 1px, transparent 1px),
+    linear-gradient(0deg, color-mix(in oklch, var(--color-brand), var(--color-transparent) 90%) 1px, transparent 1px),
+    linear-gradient(135deg, var(--color-surface-blue), var(--color-white));
+  background-size: 3rem 3rem, 3rem 3rem, auto;
+}
+
+.support-page .support-hero .seo-layout {
+  position: relative;
+  z-index: 1;
+}
+
+.support-page .support-aside {
+  border-top: 0.45rem solid var(--support-accent);
+  background: var(--color-white);
+}
+
+.support-page .support-aside h2,
+.support-page .support-aside .contact-points a,
+.support-page .support-aside .contact-points strong {
+  color: var(--color-navy);
+}
+
+.support-page .support-aside .panel-label,
+.support-page .support-aside .contact-points span,
+.support-page .eyebrow,
+.support-page .seo-proof-list strong {
+  color: var(--support-accent);
+}
+
+.support-page-about-us-core-values .support-hero h1,
+.support-page-about-us-core-values .support-hero p:not(.eyebrow, .panel-label),
+.contact-page .support-hero h1,
+.contact-page .support-hero p:not(.eyebrow, .panel-label) {
+  color: var(--color-text-on-dark);
+}
+
+.support-page .seo-proof-copy {
+  border-top: 0.45rem solid var(--support-accent);
+}
+
+.support-page .seo-card-grid article {
+  border-top: 0.32rem solid color-mix(in oklch, var(--support-accent), var(--color-white) 18%);
+}
+
+.support-page-about-us-core-values .seo-card-grid article {
+  background: var(--color-contrast-strong);
+}
+
+.support-page-about-us-core-values .seo-card-grid h3 {
+  color: var(--color-text-on-dark);
+}
+
+.support-page-about-us-core-values .seo-card-grid p {
+  color: var(--color-text-on-dark-soft);
+}
+
+.contact-page main > .seo-section:nth-last-of-type(2) .container {
+  border-left: 0.45rem solid var(--support-accent);
+}
+
+@media (max-width: 70rem) {
+  .area-page main > .seo-section:nth-of-type(3) .container {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
