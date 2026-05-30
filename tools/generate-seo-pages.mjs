@@ -302,23 +302,6 @@ const proofPanel = (title, text, pathPrefix) => `
   </div>
 </section>`;
 
-const proofStrip = (title, text, pathPrefix) => `
-<section class="proof-strip-inline">
-  <div class="container proof-strip-inline-inner">
-    <div>
-      <p class="eyebrow">How we work</p>
-      <h2>${title}</h2>
-      <p>${text}</p>
-    </div>
-    <ul>
-      <li>We show the roof issue before we recommend the work.</li>
-      <li>We put the approved scope in writing before scheduling.</li>
-      <li>We serve the greater Phoenix area from Queen Creek.</li>
-    </ul>
-    <a class="button button-primary" href="${pathPrefix}/index.html#estimate">Request a written estimate</a>
-  </div>
-</section>`;
-
 publishedServices.forEach((service) => {
   const canonical = `${siteUrl}/services/${service.slug}/`;
   const cityLinkList = cities.map((city) => `<a href="../../roofing-${city.slug}-az/index.html">${city.name}</a>`).join(", ");
@@ -373,7 +356,7 @@ cities.forEach((city) => {
     [`Can I get a written estimate in ${city.name}?`, "Yes. We use inspection photos and written estimates so the scope is clear before work starts."]
   ];
   const body = [
-    proofStrip(`We keep ${city.name} roof requests clear.`, `We handle ${city.name} requests with roof documentation, written estimates, and practical scheduling from our Queen Creek base.`, ".."),
+    proofPanel(`We keep ${city.name} roofing calls clear.`, `We handle ${city.name} requests with roof documentation, written estimates, and practical scheduling from our Queen Creek base.`, ".."),
     section(`Roofing services in ${city.name}`, `<p>${city.intro}</p><p class="seo-link-row">${serviceLinkList}</p>`),
     section(`${city.name} roof concerns`, `<div class="seo-card-grid">${city.localNotes.map((note) => `<article><span></span><h3>${note}</h3><p>We review this during inspection and put the recommendation in writing.</p></article>`).join("")}</div>`),
     section(`Why ${city.name} homeowners call us`, `<p>We keep recommendations direct: we inspect the roof, explain what is wrong, and provide a written estimate instead of a vague verbal guess. We also make AZ ROC #355136, GAF certification, and warranty-backed work easy to verify.</p>`),
@@ -403,7 +386,7 @@ cities.forEach((city) => {
     schema,
     pathPrefix: "..",
     bodyClass: `area-page area-page-${city.slug}`,
-    heroClass: "page-intro area-intro",
+    heroClass: "seo-hero area-hero",
     asideClass: "area-aside",
     asideLabel: "Area snapshot",
     asideTitle: `We serve ${city.name} from our Queen Creek base.`
@@ -429,7 +412,7 @@ const supportPages = [
     eyebrow: "About Quest",
     meta: "We are a licensed Queen Creek roofing contractor focused on photo-backed inspections and written estimates.",
     body: (pathPrefix) => [
-      proofStrip("We keep the first roof call clear.", "We move from the first call to a documented roof decision with clear contact, inspection photos, and a written scope.", pathPrefix),
+      proofPanel("We make the contractor feel accountable before the appointment.", "We move from the first call to a documented roof decision with clear contact, inspection photos, and written scope.", pathPrefix),
       section("How we work", `<p>We keep the first appointment practical: we confirm the roof concern, inspect visible problem areas, and explain recommendations in plain language.</p>${cardGrid([
         { title: "First contact", text: "We collect roof type, service area, visible concerns, leak timing, and photos when available." },
         { title: "Field inspection", text: "We review the roof condition and document visible findings instead of relying on vague statements." },
@@ -475,7 +458,7 @@ const supportPages = [
     eyebrow: "Core values",
     meta: "We value clear communication, documented estimates, repair-first guidance, and respectful jobsite cleanup.",
     body: (pathPrefix) => [
-      proofStrip("We put our values inside the estimate.", "We turn our values into documentation, direct recommendations, and a cleaner handoff for you.", pathPrefix),
+      proofPanel("We put our values inside the estimate, not just the headline.", "We turn our values into documentation, direct recommendations, and a cleaner handoff for you.", pathPrefix),
       section("Our working standard", `${cardGrid([
         { title: "Repair-first when appropriate", text: "If a targeted repair solves the problem, we do not jump straight to replacement." },
         { title: "Replacement when justified", text: "If the system is past practical repair, we explain the reason in plain language." },
@@ -494,7 +477,7 @@ const supportPages = [
     eyebrow: "Community Outreach",
     meta: "We share homeowner education, storm readiness, and practical roof guidance for Arizona communities.",
     body: (pathPrefix) => [
-      proofStrip("We share practical roof guidance.", "We use this space for roof education, storm-readiness guidance, and clear next steps for local homeowners.", pathPrefix),
+      proofPanel("We make this page useful before we make it promotional.", "We use this space for practical roof education, storm-readiness guidance, and clear next steps for local homeowners.", pathPrefix),
       section("How we support local homeowners", `${cardGrid([
         { title: "Storm readiness", text: "We help you know what to check before monsoon season and when to call after wind or hail." },
         { title: "Estimate education", text: "We make roofing terms, roof systems, and repair-versus-replace decisions easier to understand." },
@@ -515,7 +498,7 @@ const supportPages = [
     eyebrow: "Homeowner stories",
     meta: "We focus our reviews around communication, clean work, and honest recommendations.",
     body: (pathPrefix) => [
-      proofStrip("We want a good roofing experience to feel clear.", "We pay attention to communication, cleanup, cost transparency, and whether our recommendation matches the actual roof issue.", pathPrefix),
+      proofPanel("We want a good roofing experience to feel clear.", "We pay attention to communication, cleanup, cost transparency, and whether our recommendation matches the actual roof issue.", pathPrefix),
       section("What we want homeowners to compare", `${cardGrid([
         { title: "Communication", text: "We return calls, clarify the appointment, and explain what happens next." },
         { title: "Clean work", text: "We treat the jobsite like part of the project, not an afterthought." },
@@ -555,7 +538,7 @@ const supportPages = [
     eyebrow: "Resources",
     meta: "We help you compare tile, shingle, foam, and metal roofing decisions before the estimate.",
     body: (pathPrefix) => [
-      proofStrip("We start roof design with the roof you actually have.", "We compare tile, shingle, foam, flat, and metal options against slope, age, budget, HOA expectations, and heat exposure.", pathPrefix),
+      proofPanel("We start roof design with the roof you actually have.", "We compare tile, shingle, foam, flat, and metal options against slope, age, budget, HOA expectations, and heat exposure.", pathPrefix),
       section("Compare roof systems", roofSystemGrid()),
       section("Questions to answer before choosing", `${cardGrid([
         { title: "What is the roof slope?", text: "We match flat and low-slope sections to different systems than steep shingle or tile areas." },
@@ -575,7 +558,7 @@ const supportPages = [
     eyebrow: "Resources",
     meta: "We explain common roofing terms so Arizona homeowners can compare estimates and inspection findings.",
     body: (pathPrefix) => [
-      proofStrip("We make estimates easier to compare.", "We explain the words that show which part of the roof we are repairing or replacing.", pathPrefix),
+      proofPanel("We make estimates easier to compare.", "We explain the words that show which part of the roof we are repairing or replacing.", pathPrefix),
       section("Common estimate terms", `${cardGrid([
         { title: "Underlayment", text: "We use this word for the protective layer beneath tile that often matters more than the tile surface itself." },
         { title: "Flashing", text: "We use this word for metal or roof detail around walls, edges, chimneys, and transitions that control water." },
@@ -597,7 +580,7 @@ const supportPages = [
     eyebrow: "Contact",
     meta: "Contact us for a free inspection or written roofing estimate from our Queen Creek-based team.",
     body: (pathPrefix) => [
-      proofStrip("We make roof requests easier to start.", `Call ${phone} or email ${email} to start a roof inspection request.`, pathPrefix),
+      proofPanel("We make roof requests easier to start.", `Call ${phone} or email ${email} to start a roof inspection request.`, pathPrefix),
       section("Fastest ways to start", `${cardGrid([
         { title: "Call", text: `Call ${phone} for urgent leaks, scheduling questions, or a direct estimate request.` },
         { title: "Email", text: `Email ${email} with your name, address or cross streets, service need, and photos if available.` },
@@ -618,7 +601,6 @@ supportPages.forEach((page) => {
   const pathPrefix = page.path.split("/").length > 2 ? "../.." : "..";
   const pageStem = page.path.replace(/\/$/, "").replace(/\//g, "-");
   const familyClass = page.path.startsWith("resources/") ? "resource-page" : page.path.startsWith("contact/") ? "contact-page" : "about-page";
-  const introClass = page.path.startsWith("resources/") ? "page-intro resource-intro" : page.path.startsWith("contact/") ? "page-intro contact-intro" : "page-intro about-intro";
   const body = `${page.body(pathPrefix)}${section("Start a request", `<p>Use our main estimate form when you are ready to talk through the roof condition with us.</p><p class="seo-link-row"><a href="${pathPrefix}/index.html#estimate">Request an estimate</a></p>`)}`;
   const schema = pageSchema({
     canonical,
@@ -639,7 +621,7 @@ supportPages.forEach((page) => {
     schema,
     pathPrefix,
     bodyClass: `${familyClass} support-page support-page-${pageStem}`,
-    heroClass: introClass,
+    heroClass: "seo-hero support-hero",
     asideClass: "support-aside",
     asideLabel: page.path.startsWith("resources/") ? "Guide snapshot" : page.path.startsWith("contact/") ? "Contact snapshot" : "Page snapshot",
     asideTitle: page.path.startsWith("contact/") ? `We answer at ${phone} or ${email}.` : "We keep the page focused on what you need next."

@@ -2718,7 +2718,7 @@ h3 {
 }
 
 .gallery-intro {
-  padding: clamp(2rem, 4vw, 3.5rem) 0;
+  padding: clamp(3.5rem, 8vw, 6.5rem) 0 clamp(2.5rem, 5vw, 4rem);
   border-bottom: 1px solid var(--color-line);
 }
 
@@ -2731,18 +2731,18 @@ h3 {
 
 .gallery-intro-copy {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-5);
 }
 
-.gallery-intro h2 {
-  max-width: 20ch;
+.gallery-intro h1 {
+  max-width: 13ch;
   margin: 0;
   color: var(--color-navy);
   font-family: var(--font-display);
-  font-size: clamp(1.9rem, 3.6vw, 3.2rem);
+  font-size: clamp(2.7rem, 7vw, 6.25rem);
   font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1;
+  letter-spacing: -0.055em;
+  line-height: 0.88;
   overflow-wrap: anywhere;
   text-wrap: balance;
 }
@@ -2815,7 +2815,7 @@ h3 {
 }
 
 .real-gallery-section {
-  padding: clamp(2.75rem, 5vw, 4.75rem) 0;
+  padding: clamp(3.5rem, 8vw, 6.5rem) 0;
   background:
     linear-gradient(135deg, color-mix(in oklch, var(--color-navy-strong), var(--color-transparent) 4%), var(--color-navy)),
     var(--color-navy);
@@ -2835,7 +2835,6 @@ h3 {
   margin-bottom: var(--space-8);
 }
 
-.gallery-section-header h1,
 .gallery-section-header h2,
 .gallery-wall-header h2,
 .gallery-request-inner h2 {
@@ -2849,7 +2848,6 @@ h3 {
   text-wrap: balance;
 }
 
-.gallery-section-header h1,
 .gallery-section-header h2 {
   color: var(--color-white);
 }
@@ -2860,10 +2858,6 @@ h3 {
   margin: 0;
   color: var(--color-text-on-dark-soft);
   font-size: clamp(1rem, 1.3vw, 1.14rem);
-}
-
-.gallery-section-header h1 {
-  font-size: clamp(2.35rem, 5.2vw, 5.1rem);
 }
 
 .real-gallery-carousel {
@@ -3195,7 +3189,7 @@ h3 {
 }
 
 .completed-projects-intro {
-  padding: clamp(2rem, 4vw, 3.5rem) 0;
+  padding: clamp(3.5rem, 8vw, 6.5rem) 0 clamp(2.75rem, 6vw, 4.5rem);
   border-bottom: 1px solid var(--color-line);
 }
 
@@ -3208,14 +3202,14 @@ h3 {
 }
 
 .completed-projects-intro h1 {
-  max-width: 18ch;
+  max-width: 13ch;
   margin: 0;
   color: var(--color-navy);
   font-family: var(--font-display);
-  font-size: clamp(2rem, 4.4vw, 4rem);
+  font-size: clamp(2.65rem, 6.4vw, 5.75rem);
   font-weight: 800;
-  letter-spacing: -0.045em;
-  line-height: 0.98;
+  letter-spacing: -0.055em;
+  line-height: 0.9;
   overflow-wrap: anywhere;
   text-wrap: balance;
 }
@@ -3251,7 +3245,7 @@ h3 {
 }
 
 .completed-projects-wall {
-  padding: clamp(2.75rem, 6vw, 5rem) 0;
+  padding: clamp(3.5rem, 8vw, 6.75rem) 0;
   background:
     linear-gradient(135deg, color-mix(in oklch, var(--color-navy-strong), var(--color-transparent) 3%), var(--color-navy)),
     var(--color-navy);
@@ -3265,7 +3259,6 @@ h3 {
   margin-bottom: var(--space-8);
 }
 
-.completed-projects-wall-heading h1,
 .completed-projects-wall-heading h2,
 .completed-projects-request-inner h2 {
   margin: 0;
@@ -3277,25 +3270,8 @@ h3 {
   text-wrap: balance;
 }
 
-.completed-projects-wall-heading h1,
 .completed-projects-wall-heading h2 {
   color: var(--color-white);
-}
-
-.completed-projects-wall-heading h1 {
-  max-width: 13ch;
-  font-size: clamp(2.2rem, 5vw, 5rem);
-}
-
-.completed-projects-wall-heading > p:not(.eyebrow) {
-  max-width: 44rem;
-  margin: 0;
-  color: var(--color-text-on-dark-soft);
-  font-size: clamp(1rem, 1.25vw, 1.15rem);
-}
-
-.completed-projects-wall-heading .completed-projects-tags {
-  margin-top: var(--space-2);
 }
 
 .completed-projects-grid {
@@ -3512,30 +3488,15 @@ h3 {
   }
 
   .gallery-intro {
-    padding: var(--space-7) 0;
+    padding-top: var(--space-12);
   }
 
-  .gallery-section-header {
-    margin-bottom: var(--space-5);
+  .gallery-intro h1 {
+    font-size: clamp(2.55rem, 15vw, 4.25rem);
   }
 
-  .gallery-section-header h1 {
-    max-width: 100%;
-    font-size: clamp(2.05rem, 11vw, 3.35rem);
-    line-height: 0.96;
-  }
-
-  .gallery-intro h2 {
-    font-size: clamp(1.75rem, 9vw, 2.45rem);
-  }
-
-  .gallery-intro-panel {
-    padding: var(--space-5);
-  }
-
-  .completed-projects-intro h1,
-  .completed-projects-wall-heading h1 {
-    font-size: clamp(2rem, 10vw, 3rem);
+  .completed-projects-intro h1 {
+    font-size: clamp(2.45rem, 14vw, 4.15rem);
   }
 
   .real-gallery-card {
@@ -4458,183 +4419,6 @@ h3,
   }
 }
 
-/* Compact page intros: not every page needs a homepage-style hero. */
-.page-intro {
-  padding: clamp(1.35rem, 2.7vw, 2.75rem) 0;
-  border-bottom: 1px solid var(--color-line);
-  color: var(--color-navy);
-  background: var(--color-page);
-}
-
-.page-intro .seo-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-5);
-  align-items: start;
-}
-
-.page-intro h1 {
-  max-width: 24ch;
-  margin: var(--space-2) 0 var(--space-2);
-  color: var(--color-navy);
-  font-size: clamp(1.85rem, 3.1vw, 2.85rem);
-  line-height: 1.02;
-}
-
-.page-intro p:not(.eyebrow, .panel-label) {
-  max-width: 42rem;
-  color: var(--color-ink-soft);
-  font-size: clamp(1rem, 1.2vw, 1.12rem);
-  line-height: 1.55;
-}
-
-.page-intro .seo-aside,
-.page-intro .hero-badges {
-  display: none;
-}
-
-.page-intro .hero-actions {
-  margin-top: var(--space-4);
-}
-
-.page-intro .button-ghost-light {
-  color: var(--color-navy);
-  border-color: color-mix(in oklch, var(--color-navy), var(--color-transparent) 82%);
-}
-
-.area-page .area-intro {
-  background:
-    linear-gradient(90deg, color-mix(in oklch, var(--area-accent), var(--color-transparent) 84%) 1px, transparent 1px),
-    linear-gradient(180deg, color-mix(in oklch, var(--area-soft), var(--color-white) 20%), var(--color-page));
-  background-size: 3.5rem 100%, auto;
-}
-
-.area-page .area-intro h1 {
-  max-width: 24ch;
-}
-
-.area-page .area-intro::after,
-.about-page .about-intro::after,
-.resource-page .resource-intro::after,
-.contact-page .contact-intro::after {
-  content: "";
-  display: none;
-}
-
-.support-page .about-intro,
-.support-page .resource-intro {
-  background:
-    linear-gradient(90deg, color-mix(in oklch, var(--support-accent), var(--color-transparent) 90%) 1px, transparent 1px),
-    linear-gradient(180deg, color-mix(in oklch, var(--support-soft), var(--color-white) 24%), var(--color-page));
-  background-size: 3rem 100%, auto;
-}
-
-.resource-page .resource-intro {
-  background:
-    linear-gradient(90deg, color-mix(in oklch, var(--color-brand), var(--color-transparent) 88%) 1px, transparent 1px),
-    linear-gradient(0deg, color-mix(in oklch, var(--color-brand), var(--color-transparent) 90%) 1px, transparent 1px),
-    linear-gradient(135deg, var(--color-surface-blue), var(--color-white));
-  background-size: 3rem 3rem, 3rem 3rem, auto;
-}
-
-.contact-page .contact-intro {
-  color: var(--color-text-on-dark);
-  background:
-    radial-gradient(circle at 84% 16%, color-mix(in oklch, var(--support-accent), var(--color-transparent) 60%), var(--color-transparent) 18rem),
-    linear-gradient(135deg, var(--color-contrast-strong), var(--color-navy));
-}
-
-.contact-page .contact-intro h1,
-.contact-page .contact-intro p:not(.eyebrow, .panel-label) {
-  color: var(--color-text-on-dark);
-}
-
-.contact-page .contact-intro .button-ghost-light {
-  color: var(--color-text-on-dark);
-  border-color: color-mix(in oklch, var(--color-white), var(--color-transparent) 58%);
-}
-
-.proof-strip-inline {
-  padding: clamp(1.5rem, 3vw, 2.75rem) 0;
-  background: var(--color-page);
-}
-
-.proof-strip-inline-inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.82fr) auto;
-  gap: clamp(1rem, 3vw, 2.5rem);
-  align-items: center;
-  padding: clamp(1.25rem, 2.6vw, 2rem);
-  border: 1px solid var(--color-line);
-  border-left: 0.45rem solid var(--support-accent, var(--area-accent, var(--color-orange)));
-  border-radius: var(--radius-lg);
-  background: var(--color-white);
-  box-shadow: var(--shadow-card);
-}
-
-.proof-strip-inline h2 {
-  max-width: 16ch;
-  margin: var(--space-1) 0 var(--space-2);
-  color: var(--color-navy);
-  font-family: var(--font-display);
-  font-size: clamp(1.55rem, 2.6vw, 2.5rem);
-  letter-spacing: -0.035em;
-  line-height: 1;
-}
-
-.proof-strip-inline p {
-  margin: 0;
-  color: var(--color-ink-soft);
-}
-
-.proof-strip-inline ul {
-  display: grid;
-  gap: var(--space-2);
-  padding: 0;
-  margin: 0;
-  color: var(--color-ink-soft);
-  list-style: none;
-}
-
-.proof-strip-inline li {
-  display: flex;
-  gap: var(--space-2);
-}
-
-.proof-strip-inline li::before {
-  flex: 0 0 0.45rem;
-  width: 0.45rem;
-  height: 0.45rem;
-  margin-top: 0.58rem;
-  border-radius: var(--radius-pill);
-  background: var(--support-accent, var(--area-accent, var(--color-orange)));
-  content: "";
-}
-
-.proof-strip-inline .button {
-  white-space: nowrap;
-}
-
-@media (max-width: 56rem) {
-  .page-intro {
-    padding: clamp(1.25rem, 6vw, 2rem) 0;
-  }
-
-  .page-intro h1 {
-    max-width: 100%;
-    font-size: clamp(1.7rem, 7vw, 2.25rem);
-  }
-
-  .proof-strip-inline-inner {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .proof-strip-inline .button {
-    width: 100%;
-    white-space: normal;
-  }
-}
-
 /* Area pages: city pages should read like local service-area pages, not cloned service pages. */
 .area-page {
   --area-accent: var(--color-brand);
@@ -4792,25 +4576,8 @@ h3,
 .support-page .support-hero {
   position: relative;
   overflow: hidden;
-  color: var(--color-navy);
   background:
     linear-gradient(135deg, color-mix(in oklch, var(--support-soft), var(--color-white) 10%), var(--color-white));
-}
-
-.support-page .support-hero h1,
-.support-page .support-hero p:not(.eyebrow, .panel-label) {
-  color: var(--color-navy);
-}
-
-.support-page .support-hero .button-ghost-light {
-  color: var(--color-navy);
-  border-color: color-mix(in oklch, var(--color-navy), var(--color-transparent) 84%);
-}
-
-.support-page .support-hero .hero-badges li {
-  color: var(--color-navy);
-  background: color-mix(in oklch, var(--color-white), var(--support-soft) 26%);
-  border-color: color-mix(in oklch, var(--support-accent), var(--color-white) 60%);
 }
 
 .support-page .support-hero::after {
@@ -4872,19 +4639,6 @@ h3,
 .contact-page .support-hero h1,
 .contact-page .support-hero p:not(.eyebrow, .panel-label) {
   color: var(--color-text-on-dark);
-}
-
-.support-page-about-us-core-values .support-hero .button-ghost-light,
-.contact-page .support-hero .button-ghost-light {
-  color: var(--color-text-on-dark);
-  border-color: color-mix(in oklch, var(--color-white), var(--color-transparent) 58%);
-}
-
-.support-page-about-us-core-values .support-hero .hero-badges li,
-.contact-page .support-hero .hero-badges li {
-  color: var(--color-text-on-dark);
-  background: color-mix(in oklch, var(--color-white), var(--color-transparent) 90%);
-  border-color: color-mix(in oklch, var(--color-white), var(--color-transparent) 70%);
 }
 
 .support-page .seo-proof-copy {
