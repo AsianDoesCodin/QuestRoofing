@@ -4576,8 +4576,25 @@ h3,
 .support-page .support-hero {
   position: relative;
   overflow: hidden;
+  color: var(--color-navy);
   background:
     linear-gradient(135deg, color-mix(in oklch, var(--support-soft), var(--color-white) 10%), var(--color-white));
+}
+
+.support-page .support-hero h1,
+.support-page .support-hero p:not(.eyebrow, .panel-label) {
+  color: var(--color-navy);
+}
+
+.support-page .support-hero .button-ghost-light {
+  color: var(--color-navy);
+  border-color: color-mix(in oklch, var(--color-navy), var(--color-transparent) 84%);
+}
+
+.support-page .support-hero .hero-badges li {
+  color: var(--color-navy);
+  background: color-mix(in oklch, var(--color-white), var(--support-soft) 26%);
+  border-color: color-mix(in oklch, var(--support-accent), var(--color-white) 60%);
 }
 
 .support-page .support-hero::after {
@@ -4639,6 +4656,19 @@ h3,
 .contact-page .support-hero h1,
 .contact-page .support-hero p:not(.eyebrow, .panel-label) {
   color: var(--color-text-on-dark);
+}
+
+.support-page-about-us-core-values .support-hero .button-ghost-light,
+.contact-page .support-hero .button-ghost-light {
+  color: var(--color-text-on-dark);
+  border-color: color-mix(in oklch, var(--color-white), var(--color-transparent) 58%);
+}
+
+.support-page-about-us-core-values .support-hero .hero-badges li,
+.contact-page .support-hero .hero-badges li {
+  color: var(--color-text-on-dark);
+  background: color-mix(in oklch, var(--color-white), var(--color-transparent) 90%);
+  border-color: color-mix(in oklch, var(--color-white), var(--color-transparent) 70%);
 }
 
 .support-page .seo-proof-copy {
