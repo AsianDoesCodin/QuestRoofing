@@ -127,7 +127,7 @@ const cities = [
   localNotes
 }));
 
-const layout = ({ title, meta, canonical, h1, eyebrow, body, schema, pathPrefix = ".." }) => `<!DOCTYPE html>
+const layout = ({ title, meta, canonical, body, schema, pathPrefix = "..", bodyClass = "", intro = "" }) => `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -155,7 +155,7 @@ const layout = ({ title, meta, canonical, h1, eyebrow, body, schema, pathPrefix 
   <link rel="stylesheet" href="${pathPrefix}/styles.css">
   <script type="application/ld+json">${JSON.stringify(schema)}</script>
 </head>
-<body>
+<body${bodyClass ? ` class="${bodyClass}"` : ""}>
   <div class="site-shell">
     <header class="site-header" id="top">
       <div class="top-bar">
@@ -199,34 +199,8 @@ const layout = ({ title, meta, canonical, h1, eyebrow, body, schema, pathPrefix 
         </nav>
       </div>
     </header>
-    <main>
-      <section class="seo-hero">
-        <div class="container seo-layout">
-          <div>
-            <p class="eyebrow">${eyebrow}</p>
-            <h1>${h1}</h1>
-            <p>${meta}</p>
-            <div class="hero-actions">
-              <a class="button button-primary" href="${pathPrefix}/index.html#estimate">Get My Free Estimate</a>
-              <a class="button button-ghost button-ghost-light" href="${phoneHref}">Call ${phone}</a>
-            </div>
-            <ul class="hero-badges" aria-label="Quest Roofing credentials">
-              <li>AZ ROC #355136</li>
-              <li>GAF Certified</li>
-              <li>Written estimates</li>
-            </ul>
-          </div>
-          <aside class="seo-aside">
-            <p class="panel-label">Our promise</p>
-            <h2>We document the roof before work starts.</h2>
-            <ul class="contact-points">
-              <li><span>Phone</span><a href="${phoneHref}">${phone}</a></li>
-              <li><span>Email</span><a href="mailto:${email}">${email}</a></li>
-              <li><span>Status</span><strong>AZ ROC #355136</strong></li>
-            </ul>
-          </aside>
-        </div>
-      </section>
+    <main class="subpage-main">
+${intro}
 ${body}
     </main>
     <footer class="site-footer">
@@ -280,32 +254,206 @@ const pageSchema = ({ canonical, title, meta, breadcrumbs = [], extra = [] }) =>
   ]
 });
 
-const section = (heading, content) => `<section class="section-band section-light seo-section"><div class="container"><h2>${heading}</h2>${content}</div></section>`;
+const section = (heading, content, className = "") => `<section class="section-band section-light seo-section${className ? ` ${className}` : ""}"><div class="container"><h2>${heading}</h2>${content}</div></section>`;
 const list = (items) => `<ul class="seo-list">${items.map((item) => `<li>${item}</li>`).join("")}</ul>`;
 const faqHtml = (faq) => `<div class="faq-list">${faq.map(([q, a]) => `<details class="faq-item"><summary>${q}</summary><p>${a}</p></details>`).join("")}</div>`;
-const proofPanel = (title, text, pathPrefix) => `
-<section class="seo-proof-band">
-  <div class="container seo-proof-grid">
-    <div class="seo-photo-card" aria-hidden="true"></div>
-    <div class="seo-proof-copy">
-      <p class="eyebrow">Inspection proof</p>
-      <h2>${title}</h2>
-      <p>${text}</p>
-      <ul class="seo-proof-list">
-        <li><strong>License:</strong> AZ ROC #355136</li>
-        <li><strong>Estimate:</strong> we put the scope in writing before approval</li>
-        <li><strong>Coverage:</strong> we serve greater Phoenix from Queen Creek</li>
-      </ul>
-      <a class="button button-primary" href="${pathPrefix}/index.html#estimate">Request a written estimate</a>
+
+const estimateLink = (pathPrefix, label = "Request a written estimate") => `<a class="subpage-text-link" href="${pathPrefix}/index.html#estimate">${label}</a>`;
+const callLink = `<a class="subpage-text-link" href="${phoneHref}">Call ${phone}</a>`;
+const keyedList = (items, className) => `<ul class="${className}">${items.map((item) => `<li>${item}</li>`).join("")}</ul>`;
+
+const serviceDesigns = {
+  "roof-repair": {
+    shape: "triage",
+    label: "Repair triage",
+    summary: "We start by separating active leaks, visible damage, and repairable roof details so the estimate does not jump straight to replacement.",
+    panelTitle: "First things we isolate",
+    prompt: "Send photos of the leak area if you have them. We will still verify the roof condition before quoting work."
+  },
+  "tile-roofing": {
+    shape: "photo-led",
+    label: "Tile system review",
+    summary: "We look past the tile surface and check underlayment clues, valleys, penetrations, and tile movement before recommending repair or replacement.",
+    panelTitle: "Tile work has layers",
+    prompt: "The visible tile matters, but the system underneath often decides the scope."
+  },
+  "shingle-roofing": {
+    shape: "comparison",
+    label: "Shingle decision guide",
+    summary: "We compare repair, partial replacement, and full replacement based on shingle field condition, flashing, roof age, and heat exposure.",
+    panelTitle: "Repair or replace?",
+    prompt: "We explain which path fits the roof instead of making every shingle call sound the same."
+  },
+  "metal-roofing": {
+    shape: "spec",
+    label: "Metal roof details",
+    summary: "We inspect seams, fasteners, panels, flashings, trim, and penetrations because metal roof performance depends on the details.",
+    panelTitle: "Details we document",
+    prompt: "Metal roofing can be durable in Arizona, but only when the weak points are handled cleanly."
+  },
+  "foam-roofing": {
+    shape: "coating",
+    label: "Foam and flat roof review",
+    summary: "We look at coating wear, drainage, cracks, punctures, ponding, and recoat timing before we quote foam or flat roof work.",
+    panelTitle: "Surface condition first",
+    prompt: "A recoat can be the right answer when the existing foam system is still sound."
+  },
+  "roof-inspection": {
+    shape: "checklist",
+    label: "Inspection workbench",
+    summary: "We use photos, plain-language notes, and a written estimate when work is needed so the roof condition is easier to compare.",
+    panelTitle: "What the inspection should answer",
+    prompt: "The goal is clarity: what is wrong, what can wait, and what needs attention."
+  }
+};
+
+const serviceIntroPanel = (service, design, pathPrefix) => {
+  if (design.shape === "triage") {
+    return `<div class="service-diagnostic-board">
+      <p class="panel-label">${design.panelTitle}</p>
+      ${service.signs.slice(0, 4).map((sign, index) => `<article><span>0${index + 1}</span><strong>${sign}</strong></article>`).join("")}
+      <p>${design.prompt}</p>
+    </div>`;
+  }
+
+  if (design.shape === "photo-led") {
+    return `<figure class="service-photo-proof service-photo-proof-tile">
+      <span>${design.panelTitle}</span>
+      <figcaption>${design.prompt}</figcaption>
+    </figure>`;
+  }
+
+  if (design.shape === "comparison") {
+    return `<div class="service-compare-board">
+      <div><span>Repair</span><p>Localized damage, clear leak source, and useful remaining roof life.</p></div>
+      <div><span>Replace</span><p>Widespread wear, repeated leaks, or system age that makes patching a poor value.</p></div>
+      ${estimateLink(pathPrefix, "Compare options with us")}
+    </div>`;
+  }
+
+  if (design.shape === "spec") {
+    return `<div class="service-spec-sheet">
+      <p class="panel-label">${design.panelTitle}</p>
+      ${service.signs.map((sign) => `<div><span>${sign}</span><strong>Inspect and document</strong></div>`).join("")}
+    </div>`;
+  }
+
+  if (design.shape === "coating") {
+    return `<div class="service-coating-board">
+      <p class="panel-label">${design.panelTitle}</p>
+      <div class="coating-layers" aria-hidden="true"><span></span><span></span><span></span></div>
+      ${keyedList(service.signs.slice(0, 4), "service-mini-list")}
+      <p>${design.prompt}</p>
+    </div>`;
+  }
+
+  return `<div class="service-checklist-board">
+    <p class="panel-label">${design.panelTitle}</p>
+    ${service.process.slice(0, 5).map((item) => `<label><input type="checkbox" checked disabled><span>${item}</span></label>`).join("")}
+  </div>`;
+};
+
+const serviceIntro = (service, pathPrefix) => {
+  const design = serviceDesigns[service.slug];
+  return `<section class="subpage-intro service-intro service-intro-${design.shape}" aria-labelledby="page-title">
+    <div class="container service-intro-grid">
+      <div class="subpage-intro-copy">
+        <p class="eyebrow">${design.label}</p>
+        <h1 id="page-title">${service.h1}</h1>
+        <p>${design.summary}</p>
+        <div class="subpage-action-row">
+          ${estimateLink(pathPrefix)}
+          ${callLink}
+        </div>
+      </div>
+      ${serviceIntroPanel(service, design, pathPrefix)}
     </div>
-  </div>
-</section>`;
+  </section>`;
+};
+
+const cityDesigns = {
+  phoenix: { shape: "heat-index", label: "Phoenix roof conditions", panelTitle: "Heat, monsoon rain, and mixed roof systems" },
+  scottsdale: { shape: "hoa-grid", label: "Scottsdale roof decisions", panelTitle: "Appearance and documentation both matter" },
+  "paradise-valley": { shape: "detail-led", label: "Paradise Valley roof details", panelTitle: "Careful scopes for higher-expectation properties" },
+  gilbert: { shape: "route", label: "Gilbert service path", panelTitle: "Nearby scheduling from our Queen Creek base" },
+  "queen-creek": { shape: "home-base", label: "Our home base", panelTitle: "Queen Creek calls stay close to the crew" },
+  mesa: { shape: "audit", label: "Mesa roof audit", panelTitle: "Older and newer systems need different questions" },
+  chandler: { shape: "matrix", label: "Chandler roof planning", panelTitle: "Repair guidance without pressure" },
+  tempe: { shape: "check", label: "Tempe roof checklist", panelTitle: "Mixed roof ages, flat sections, and clear scope" }
+};
+
+const cityIntro = (city, pathPrefix) => {
+  const design = cityDesigns[city.slug];
+  return `<section class="subpage-intro city-intro city-intro-${design.shape}" aria-labelledby="page-title">
+    <div class="container city-intro-grid">
+      <div class="subpage-intro-copy">
+        <p class="eyebrow">${design.label}</p>
+        <h1 id="page-title">${city.h1}</h1>
+        <p>${city.intro}</p>
+        <div class="city-link-line">
+          ${publishedServices.map((service) => `<a href="${pathPrefix}/services/${service.slug}/index.html">${serviceLabel(service)}</a>`).join("")}
+        </div>
+      </div>
+      <aside class="city-context-card">
+        <p class="panel-label">${design.panelTitle}</p>
+        ${keyedList(city.localNotes, "city-note-list")}
+        ${estimateLink(pathPrefix, `Request a ${city.name} estimate`)}
+      </aside>
+    </div>
+  </section>`;
+};
+
+const supportIntro = (page, pathPrefix) => {
+  const supportSlug = page.path.replace(/\/$/, "").replace(/\//g, "-");
+  const baseCopy = `<div class="subpage-intro-copy"><p class="eyebrow">${page.eyebrow}</p><h1 id="page-title">${page.h1}</h1><p>${page.meta}</p></div>`;
+
+  if (page.path === "about-us/our-team/") {
+    return `<section class="subpage-intro support-intro team-intro" aria-labelledby="page-title"><div class="container team-intro-grid">${baseCopy}<ol class="team-flow"><li><span>Call</span><strong>We gather the roof concern.</strong></li><li><span>Inspect</span><strong>We document what we find.</strong></li><li><span>Estimate</span><strong>We explain the written scope.</strong></li></ol></div></section>`;
+  }
+
+  if (page.path === "about-us/core-values/") {
+    return `<section class="subpage-intro support-intro values-intro" aria-labelledby="page-title"><div class="container values-intro-grid">${baseCopy}<div class="values-statement"><p>We would rather earn the project with clear evidence than pressure you into a decision.</p>${estimateLink(pathPrefix, "See the process")}</div></div></section>`;
+  }
+
+  if (page.path === "about-us/community-outreach/") {
+    return `<section class="subpage-intro support-intro community-intro" aria-labelledby="page-title"><div class="container community-intro-grid">${baseCopy}<div class="community-resource-board"><a href="${pathPrefix}/resources/design-your-roof/index.html">Roof planning</a><a href="${pathPrefix}/resources/roofing-glossary/index.html">Roofing terms</a><a href="${pathPrefix}/services/roof-inspection/index.html">Storm readiness</a></div></div></section>`;
+  }
+
+  if (page.path === "about-us/reviews/") {
+    return `<section class="subpage-intro support-intro reviews-intro" aria-labelledby="page-title"><div class="container reviews-intro-grid">${baseCopy}<div class="review-proof-note"><p class="panel-label">Review standard</p><p>We only want public proof that can be verified, so the page stays trustworthy instead of inflated.</p><a href="${pathPrefix}/index.html#reviews">Go to review section</a></div></div></section>`;
+  }
+
+  if (page.path === "resources/design-your-roof/") {
+    return `<section class="subpage-intro support-intro roof-design-intro" aria-labelledby="page-title"><div class="container roof-design-intro-grid">${baseCopy}<div class="roof-system-switcher"><a href="${pathPrefix}/services/tile-roofing/index.html">Tile</a><a href="${pathPrefix}/services/shingle-roofing/index.html">Shingle</a><a href="${pathPrefix}/services/foam-roofing/index.html">Foam</a><a href="${pathPrefix}/services/metal-roofing/index.html">Metal</a></div></div></section>`;
+  }
+
+  if (page.path === "resources/roofing-glossary/") {
+    return `<section class="subpage-intro support-intro glossary-intro" aria-labelledby="page-title"><div class="container glossary-intro-grid">${baseCopy}<div class="glossary-term-cloud"><span>Underlayment</span><span>Flashing</span><span>Valley</span><span>Coating</span><span>Decking</span><span>Scope</span></div></div></section>`;
+  }
+
+  if (page.path === "contact/") {
+    return `<section class="subpage-intro support-intro contact-intro" aria-labelledby="page-title"><div class="container contact-intro-grid">${baseCopy}<div class="contact-start-panel"><a href="${phoneHref}"><span>Call</span><strong>${phone}</strong></a><a href="mailto:${email}"><span>Email</span><strong>${email}</strong></a><a href="${pathPrefix}/index.html#estimate"><span>Form</span><strong>Open estimate request</strong></a></div></div></section>`;
+  }
+
+  return `<section class="subpage-intro support-intro support-intro-${supportSlug}" aria-labelledby="page-title"><div class="container support-intro-grid">${baseCopy}${estimateLink(pathPrefix)}</div></section>`;
+};
+
+const supportFinalCta = (page, pathPrefix) => {
+  if (page.path === "contact/") {
+    return section("Ready to send the details?", `<p>Use the form, call us, or email photos. We will help organize the request around roof condition and timing.</p><p class="seo-link-row"><a href="${pathPrefix}/index.html#estimate">Open estimate form</a><a href="${phoneHref}">Call ${phone}</a><a href="mailto:${email}">Email photos</a></p>`, "seo-section-cta");
+  }
+
+  if (page.path.startsWith("resources/")) {
+    return section("Use this during the estimate", `<p>Bring the roof age, leak history, photos, storm timing, and material questions. We will connect the guide back to your actual roof.</p><p class="seo-link-row"><a href="${pathPrefix}/index.html#estimate">Request an estimate</a><a href="${pathPrefix}/services/roof-inspection/index.html">Schedule an inspection</a></p>`, "seo-section-cta");
+  }
+
+  return section("Start with documented proof", `<p>When you are ready, we can inspect the roof, show you what we find, and put the recommendation in writing.</p><p class="seo-link-row"><a href="${pathPrefix}/index.html#estimate">Request an estimate</a><a href="${phoneHref}">Call ${phone}</a></p>`, "seo-section-cta");
+};
 
 publishedServices.forEach((service) => {
   const canonical = `${siteUrl}/services/${service.slug}/`;
   const cityLinkList = cities.map((city) => `<a href="../../roofing-${city.slug}-az/index.html">${city.name}</a>`).join(", ");
   const body = [
-    proofPanel(`We start ${service.name.toLowerCase()} with documentation.`, "We make the roof condition visible first: license information, inspection photos, and a written scope that explains what we are repairing or replacing before the job is scheduled.", "../.."),
     section(`What ${service.name} includes`, `<p>${service.intro}</p>${list(service.process)}`),
     section(`Signs you may need ${service.name.toLowerCase()}`, `<div class="seo-card-grid">${service.signs.map((sign) => `<article><span></span><h3>${sign}</h3><p>We document this during inspection so your estimate is tied to the actual roof condition.</p></article>`).join("")}</div>`),
     section("How we keep the request clear", `<div class="seo-card-grid seo-card-grid-3"><article><h3>Photo-backed inspection</h3><p>We make roof concerns easier to evaluate by showing you the problem areas.</p></article><article><h3>Repair-versus-replace context</h3><p>We explain whether a targeted repair is enough or whether the system needs larger work.</p></article><article><h3>Closeout expectations</h3><p>We discuss cleanup, workmanship coverage, and manufacturer materials as part of the project conversation.</p></article></div>`),
@@ -326,7 +474,16 @@ publishedServices.forEach((service) => {
       { "@type": "FAQPage", mainEntity: service.faq.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
     ]
   });
-  const html = layout({ title: service.title, meta: service.meta, canonical, h1: service.h1, eyebrow: "Roofing Service", body, schema, pathPrefix: "../.." });
+  const html = layout({
+    title: service.title,
+    meta: service.meta,
+    canonical,
+    body,
+    schema,
+    pathPrefix: "../..",
+    intro: serviceIntro(service, "../.."),
+    bodyClass: `subpage subpage-service subpage-${service.slug}`
+  });
   const file = join("services", service.slug, "index.html");
   mkdirSync(dirname(file), { recursive: true });
   writeFileSync(file, html);
@@ -341,7 +498,6 @@ cities.forEach((city) => {
     [`Can I get a written estimate in ${city.name}?`, "Yes. We use inspection photos and written estimates so the scope is clear before work starts."]
   ];
   const body = [
-    proofPanel(`We bring local clarity to ${city.name} roofing calls.`, `We organize ${city.name} requests around direct roof documentation, written estimates, and practical scheduling from our Queen Creek base.`, ".."),
     section(`Roofing services in ${city.name}`, `<p>${city.intro}</p><p class="seo-link-row">${serviceLinkList}</p>`),
     section(`${city.name} roof concerns`, `<div class="seo-card-grid">${city.localNotes.map((note) => `<article><span></span><h3>${note}</h3><p>We explain what we find and put our recommendation in writing.</p></article>`).join("")}</div>`),
     section(`Why ${city.name} homeowners call Quest`, `<p>We keep recommendations direct: we inspect the roof, explain what is wrong, and provide a written estimate instead of a vague verbal guess. We also make AZ ROC #355136, GAF certification, and workmanship expectations easy to find.</p>`),
@@ -361,7 +517,16 @@ cities.forEach((city) => {
       { "@type": "FAQPage", mainEntity: faq.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
     ]
   });
-  const html = layout({ title: city.title, meta: city.meta, canonical, h1: city.h1, eyebrow: "Service Area", body, schema, pathPrefix: ".." });
+  const html = layout({
+    title: city.title,
+    meta: city.meta,
+    canonical,
+    body,
+    schema,
+    pathPrefix: "..",
+    intro: cityIntro(city, ".."),
+    bodyClass: `subpage subpage-city subpage-${city.slug}`
+  });
   const file = join(`roofing-${city.slug}-az`, "index.html");
   mkdirSync(dirname(file), { recursive: true });
   writeFileSync(file, html);
@@ -383,7 +548,6 @@ const supportPages = [
     eyebrow: "About Quest",
     meta: "Meet our Queen Creek roofing team. We focus on photo-backed inspections, straight recommendations, and written estimates.",
     body: (pathPrefix) => [
-      proofPanel("We make accountability easy to see.", "From the first call to the written estimate, we keep the path clear so you know who you are talking to, what we found, and what comes next.", pathPrefix),
       section("How our team works", `<p>We stay reachable before the first appointment with clear contact paths, documented inspections, and recommendations explained in plain language.</p>${cardGrid([
         { title: "First contact", text: "We collect roof type, service area, visible concerns, leak timing, and photos when available." },
         { title: "Field inspection", text: "We review the roof condition and document visible findings instead of relying on vague statements." },
@@ -403,24 +567,7 @@ const supportPages = [
     title: "Completed Roofing Projects | Quest Roofing",
     h1: "We put project proof in the open.",
     eyebrow: "Completed projects",
-    meta: "See how we document roofing projects with condition photos, clear scopes, and closeout details.",
-    body: (pathPrefix) => [
-      proofPanel("We show the roof condition, the scope, and the closeout.", "Our project proof is strongest when it shows real conditions, approved work, and finished details without exaggerating what happened.", pathPrefix),
-      section("What we document", `${cardGrid([
-        { title: "Tile repair and underlayment", text: "We document cracked tile, valley concerns, underlayment age, repair limits, and completed closeout photos." },
-        { title: "Shingle replacement", text: "We show roof plane condition, material selection, tear-off scope, flashing work, and final shingle installation." },
-        { title: "Foam or flat roof recoat", text: "We track coating wear, ponding areas, penetration details, surface prep, and finished protective coating." },
-        { title: "Storm damage repair", text: "We organize visible damage, temporary leak control, repair scope, and post-repair roof details." },
-        { title: "Metal roofing", text: "We capture panel, seam, trim, flashing, and fastener details for homeowners comparing system options." },
-        { title: "Inspection-only findings", text: "Sometimes the most useful proof is a clear inspection that prevents unnecessary work." }
-      ])}`),
-      section("How we present project proof", `<p>Every project we publish answers four questions: what roof system we inspected, what problem we found, what scope was approved, and what closeout proof we captured.</p>${cardGrid([
-        { title: "Before", text: "Roof condition photo, visible issue, and homeowner concern." },
-        { title: "During", text: "Material, access, prep, tear-off, repair, or installation detail." },
-        { title: "After", text: "Finished work, cleanup, and the warranty or workmanship note that applies." }
-      ])}`),
-      section("Related services", `<p class="seo-link-row"><a href="${pathPrefix}/services/roof-repair/index.html">Roof repair</a><a href="${pathPrefix}/services/roof-inspection/index.html">Free inspection</a><a href="${pathPrefix}/services/tile-roofing/index.html">Tile roofing</a></p>`)
-    ].join("")
+    meta: "See how we document roofing projects with condition photos, clear scopes, and closeout details."
   },
   {
     path: "about-us/core-values/",
@@ -429,7 +576,6 @@ const supportPages = [
     eyebrow: "Core values",
     meta: "Our roofing values are clear communication, documented estimates, repair-first guidance, and respectful jobsite cleanup.",
     body: (pathPrefix) => [
-      proofPanel("We make our values visible in the estimate.", "Our values show up in documentation, direct recommendations, respectful work, and a cleaner handoff for homeowners.", pathPrefix),
       section("Our working standard", `${cardGrid([
         { title: "Repair-first when appropriate", text: "If a targeted repair solves the problem, we will not jump straight to replacement." },
         { title: "Replacement when justified", text: "If the system is past practical repair, we explain the reason in plain language." },
@@ -448,7 +594,6 @@ const supportPages = [
     eyebrow: "Community Outreach",
     meta: "Our community outreach focuses on homeowner education, storm readiness, and practical roof guidance in Arizona.",
     body: (pathPrefix) => [
-      proofPanel("We lead with useful local guidance.", "We keep this page focused on homeowner education and storm-readiness resources, then add specific outreach events only when we can document them clearly.", pathPrefix),
       section("Useful local support", `${cardGrid([
         { title: "Storm readiness", text: "We help homeowners know what to check before monsoon season and when to call after wind or hail." },
         { title: "Estimate education", text: "We make roofing terms, roof systems, and repair-versus-replace decisions easier to understand." },
@@ -469,7 +614,6 @@ const supportPages = [
     eyebrow: "Homeowner stories",
     meta: "Our roofing reviews focus on communication, clean work, cost clarity, and honest recommendations.",
     body: (pathPrefix) => [
-      proofPanel("We want reviews to show what the experience feels like.", "The strongest reviews mention communication, cleanup, cost transparency, and whether our recommendation matched the actual roof issue.", pathPrefix),
       section("Review themes homeowners compare", `${cardGrid([
         { title: "Communication", text: "We return calls, clarify appointments, and make sure the homeowner knows what happens next." },
         { title: "Clean work", text: "We treat the jobsite like part of the project, not an afterthought." },
@@ -487,20 +631,7 @@ const supportPages = [
     title: "Roofing Gallery | Quest Roofing",
     h1: "We show roof conditions, repairs, and completed work.",
     eyebrow: "Gallery",
-    meta: "Browse our roofing gallery for roof inspections, repair details, and completed Arizona roofing work.",
-    body: (pathPrefix) => [
-      proofPanel("Our gallery shows useful roof proof.", "We use this page to show roof conditions, repair details, and finished work so you can see how we document the job before you call.", pathPrefix),
-      section("What we show", `${cardGrid([
-        { title: "Tile details", text: "Broken tile, slipped tile, valley work, underlayment clues, and finished replacement areas." },
-        { title: "Shingle details", text: "Granule loss, lifted shingles, flashing, tear-off prep, and installed architectural shingles." },
-        { title: "Foam and flat details", text: "Coating cracks, ponding patterns, penetration repairs, surface prep, and finished recoats." },
-        { title: "Storm damage", text: "Wind movement, impact marks, debris damage, urgent leak points, and completed repair details." },
-        { title: "Metal roofing", text: "Panel details, seams, fasteners, trim, and roof-to-wall transitions." },
-        { title: "Cleanup and closeout", text: "Final roof condition, yard cleanup, and handoff photos after approved work." }
-      ])}`),
-      section("Photo standards", `<p>Each gallery entry makes the roof system, concern, service area, scope type, and before/during/after status easy to understand.</p>${roofSystemGrid()}`),
-      section("Start from what you are seeing", `<p class="seo-link-row"><a href="${pathPrefix}/services/roof-inspection/index.html">Roof inspection</a><a href="${pathPrefix}/services/roof-repair/index.html">Roof repair</a><a href="${pathPrefix}/services/tile-roofing/index.html">Tile roofing</a></p>`)
-    ].join("")
+    meta: "Browse our roofing gallery for roof inspections, repair details, and completed Arizona roofing work."
   },
   {
     path: "resources/design-your-roof/",
@@ -509,7 +640,6 @@ const supportPages = [
     eyebrow: "Resources",
     meta: "Use our roof material planning resource to compare tile, shingle, foam, and metal roofing decisions in Arizona.",
     body: (pathPrefix) => [
-      proofPanel("We start roof design with the roof you actually have.", "Tile, shingle, foam, flat, and metal each solve different Arizona roof needs. We help you weigh the right choice based on slope, age, budget, HOA expectations, and heat exposure.", pathPrefix),
       section("Compare roof systems", roofSystemGrid()),
       section("Questions to answer before choosing", `${cardGrid([
         { title: "What is the roof slope?", text: "Flat and low-slope sections need different systems than steep shingle or tile areas." },
@@ -529,7 +659,6 @@ const supportPages = [
     eyebrow: "Resources",
     meta: "Use our simple roofing glossary to compare estimates and understand inspection findings before approving roof work.",
     body: (pathPrefix) => [
-      proofPanel("We make estimates easier to compare.", "A written estimate is easier to understand when you know what part of the roof we are repairing or replacing.", pathPrefix),
       section("Common estimate terms", `${cardGrid([
         { title: "Underlayment", text: "The protective layer beneath tile that often matters more than the tile surface itself." },
         { title: "Flashing", text: "Metal or roof detail used around walls, edges, chimneys, and transitions to control water." },
@@ -551,7 +680,6 @@ const supportPages = [
     eyebrow: "Contact",
     meta: "Contact us for a free inspection or written roofing estimate from our Queen Creek-based Arizona roofing team.",
     body: (pathPrefix) => [
-      proofPanel("We make it easy to start a clean request.", `Call ${phone} or email ${email} and we will help you start a roof inspection request.`, pathPrefix),
       section("Fastest ways to start", `${cardGrid([
         { title: "Call", text: `Call ${phone} for urgent leaks, scheduling questions, or a direct estimate request.` },
         { title: "Email", text: `Email ${email} with your name, address or cross streets, service need, and photos if available.` },
@@ -570,7 +698,8 @@ supportPages.forEach((page) => {
 
   const canonical = `${siteUrl}/${page.path}`;
   const pathPrefix = page.path.split("/").length > 2 ? "../.." : "..";
-  const body = `${page.body(pathPrefix)}${section("Start a request", `<p>Use the main estimate form when you are ready to talk through the roof condition with us.</p><p class="seo-link-row"><a href="${pathPrefix}/index.html#estimate">Request an estimate</a></p>`)}`;
+  const supportSlug = page.path.replace(/\/$/, "").replace(/\//g, "-");
+  const body = `${page.body(pathPrefix)}${supportFinalCta(page, pathPrefix)}`;
   const schema = pageSchema({
     canonical,
     title: page.title,
@@ -580,7 +709,16 @@ supportPages.forEach((page) => {
       { name: page.eyebrow, url: canonical }
     ]
   });
-  const html = layout({ title: page.title, meta: page.meta, canonical, h1: page.h1, eyebrow: page.eyebrow, body, schema, pathPrefix });
+  const html = layout({
+    title: page.title,
+    meta: page.meta,
+    canonical,
+    body,
+    schema,
+    pathPrefix,
+    intro: supportIntro(page, pathPrefix),
+    bodyClass: `subpage subpage-support subpage-${supportSlug}`
+  });
   const file = join(page.path, "index.html");
   mkdirSync(dirname(file), { recursive: true });
   writeFileSync(file, html);
