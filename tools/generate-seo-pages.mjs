@@ -8,6 +8,13 @@ const email = "info@questroofing.com";
 const logo = "https://questroofing.com/wp-content/uploads/2024/12/Untitled-design-92-1.png";
 const socialImage = `${siteUrl}/assets/quest-roofing-real/quest-roofing-social-card.jpg`;
 const today = "2026-05-30";
+const rocUrl = "https://azroc.my.site.com/AZRoc/s/contractor-search?licenseId=a0ocs000004dh2nAAA";
+const gafUrl = "https://www.gaf.ca/en-ca/roofing-contractors/residential/usa/az/queen-creek/quest-roofing-llc-1149593";
+const externalCredentialAttrs = 'target="_blank" rel="noopener"';
+const rocLink = `<a class="credential-link" href="${rocUrl}" ${externalCredentialAttrs}>AZ ROC #355136</a>`;
+const gafLink = `<a class="credential-link" href="${gafUrl}" ${externalCredentialAttrs}>GAF Certified</a>`;
+const rocInlineLink = `<a class="credential-inline-link" href="${rocUrl}" ${externalCredentialAttrs}>AZ ROC #355136</a>`;
+const gafInlineLink = `<a class="credential-inline-link" href="${gafUrl}" ${externalCredentialAttrs}>GAF certification</a>`;
 
 const services = [
   {
@@ -160,7 +167,7 @@ const layout = ({ title, meta, canonical, body, schema, pathPrefix = "..", bodyC
     <header class="site-header" id="top">
       <div class="top-bar">
         <div class="container top-bar-inner">
-          <p>AZ ROC #355136 - GAF Certified - Free written estimates</p>
+          <p>${rocLink} - ${gafLink} - Free written estimates</p>
           <div class="top-bar-actions">
             <a href="${phoneHref}">${phone}</a>
             <a href="mailto:${email}">${email}</a>
@@ -208,7 +215,7 @@ ${body}
         <div>
           <p class="footer-brand">Quest Roofing</p>
           <p class="footer-copy">We are a licensed roofing contractor based in Queen Creek, Arizona.</p>
-          <p class="footer-meta"><span>AZ ROC #355136</span><span>GAF Certified</span><span>Copyright 2026 Quest Roofing</span></p>
+          <p class="footer-meta"><span>${rocLink}</span><span>${gafLink}</span><span>Copyright 2026 Quest Roofing</span></p>
         </div>
         <nav class="footer-seo-links" aria-label="SEO footer links">
           <div><strong>Services</strong>${publishedServices.map((service) => `<a href="${pathPrefix}/services/${service.slug}/index.html">${serviceLabel(service)}</a>`).join("")}</div>
@@ -500,7 +507,7 @@ cities.forEach((city) => {
   const body = [
     section(`Roofing services in ${city.name}`, `<p>${city.intro}</p><p class="seo-link-row">${serviceLinkList}</p>`),
     section(`${city.name} roof concerns`, `<div class="seo-card-grid">${city.localNotes.map((note) => `<article><span></span><h3>${note}</h3><p>We explain what we find and put our recommendation in writing.</p></article>`).join("")}</div>`),
-    section(`Why ${city.name} homeowners call Quest`, `<p>We keep recommendations direct: we inspect the roof, explain what is wrong, and provide a written estimate instead of a vague verbal guess. We also make AZ ROC #355136, GAF certification, and workmanship expectations easy to find.</p>`),
+    section(`Why ${city.name} homeowners call Quest`, `<p>We keep recommendations direct: we inspect the roof, explain what is wrong, and provide a written estimate instead of a vague verbal guess. We also make ${rocInlineLink}, ${gafInlineLink}, and workmanship expectations easy to find.</p>`),
     section(`${city.name} roofing FAQ`, faqHtml(faq))
   ].join("");
   const schema = pageSchema({

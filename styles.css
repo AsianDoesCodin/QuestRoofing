@@ -108,6 +108,35 @@ a {
   text-decoration: none;
 }
 
+.credential-link,
+.credential-inline-link,
+.credential-card-link {
+  color: inherit;
+  font: inherit;
+  font-weight: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+.credential-link:hover,
+.credential-link:focus-visible,
+.credential-inline-link:hover,
+.credential-inline-link:focus-visible,
+.credential-card-link:hover,
+.credential-card-link:focus-visible {
+  color: var(--color-orange);
+}
+
+.credential-inline-link {
+  color: var(--color-navy);
+  font-weight: 700;
+}
+
+.trust-card-feature .credential-card-link {
+  color: var(--color-white);
+}
+
 button,
 input,
 select,
