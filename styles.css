@@ -2718,7 +2718,7 @@ h3 {
 }
 
 .gallery-intro {
-  padding: clamp(3.5rem, 8vw, 6.5rem) 0 clamp(2.5rem, 5vw, 4rem);
+  padding: clamp(2rem, 4vw, 3.5rem) 0;
   border-bottom: 1px solid var(--color-line);
 }
 
@@ -2731,18 +2731,18 @@ h3 {
 
 .gallery-intro-copy {
   display: grid;
-  gap: var(--space-5);
+  gap: var(--space-4);
 }
 
-.gallery-intro h1 {
-  max-width: 13ch;
+.gallery-intro h2 {
+  max-width: 20ch;
   margin: 0;
   color: var(--color-navy);
   font-family: var(--font-display);
-  font-size: clamp(2.7rem, 7vw, 6.25rem);
+  font-size: clamp(1.9rem, 3.6vw, 3.2rem);
   font-weight: 800;
-  letter-spacing: -0.055em;
-  line-height: 0.88;
+  letter-spacing: -0.04em;
+  line-height: 1;
   overflow-wrap: anywhere;
   text-wrap: balance;
 }
@@ -2815,7 +2815,7 @@ h3 {
 }
 
 .real-gallery-section {
-  padding: clamp(3.5rem, 8vw, 6.5rem) 0;
+  padding: clamp(2.75rem, 5vw, 4.75rem) 0;
   background:
     linear-gradient(135deg, color-mix(in oklch, var(--color-navy-strong), var(--color-transparent) 4%), var(--color-navy)),
     var(--color-navy);
@@ -2835,6 +2835,7 @@ h3 {
   margin-bottom: var(--space-8);
 }
 
+.gallery-section-header h1,
 .gallery-section-header h2,
 .gallery-wall-header h2,
 .gallery-request-inner h2 {
@@ -2848,6 +2849,7 @@ h3 {
   text-wrap: balance;
 }
 
+.gallery-section-header h1,
 .gallery-section-header h2 {
   color: var(--color-white);
 }
@@ -2858,6 +2860,10 @@ h3 {
   margin: 0;
   color: var(--color-text-on-dark-soft);
   font-size: clamp(1rem, 1.3vw, 1.14rem);
+}
+
+.gallery-section-header h1 {
+  font-size: clamp(2.35rem, 5.2vw, 5.1rem);
 }
 
 .real-gallery-carousel {
@@ -3189,7 +3195,7 @@ h3 {
 }
 
 .completed-projects-intro {
-  padding: clamp(3.5rem, 8vw, 6.5rem) 0 clamp(2.75rem, 6vw, 4.5rem);
+  padding: clamp(2rem, 4vw, 3.5rem) 0;
   border-bottom: 1px solid var(--color-line);
 }
 
@@ -3202,14 +3208,14 @@ h3 {
 }
 
 .completed-projects-intro h1 {
-  max-width: 13ch;
+  max-width: 18ch;
   margin: 0;
   color: var(--color-navy);
   font-family: var(--font-display);
-  font-size: clamp(2.65rem, 6.4vw, 5.75rem);
+  font-size: clamp(2rem, 4.4vw, 4rem);
   font-weight: 800;
-  letter-spacing: -0.055em;
-  line-height: 0.9;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
   overflow-wrap: anywhere;
   text-wrap: balance;
 }
@@ -3245,7 +3251,7 @@ h3 {
 }
 
 .completed-projects-wall {
-  padding: clamp(3.5rem, 8vw, 6.75rem) 0;
+  padding: clamp(2.75rem, 6vw, 5rem) 0;
   background:
     linear-gradient(135deg, color-mix(in oklch, var(--color-navy-strong), var(--color-transparent) 3%), var(--color-navy)),
     var(--color-navy);
@@ -3259,6 +3265,7 @@ h3 {
   margin-bottom: var(--space-8);
 }
 
+.completed-projects-wall-heading h1,
 .completed-projects-wall-heading h2,
 .completed-projects-request-inner h2 {
   margin: 0;
@@ -3270,8 +3277,25 @@ h3 {
   text-wrap: balance;
 }
 
+.completed-projects-wall-heading h1,
 .completed-projects-wall-heading h2 {
   color: var(--color-white);
+}
+
+.completed-projects-wall-heading h1 {
+  max-width: 13ch;
+  font-size: clamp(2.2rem, 5vw, 5rem);
+}
+
+.completed-projects-wall-heading > p:not(.eyebrow) {
+  max-width: 44rem;
+  margin: 0;
+  color: var(--color-text-on-dark-soft);
+  font-size: clamp(1rem, 1.25vw, 1.15rem);
+}
+
+.completed-projects-wall-heading .completed-projects-tags {
+  margin-top: var(--space-2);
 }
 
 .completed-projects-grid {
@@ -3488,15 +3512,30 @@ h3 {
   }
 
   .gallery-intro {
-    padding-top: var(--space-12);
+    padding: var(--space-7) 0;
   }
 
-  .gallery-intro h1 {
-    font-size: clamp(2.55rem, 15vw, 4.25rem);
+  .gallery-section-header {
+    margin-bottom: var(--space-5);
   }
 
-  .completed-projects-intro h1 {
-    font-size: clamp(2.45rem, 14vw, 4.15rem);
+  .gallery-section-header h1 {
+    max-width: 100%;
+    font-size: clamp(2.05rem, 11vw, 3.35rem);
+    line-height: 0.96;
+  }
+
+  .gallery-intro h2 {
+    font-size: clamp(1.75rem, 9vw, 2.45rem);
+  }
+
+  .gallery-intro-panel {
+    padding: var(--space-5);
+  }
+
+  .completed-projects-intro h1,
+  .completed-projects-wall-heading h1 {
+    font-size: clamp(2rem, 10vw, 3rem);
   }
 
   .real-gallery-card {
@@ -4421,7 +4460,8 @@ h3,
 
 /* Compact page intros: not every page needs a homepage-style hero. */
 .page-intro {
-  padding: clamp(2rem, 4.5vw, 4rem) 0;
+  padding: clamp(1.35rem, 2.7vw, 2.75rem) 0;
+  border-bottom: 1px solid var(--color-line);
   color: var(--color-navy);
   background: var(--color-page);
 }
@@ -4434,18 +4474,18 @@ h3,
 }
 
 .page-intro h1 {
-  max-width: 20ch;
-  margin: var(--space-2) 0 var(--space-3);
+  max-width: 24ch;
+  margin: var(--space-2) 0 var(--space-2);
   color: var(--color-navy);
-  font-size: clamp(2rem, 4vw, 3.35rem);
-  line-height: 1.05;
+  font-size: clamp(1.85rem, 3.1vw, 2.85rem);
+  line-height: 1.02;
 }
 
 .page-intro p:not(.eyebrow, .panel-label) {
-  max-width: 46rem;
+  max-width: 42rem;
   color: var(--color-ink-soft);
   font-size: clamp(1rem, 1.2vw, 1.12rem);
-  line-height: 1.65;
+  line-height: 1.55;
 }
 
 .page-intro .seo-aside,
@@ -4454,7 +4494,7 @@ h3,
 }
 
 .page-intro .hero-actions {
-  margin-top: var(--space-5);
+  margin-top: var(--space-4);
 }
 
 .page-intro .button-ghost-light {
@@ -4463,7 +4503,6 @@ h3,
 }
 
 .area-page .area-intro {
-  border-bottom: 1px solid var(--color-line);
   background:
     linear-gradient(90deg, color-mix(in oklch, var(--area-accent), var(--color-transparent) 84%) 1px, transparent 1px),
     linear-gradient(180deg, color-mix(in oklch, var(--area-soft), var(--color-white) 20%), var(--color-page));
@@ -4479,20 +4518,15 @@ h3,
 .resource-page .resource-intro::after,
 .contact-page .contact-intro::after {
   content: "";
-  display: block;
-  width: min(18rem, calc(100% - 3rem));
-  height: 0.38rem;
-  margin: clamp(1.5rem, 3vw, 2.5rem) auto 0;
-  border-radius: var(--radius-pill);
-  background: linear-gradient(90deg, var(--area-accent, var(--support-accent)), color-mix(in oklch, var(--area-accent, var(--support-accent)), var(--color-transparent) 72%));
+  display: none;
 }
 
 .support-page .about-intro,
 .support-page .resource-intro {
-  border-bottom: 1px solid var(--color-line);
   background:
-    radial-gradient(circle at 88% 12%, color-mix(in oklch, var(--support-accent), var(--color-transparent) 86%), var(--color-transparent) 18rem),
-    linear-gradient(180deg, color-mix(in oklch, var(--support-soft), var(--color-white) 20%), var(--color-page));
+    linear-gradient(90deg, color-mix(in oklch, var(--support-accent), var(--color-transparent) 90%) 1px, transparent 1px),
+    linear-gradient(180deg, color-mix(in oklch, var(--support-soft), var(--color-white) 24%), var(--color-page));
+  background-size: 3rem 100%, auto;
 }
 
 .resource-page .resource-intro {
@@ -4520,14 +4554,84 @@ h3,
   border-color: color-mix(in oklch, var(--color-white), var(--color-transparent) 58%);
 }
 
+.proof-strip-inline {
+  padding: clamp(1.5rem, 3vw, 2.75rem) 0;
+  background: var(--color-page);
+}
+
+.proof-strip-inline-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.82fr) auto;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  align-items: center;
+  padding: clamp(1.25rem, 2.6vw, 2rem);
+  border: 1px solid var(--color-line);
+  border-left: 0.45rem solid var(--support-accent, var(--area-accent, var(--color-orange)));
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+
+.proof-strip-inline h2 {
+  max-width: 16ch;
+  margin: var(--space-1) 0 var(--space-2);
+  color: var(--color-navy);
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 2.6vw, 2.5rem);
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.proof-strip-inline p {
+  margin: 0;
+  color: var(--color-ink-soft);
+}
+
+.proof-strip-inline ul {
+  display: grid;
+  gap: var(--space-2);
+  padding: 0;
+  margin: 0;
+  color: var(--color-ink-soft);
+  list-style: none;
+}
+
+.proof-strip-inline li {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.proof-strip-inline li::before {
+  flex: 0 0 0.45rem;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-top: 0.58rem;
+  border-radius: var(--radius-pill);
+  background: var(--support-accent, var(--area-accent, var(--color-orange)));
+  content: "";
+}
+
+.proof-strip-inline .button {
+  white-space: nowrap;
+}
+
 @media (max-width: 56rem) {
   .page-intro {
-    padding: clamp(1.75rem, 8vw, 3rem) 0;
+    padding: clamp(1.25rem, 6vw, 2rem) 0;
   }
 
   .page-intro h1 {
     max-width: 100%;
-    font-size: clamp(1.8rem, 8vw, 2.65rem);
+    font-size: clamp(1.7rem, 7vw, 2.25rem);
+  }
+
+  .proof-strip-inline-inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .proof-strip-inline .button {
+    width: 100%;
+    white-space: normal;
   }
 }
 
