@@ -4571,6 +4571,93 @@ h3,
   }
 }
 
+/* Shared header slash: a branded left panel that stays synced across every page. */
+.site-header {
+  background: var(--color-white);
+}
+
+.header-inner {
+  --header-panel-bleed: calc((100vw - min(100vw - 3rem, 78rem)) / -2);
+  --header-panel-width: clamp(24rem, 42vw, 38rem);
+  --header-panel-slant: clamp(4.5rem, 8vw, 8rem);
+  position: relative;
+  isolation: isolate;
+}
+
+.header-inner::before,
+.header-inner::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  content: "";
+}
+
+.header-inner::before {
+  left: var(--header-panel-bleed);
+  z-index: 0;
+  width: var(--header-panel-width);
+  background:
+    linear-gradient(135deg, var(--color-navy-strong), var(--color-brand-panel) 74%),
+    var(--color-navy);
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--header-panel-slant)) 100%, 0 100%);
+}
+
+.header-inner::after {
+  left: calc(var(--header-panel-bleed) + var(--header-panel-width) - var(--header-panel-slant));
+  z-index: 1;
+  width: var(--header-panel-slant);
+  background: var(--color-orange);
+  clip-path: polygon(calc(100% - 0.18rem) 0, 100% 0, 0.18rem 100%, 0 100%);
+  opacity: 0.95;
+}
+
+.header-inner > * {
+  z-index: 2;
+}
+
+.header-inner .brand {
+  align-self: stretch;
+  max-width: min(31rem, 42vw);
+  padding-right: clamp(2rem, 5vw, 5.5rem);
+}
+
+.header-inner .brand-mark {
+  background: color-mix(in oklch, var(--color-white), var(--color-surface-blue) 18%);
+  box-shadow: 0 14px 34px color-mix(in oklch, var(--color-navy-strong), var(--color-transparent) 76%);
+}
+
+.header-inner .brand-copy strong {
+  color: var(--color-white);
+}
+
+.header-inner .brand-copy span {
+  color: var(--color-text-on-dark-soft);
+}
+
+@media (max-width: 56rem) {
+  .header-inner {
+    --header-panel-bleed: -0.75rem;
+    --header-panel-width: min(82vw, 24rem);
+    --header-panel-slant: 3.5rem;
+  }
+
+  .header-inner .brand {
+    max-width: calc(100% - 4rem);
+    padding-right: 2.6rem;
+  }
+}
+
+@media (max-width: 24rem) {
+  .header-inner {
+    --header-panel-width: min(78vw, 20rem);
+  }
+
+  .header-inner .brand-copy span {
+    display: none;
+  }
+}
+
 @supports not (height: 100dvh) {
   @media (max-width: 56rem) {
     .site-nav {
