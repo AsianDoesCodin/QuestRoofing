@@ -4598,8 +4598,12 @@ h3,
   z-index: 0;
   width: var(--header-panel-width);
   background:
-    linear-gradient(135deg, var(--color-white), var(--color-surface-blue) 78%),
-    var(--color-white);
+    linear-gradient(
+      135deg,
+      #d9ecff,
+      #8fb9f2 78%
+    ),
+    #b4d1fb;
   clip-path: polygon(0 0, 100% 0, calc(100% - var(--header-panel-slant)) 100%, 0 100%);
 }
 
