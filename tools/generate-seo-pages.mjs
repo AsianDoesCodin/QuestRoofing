@@ -5,7 +5,9 @@ const siteUrl = "https://questroofing.com";
 const phone = "602-399-6455";
 const phoneHref = "tel:6023996455";
 const email = "info@questroofing.com";
-const logo = "https://questroofing.com/wp-content/uploads/2024/12/Untitled-design-92-1.png";
+const favicon = "https://questroofing.com/wp-content/uploads/2024/12/Untitled-design-92-1.png";
+const brandLogoPath = "assets/images/quest-roofing-wordmark.png";
+const logo = `${siteUrl}/${brandLogoPath}`;
 const socialImage = `${siteUrl}/assets/quest-roofing-real/quest-roofing-social-card.jpg`;
 const today = "2026-05-30";
 const rocUrl = "https://azroc.my.site.com/AZRoc/s/contractor-search?licenseId=a0ocs000004dh2nAAA";
@@ -144,7 +146,7 @@ const layout = ({ title, meta, canonical, body, schema, pathPrefix = "..", bodyC
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#2458ad">
   <link rel="canonical" href="${canonical}">
-  <link rel="icon" href="${logo}">
+  <link rel="icon" href="${favicon}">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Quest Roofing">
   <meta property="og:title" content="${title}">
@@ -176,7 +178,7 @@ const layout = ({ title, meta, canonical, body, schema, pathPrefix = "..", bodyC
       </div>
       <div class="container header-inner">
         <a class="brand" href="${pathPrefix}/index.html" aria-label="Quest Roofing home">
-          <span class="brand-mark"><img src="${logo}" alt="Quest Roofing" width="92" height="92"></span>
+          <span class="brand-mark"><img src="${pathPrefix}/${brandLogoPath}" alt="Quest Roofing" width="1184" height="624"></span>
           <span class="brand-copy"><strong>Quest Roofing</strong><span>Queen Creek, Arizona</span></span>
         </a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation"><span></span><span></span></button>

@@ -4598,8 +4598,8 @@ h3,
   z-index: 0;
   width: var(--header-panel-width);
   background:
-    linear-gradient(135deg, var(--color-navy-strong), var(--color-brand-panel) 74%),
-    var(--color-navy);
+    linear-gradient(135deg, var(--color-white), var(--color-surface-blue) 78%),
+    var(--color-white);
   clip-path: polygon(0 0, 100% 0, calc(100% - var(--header-panel-slant)) 100%, 0 100%);
 }
 
@@ -4618,21 +4618,29 @@ h3,
 
 .header-inner .brand {
   align-self: stretch;
+  gap: 0;
   max-width: min(31rem, 42vw);
   padding-right: clamp(2rem, 5vw, 5.5rem);
 }
 
 .header-inner .brand-mark {
-  background: color-mix(in oklch, var(--color-white), var(--color-surface-blue) 18%);
-  box-shadow: 0 14px 34px color-mix(in oklch, var(--color-navy-strong), var(--color-transparent) 76%);
+  width: clamp(10.75rem, 17vw, 14.5rem);
+  height: clamp(3.6rem, 5.5vw, 4.55rem);
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
-.header-inner .brand-copy strong {
-  color: var(--color-white);
+.header-inner .brand-mark img {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  object-fit: contain;
 }
 
-.header-inner .brand-copy span {
-  color: var(--color-text-on-dark-soft);
+.header-inner .brand-copy {
+  display: none;
 }
 
 @media (max-width: 56rem) {
@@ -4646,6 +4654,11 @@ h3,
     max-width: calc(100% - 4rem);
     padding-right: 2.6rem;
   }
+
+  .header-inner .brand-mark {
+    width: clamp(9.75rem, 42vw, 11.8rem);
+    height: 3.45rem;
+  }
 }
 
 @media (max-width: 24rem) {
@@ -4653,8 +4666,8 @@ h3,
     --header-panel-width: min(78vw, 20rem);
   }
 
-  .header-inner .brand-copy span {
-    display: none;
+  .header-inner .brand-mark {
+    width: 9.2rem;
   }
 }
 
