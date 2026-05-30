@@ -4419,6 +4419,118 @@ h3,
   }
 }
 
+/* Compact page intros: not every page needs a homepage-style hero. */
+.page-intro {
+  padding: clamp(2rem, 4.5vw, 4rem) 0;
+  color: var(--color-navy);
+  background: var(--color-page);
+}
+
+.page-intro .seo-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.page-intro h1 {
+  max-width: 20ch;
+  margin: var(--space-2) 0 var(--space-3);
+  color: var(--color-navy);
+  font-size: clamp(2rem, 4vw, 3.35rem);
+  line-height: 1.05;
+}
+
+.page-intro p:not(.eyebrow, .panel-label) {
+  max-width: 46rem;
+  color: var(--color-ink-soft);
+  font-size: clamp(1rem, 1.2vw, 1.12rem);
+  line-height: 1.65;
+}
+
+.page-intro .seo-aside,
+.page-intro .hero-badges {
+  display: none;
+}
+
+.page-intro .hero-actions {
+  margin-top: var(--space-5);
+}
+
+.page-intro .button-ghost-light {
+  color: var(--color-navy);
+  border-color: color-mix(in oklch, var(--color-navy), var(--color-transparent) 82%);
+}
+
+.area-page .area-intro {
+  border-bottom: 1px solid var(--color-line);
+  background:
+    linear-gradient(90deg, color-mix(in oklch, var(--area-accent), var(--color-transparent) 84%) 1px, transparent 1px),
+    linear-gradient(180deg, color-mix(in oklch, var(--area-soft), var(--color-white) 20%), var(--color-page));
+  background-size: 3.5rem 100%, auto;
+}
+
+.area-page .area-intro h1 {
+  max-width: 24ch;
+}
+
+.area-page .area-intro::after,
+.about-page .about-intro::after,
+.resource-page .resource-intro::after,
+.contact-page .contact-intro::after {
+  content: "";
+  display: block;
+  width: min(18rem, calc(100% - 3rem));
+  height: 0.38rem;
+  margin: clamp(1.5rem, 3vw, 2.5rem) auto 0;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--area-accent, var(--support-accent)), color-mix(in oklch, var(--area-accent, var(--support-accent)), var(--color-transparent) 72%));
+}
+
+.support-page .about-intro,
+.support-page .resource-intro {
+  border-bottom: 1px solid var(--color-line);
+  background:
+    radial-gradient(circle at 88% 12%, color-mix(in oklch, var(--support-accent), var(--color-transparent) 86%), var(--color-transparent) 18rem),
+    linear-gradient(180deg, color-mix(in oklch, var(--support-soft), var(--color-white) 20%), var(--color-page));
+}
+
+.resource-page .resource-intro {
+  background:
+    linear-gradient(90deg, color-mix(in oklch, var(--color-brand), var(--color-transparent) 88%) 1px, transparent 1px),
+    linear-gradient(0deg, color-mix(in oklch, var(--color-brand), var(--color-transparent) 90%) 1px, transparent 1px),
+    linear-gradient(135deg, var(--color-surface-blue), var(--color-white));
+  background-size: 3rem 3rem, 3rem 3rem, auto;
+}
+
+.contact-page .contact-intro {
+  color: var(--color-text-on-dark);
+  background:
+    radial-gradient(circle at 84% 16%, color-mix(in oklch, var(--support-accent), var(--color-transparent) 60%), var(--color-transparent) 18rem),
+    linear-gradient(135deg, var(--color-contrast-strong), var(--color-navy));
+}
+
+.contact-page .contact-intro h1,
+.contact-page .contact-intro p:not(.eyebrow, .panel-label) {
+  color: var(--color-text-on-dark);
+}
+
+.contact-page .contact-intro .button-ghost-light {
+  color: var(--color-text-on-dark);
+  border-color: color-mix(in oklch, var(--color-white), var(--color-transparent) 58%);
+}
+
+@media (max-width: 56rem) {
+  .page-intro {
+    padding: clamp(1.75rem, 8vw, 3rem) 0;
+  }
+
+  .page-intro h1 {
+    max-width: 100%;
+    font-size: clamp(1.8rem, 8vw, 2.65rem);
+  }
+}
+
 /* Area pages: city pages should read like local service-area pages, not cloned service pages. */
 .area-page {
   --area-accent: var(--color-brand);

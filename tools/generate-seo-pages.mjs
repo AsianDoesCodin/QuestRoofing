@@ -386,7 +386,7 @@ cities.forEach((city) => {
     schema,
     pathPrefix: "..",
     bodyClass: `area-page area-page-${city.slug}`,
-    heroClass: "seo-hero area-hero",
+    heroClass: "page-intro area-intro",
     asideClass: "area-aside",
     asideLabel: "Area snapshot",
     asideTitle: `We serve ${city.name} from our Queen Creek base.`
@@ -601,6 +601,7 @@ supportPages.forEach((page) => {
   const pathPrefix = page.path.split("/").length > 2 ? "../.." : "..";
   const pageStem = page.path.replace(/\/$/, "").replace(/\//g, "-");
   const familyClass = page.path.startsWith("resources/") ? "resource-page" : page.path.startsWith("contact/") ? "contact-page" : "about-page";
+  const introClass = page.path.startsWith("resources/") ? "page-intro resource-intro" : page.path.startsWith("contact/") ? "page-intro contact-intro" : "page-intro about-intro";
   const body = `${page.body(pathPrefix)}${section("Start a request", `<p>Use our main estimate form when you are ready to talk through the roof condition with us.</p><p class="seo-link-row"><a href="${pathPrefix}/index.html#estimate">Request an estimate</a></p>`)}`;
   const schema = pageSchema({
     canonical,
@@ -621,7 +622,7 @@ supportPages.forEach((page) => {
     schema,
     pathPrefix,
     bodyClass: `${familyClass} support-page support-page-${pageStem}`,
-    heroClass: "seo-hero support-hero",
+    heroClass: introClass,
     asideClass: "support-aside",
     asideLabel: page.path.startsWith("resources/") ? "Guide snapshot" : page.path.startsWith("contact/") ? "Contact snapshot" : "Page snapshot",
     asideTitle: page.path.startsWith("contact/") ? `We answer at ${phone} or ${email}.` : "We keep the page focused on what you need next."
