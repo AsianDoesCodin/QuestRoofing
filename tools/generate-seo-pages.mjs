@@ -9,7 +9,7 @@ const email = "info@questroofing.com";
 const favicon = "https://questroofing.com/wp-content/uploads/2024/12/Untitled-design-92-1.png";
 const logoPath = "assets/images/quest-roofing-wordmark.png";
 const socialImage = `${siteUrl}/assets/quest-roofing-real/quest-roofing-social-card.jpg`;
-const cacheVersion = "2026-05-31-header-slash-03";
+const cacheVersion = "2026-05-31-visible-slash-04";
 const rocUrl = "https://azroc.my.site.com/AZRoc/s/contractor-search?licenseId=a0ocs000004dh2nAAA";
 const gafUrl = "https://www.gaf.ca/en-ca/roofing-contractors/residential/usa/az/queen-creek/quest-roofing-llc-1149593";
 
@@ -201,6 +201,7 @@ function header(prefix = "") {
       <div class="header-brand-panel">
         <a class="brand-lockup" href="${prefix ? `${prefix}/index.html` : "index.html"}" aria-label="Quest Roofing home"><img class="brand-wordmark" src="${versionedAsset(prefix, logoPath)}" alt="Quest Roofing" width="1184" height="624"><span class="brand-location">Queen Creek, Arizona</span></a>
       </div>
+      <div class="header-slash" aria-hidden="true"></div>
       <div class="header-nav-panel">
         <a class="header-call" href="${phoneHref}">Call</a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation"><span></span><span></span></button>
@@ -476,6 +477,8 @@ const headerLogoFitCss = `.header-main{grid-template-columns:clamp(20rem,28vw,26
 
 const headerSlashCss = `.header-main{grid-template-columns:clamp(18.75rem,28vw,26.875rem) minmax(0,1fr);min-height:6.25rem;background:var(--color-warm-off-white)}.header-brand-panel{align-items:stretch;background:linear-gradient(135deg,var(--color-desert-sand) 0%,var(--color-warm-off-white) 100%);clip-path:polygon(0 0,100% 0,calc(100% - 2.75rem) 100%,0 100%);box-shadow:inset -1px 0 0 color-mix(in srgb,var(--color-line),transparent 42%);overflow:hidden}.header-brand-panel::before{display:block;width:.45rem;background:linear-gradient(180deg,var(--color-quest-blue),var(--color-accent));opacity:.95}.header-brand-panel::after{content:"";position:absolute;top:-.8rem;right:1.35rem;width:var(--rule);height:calc(100% + 1.6rem);background:color-mix(in srgb,var(--color-deep-navy),transparent 86%);transform:rotate(24deg);transform-origin:center;pointer-events:none}.brand-lockup{min-height:6.25rem;padding:.7rem clamp(var(--space-8),3.2vw,var(--space-12)) .65rem clamp(var(--space-8),4.5vw,var(--space-16))}.brand-wordmark{width:clamp(13.75rem,20vw,20rem);height:auto;max-height:4.65rem;object-fit:contain;object-position:left center}.brand-location{margin-top:.05rem;font-size:.72rem;line-height:1.1}.header-nav-panel{background:var(--color-warm-off-white);padding-left:clamp(var(--space-10),5vw,var(--space-18))}@media (max-width:76rem){.header-main{display:flex;min-height:5rem;padding:.55rem var(--space-3)}.header-brand-panel{clip-path:none;background:transparent;box-shadow:none;overflow:visible}.header-brand-panel::before,.header-brand-panel::after{display:none}.brand-lockup{min-height:3.9rem;padding:.35rem 0}.brand-wordmark{width:auto;height:clamp(3rem,8vw,3.65rem);max-width:min(100%,14rem)}.brand-location{margin-top:.08rem;font-size:.68rem;line-height:1.1}.header-nav-panel{padding-left:var(--space-2)}}@media (max-width:42rem){.header-main{min-height:4.7rem;padding:.5rem .65rem}.brand-wordmark{height:2.85rem;max-width:10.75rem}.brand-location{display:none}.header-nav-panel{padding-left:.45rem}}`;
 
+const headerVisibleSlashCss = `.header-main{display:grid;grid-template-columns:clamp(18.75rem,28vw,26.875rem) 2.75rem minmax(0,1fr);align-items:stretch;min-height:6.25rem;background:var(--color-warm-off-white)}.header-brand-panel{align-items:stretch;clip-path:none;background:linear-gradient(135deg,var(--color-warm-off-white) 0%,var(--color-desert-sand) 100%);box-shadow:none;overflow:visible}.header-brand-panel::before{display:block;width:.45rem;background:linear-gradient(180deg,var(--color-quest-blue),var(--color-accent));opacity:1}.header-brand-panel::after{display:none}.brand-lockup{min-height:6.25rem;padding:.7rem clamp(var(--space-8),3.2vw,var(--space-12)) .65rem clamp(var(--space-8),4.5vw,var(--space-16))}.brand-wordmark{width:clamp(13.75rem,20vw,20rem);height:auto;max-height:4.65rem;object-fit:contain;object-position:left center}.header-slash{position:relative;display:block;align-self:stretch;min-width:0;background:var(--color-warm-off-white);overflow:visible}.header-slash::before{content:"";position:absolute;z-index:2;top:.55rem;bottom:.55rem;left:50%;width:.7rem;transform:translateX(-50%) skewX(-24deg);transform-origin:center;border-radius:var(--radius-pill);background:linear-gradient(180deg,var(--color-quest-blue) 0%,var(--color-deep-navy) 54%,var(--color-accent) 100%);box-shadow:0 0 0 var(--rule) color-mix(in srgb,var(--color-deep-navy),transparent 86%),0 10px 26px color-mix(in srgb,var(--color-deep-navy),transparent 82%)}.header-nav-panel{background:var(--color-warm-off-white);padding-left:clamp(var(--space-5),2.5vw,var(--space-10))}@media (max-width:76rem){.header-main{display:flex;align-items:center;min-height:5rem;padding:.55rem var(--space-3)}.header-slash{display:none}.header-brand-panel{background:transparent;box-shadow:none;overflow:visible}.header-brand-panel::before,.header-brand-panel::after{display:none}.brand-lockup{min-height:3.9rem;padding:.35rem 0}.brand-wordmark{width:auto;height:clamp(3rem,8vw,3.65rem);max-width:min(100%,14rem)}.header-nav-panel{padding-left:var(--space-2)}}@media (max-width:42rem){.header-main{min-height:4.7rem;padding:.5rem .65rem}.brand-wordmark{height:2.85rem;max-width:10.75rem}.brand-location{display:none}.header-nav-panel{padding-left:.45rem}}`;
+
 const scriptJs = `(() => {
   const footerYear = document.getElementById("footer-year");
   if (footerYear) footerYear.textContent = String(new Date().getFullYear());
@@ -571,7 +574,7 @@ function write(path, content) {
 }
 
 write("tokens.css", tokensCss);
-write("styles.css", stylesCss + stickyCtaCss + heroSplitCss + mobileHeroCss + imageCardCss + headerSplitCss + headerLogoCss + headerLogoFitCss + headerSlashCss);
+write("styles.css", stylesCss + stickyCtaCss + heroSplitCss + mobileHeroCss + imageCardCss + headerSplitCss + headerLogoCss + headerLogoFitCss + headerSlashCss + headerVisibleSlashCss);
 write("script.js", scriptJs);
 write("index.html", homepage());
 services.forEach((service) => write(join("services", service.slug, "index.html"), servicePage(service)));
