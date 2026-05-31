@@ -2,141 +2,204 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 
 const siteUrl = "https://questroofing.com";
+const lastmod = "2026-06-01";
 const phone = "602-399-6455";
 const phoneHref = "tel:6023996455";
 const email = "info@questroofing.com";
 const favicon = "https://questroofing.com/wp-content/uploads/2024/12/Untitled-design-92-1.png";
-const brandLogoPath = "assets/images/quest-roofing-wordmark.png";
-const logo = `${siteUrl}/${brandLogoPath}`;
+const logoPath = "assets/images/quest-roofing-wordmark.png";
 const socialImage = `${siteUrl}/assets/quest-roofing-real/quest-roofing-social-card.jpg`;
-const today = "2026-05-30";
 const rocUrl = "https://azroc.my.site.com/AZRoc/s/contractor-search?licenseId=a0ocs000004dh2nAAA";
 const gafUrl = "https://www.gaf.ca/en-ca/roofing-contractors/residential/usa/az/queen-creek/quest-roofing-llc-1149593";
-const externalCredentialAttrs = 'target="_blank" rel="noopener"';
-const rocLink = `<a class="credential-link" href="${rocUrl}" ${externalCredentialAttrs}>AZ ROC #355136</a>`;
-const gafLink = `<a class="credential-link" href="${gafUrl}" ${externalCredentialAttrs}>GAF Certified</a>`;
-const rocInlineLink = `<a class="credential-inline-link" href="${rocUrl}" ${externalCredentialAttrs}>AZ ROC #355136</a>`;
-const gafInlineLink = `<a class="credential-inline-link" href="${gafUrl}" ${externalCredentialAttrs}>GAF certification</a>`;
+
+const asset = (prefix, path) => prefix ? `${prefix}/${path}` : path;
+const home = (prefix, hash = "") => `${prefix ? `${prefix}/index.html` : ""}${hash ? `#${hash}` : ""}`;
+const link = (prefix, path) => asset(prefix, path);
+
+const images = {
+  consultant: ["assets/quest-roofing-real/roof-consultant-tile-roof.jpg", "Quest Roofing consultant documenting a tile roof", 1600, 900],
+  inspection: ["assets/quest-roofing-real/inspection-on-tile-roof.jpg", "Roof inspection on a tile roof in Arizona", 1600, 900],
+  drone: ["assets/quest-roofing-real/hero-roof-replacement-drone.jpg", "Aerial view of a Quest Roofing replacement project", 1600, 900],
+  protection: ["assets/quest-roofing-real/project-overhead-protection.jpg", "Overhead view of roof project protection and staging", 1600, 900],
+  staged: ["assets/quest-roofing-real/tile-staged-underlayment.jpg", "Tile staged during underlayment work", 1200, 1600],
+  battens: ["assets/quest-roofing-real/tile-battens-install-day.jpg", "Battens and underlayment being installed on a tile roof", 1200, 1600],
+  underlayment: ["assets/quest-roofing-real/underlayment-rolls-clean-deck.jpg", "Underlayment rolls staged on a clean roof deck", 1500, 2000],
+  flashing: ["assets/quest-roofing-real/flashing-repair-detail.jpg", "Close-up flashing repair detail on a roof", 1600, 1200],
+  pipe: ["assets/quest-roofing-real/pipe-flashing-detail.jpg", "Pipe flashing detail documented during roof work", 1200, 1600],
+  metal: ["assets/quest-roofing-real/metal-valley-flashing-detail.jpg", "Metal valley flashing detail on a roof", 1500, 2000],
+  deck: ["assets/quest-roofing-real/roof-deck-repair-open-area.jpg", "Open roof deck repair area documented before closeout", 1500, 2000],
+  shingle: ["assets/quest-roofing-real/shingle-roof-finished.jpg", "Finished shingle roof surface with vents visible", 1200, 1600],
+  tileFinished: ["assets/quest-roofing-real/finished-tile-roof-slope.jpg", "Finished tile roof slope in Arizona sun", 1200, 1600]
+};
+
+const img = (key, prefix = "", attrs = "") => {
+  const [src, alt, width, height] = images[key];
+  return `<img src="${asset(prefix, src)}" alt="${alt}" width="${width}" height="${height}"${attrs}>`;
+};
 
 const services = [
   {
     slug: "roof-repair",
-    title: "Roof Repair in Phoenix, AZ | Quest Roofing",
-    h1: "Roof Repair in Phoenix, AZ",
-    meta: "We repair Phoenix-area roof leaks, storm damage, tile, shingle, foam, and metal roofs with free inspections and written estimates.",
-    name: "Roof Repair",
-    intro: "We repair Phoenix-area roofs with photo-backed inspections and written estimates. If a targeted repair can solve the problem, we will explain that option clearly before you approve any work.",
-    signs: ["Ceiling stains after rain", "Broken or slipped tiles", "Lifted shingles or exposed fasteners", "Foam roof cracks or worn coating", "Flashing or penetration leaks"],
-    process: ["Inspect the leak source and surrounding roof area", "Document problem areas with photos", "Explain repair scope, materials, timing, and price", "Complete approved repair work and cleanup", "Review the work and warranty details"],
-    faq: [
-      ["Can Quest repair a roof instead of replacing it?", "Yes. When repair is the right fix, we will show you why and put the recommendation in writing instead of pushing a vague replacement pitch."],
-      ["Do roof repairs include a free inspection?", "Yes. We can start roof repair requests with a free inspection and a written estimate."]
-    ]
-  },
-  {
-    slug: "roof-inspection",
-    title: "Roof Inspection Phoenix AZ | Quest Roofing",
-    h1: "Roof Inspection in Phoenix, AZ",
-    meta: "We provide free Phoenix roof inspections with photos and written estimates for tile, shingle, foam, and metal roofs.",
-    name: "Roof Inspection",
-    intro: "Our roof inspections make the condition of your roof easier to understand. We use photos and written estimates so you can see what is wrong, what can wait, and what needs attention now.",
-    signs: ["Buying or selling a home", "Recent monsoon wind or rain", "Interior staining", "Aging tile underlayment", "Foam roof surface wear"],
-    process: ["Review roof type and access points", "Inspect likely leak and wear areas", "Photograph notable findings", "Explain repair or replacement choices", "Provide a written estimate when work is needed"],
-    faq: [
-      ["Are inspections free?", "Yes. We can start roof inspection requests with a free inspection."],
-      ["Will I get photos?", "Yes. We back inspections with photos so problem areas are easier to understand."]
-    ]
+    nav: "Roof Repair",
+    title: "Roof Repair in Greater Phoenix | Quest Roofing",
+    h1: "Roof repair in Greater Phoenix.",
+    meta: "Roof repair for Queen Creek and Greater Phoenix homeowners, with photo-backed inspections and written estimates.",
+    image: "flashing",
+    intro: "Active leaks, ceiling stains, flashing issues, slipped tiles, lifted shingles, and foam cracks all need a clear inspection before a repair scope makes sense.",
+    signs: [["Active leak", "Water entering the home or new staining after rain."], ["Ceiling stains", "Interior marks that need to be traced to real roof details."], ["Flashing concern", "Wall, valley, pipe, or transition areas where water control depends on detail work."], ["Broken or slipped tile", "Tile movement that can expose underlayment."], ["Lifted shingles", "Missing tabs, loose edges, or storm movement."], ["Foam coating wear", "Cracks, punctures, or worn coating on low-slope sections."]],
+    documents: ["Visible leak source and surrounding roof condition", "Flashing, penetrations, tile, shingle, or foam details", "Repairable items versus larger system concerns", "Written repair scope before work is approved"],
+    context: "A targeted repair can be the right answer when the problem is isolated. If the roof condition points to larger work, Quest explains why before scheduling anything.",
+    faq: [["Can Quest repair a roof instead of replacing it?", "Yes. When repair is the right fit, Quest documents the issue and explains the targeted scope in writing."], ["What should I do for an active leak?", "Call 602-399-6455 and describe the leak location, timing, and visible interior damage."]]
   },
   {
     slug: "tile-roofing",
-    title: "Tile Roofing Phoenix AZ | Quest Roofing",
-    h1: "Tile Roofing in Phoenix, AZ",
-    meta: "We handle Phoenix tile roof repair, underlayment replacement, and new tile installation with free written estimates.",
-    name: "Tile Roofing",
-    intro: "Tile roofing is common across Arizona homes, but the tile is only one part of the system. We handle tile repair, underlayment replacement, and new tile installation with clear scope before work begins.",
-    signs: ["Cracked or missing tiles", "Aging underlayment", "Leaks around valleys or penetrations", "Visible slipped tiles", "Storm movement or impact damage"],
-    process: ["Inspect tiles, flashings, penetrations, and underlayment clues", "Identify repairable areas", "Explain underlayment concerns when present", "Prepare a written tile roofing estimate", "Complete approved repair or replacement work"],
-    faq: [
-      ["How long can tile roofs last?", "Tile roofs can last for decades, but the underlayment beneath the tile usually needs attention much sooner."],
-      ["Do you repair tile roofs?", "Yes. We repair tile roofs, replace damaged tile, and handle larger tile roofing work when the system needs it."]
-    ]
+    nav: "Tile Roofing",
+    title: "Tile Roofing in Greater Phoenix | Quest Roofing",
+    h1: "Tile roofing for Arizona homes.",
+    meta: "Tile roofing inspections, repairs, underlayment work, and written estimates for Queen Creek and Greater Phoenix homes.",
+    image: "staged",
+    intro: "Arizona tile roofs need more than a surface check. Quest reviews tiles, underlayment clues, battens, valleys, flashing, and finished roof details.",
+    signs: [["Broken or missing tiles", "Open areas that can expose the roof system below."], ["Underlayment wear", "Aging material beneath tile that may drive the real scope."], ["Valley or penetration leak", "Water entry around high-flow areas or roof openings."], ["Slipped rows", "Tile movement that changes water path and roof appearance."], ["Storm movement", "Post-monsoon shifts, impact marks, or loose material."], ["Finished surface concerns", "Visible tile damage that needs a clean repair plan."]],
+    documents: ["Tile condition, staged areas, and vulnerable rows", "Underlayment clues and battens when visible", "Valleys, penetrations, flashing, and transitions", "Repair or replacement path with a written scope"],
+    context: "Tile can last a long time, but underlayment and details often decide the project. Quest separates what is cosmetic, repairable, and system-level.",
+    faq: [["Do you repair tile roofs?", "Yes. Quest handles tile roof repairs and larger tile roofing work when the inspection supports it."], ["Is tile roof work always full replacement?", "No. Quest explains targeted repairs when they fit and larger scope when the roof system calls for it."]]
   },
   {
     slug: "shingle-roofing",
-    title: "Shingle Roofing Phoenix AZ | Quest Roofing",
-    h1: "Shingle Roofing in Phoenix, AZ",
-    meta: "We repair and replace Phoenix shingle roofs using GAF and Owens Corning materials, with free written estimates.",
-    name: "Shingle Roofing",
-    intro: "We install and repair architectural asphalt shingle systems using GAF and Owens Corning materials. Our written estimate clarifies whether repair or replacement makes the most sense for your roof.",
-    signs: ["Lifted or missing shingles", "Granule loss", "Storm damage", "Leaks at flashing", "A roof near the end of its expected life"],
-    process: ["Inspect shingle field and edges", "Check penetrations and flashings", "Document damage or wear", "Recommend repair or replacement", "Review materials and timing"],
-    faq: [
-      ["What shingle materials do you use?", "We work with GAF and Owens Corning materials for shingle roofing projects."],
-      ["How long do shingle roofs last in Arizona?", "Arizona heat shortens shingle life compared with milder climates, so inspections matter as the roof ages."]
-    ]
-  },
-  {
-    slug: "foam-roofing",
-    title: "Foam Roofing Phoenix AZ | Quest Roofing",
-    h1: "Foam Roofing in Phoenix, AZ",
-    meta: "We provide Phoenix foam roofing and recoats for flat and low-slope roofs with inspections and written estimates.",
-    name: "Foam Roofing",
-    intro: "Foam roofing is a strong option for flat and low-slope Arizona roofs. We handle spray polyurethane foam roofing and recoats when the surface needs renewed protection.",
-    signs: ["Cracks in coating", "Ponding or worn low spots", "Sun-damaged surface", "Leaks on flat roof sections", "Roof approaching recoat timing"],
-    process: ["Inspect foam surface condition", "Look for cracks, punctures, and drainage concerns", "Explain repair versus recoat options", "Provide written scope and pricing", "Complete approved foam roofing work"],
-    faq: [
-      ["How long does foam roofing last?", "Foam roof life depends heavily on coating condition, drainage, and recoat timing."],
-      ["Do foam recoats cost less than replacement?", "Recoats are often a smaller project than full replacement when the foam system is still sound."]
-    ]
+    nav: "Shingle Roofing",
+    title: "Shingle Roofing in Greater Phoenix | Quest Roofing",
+    h1: "Shingle roofing with clear scope.",
+    meta: "Shingle roof repair and replacement guidance for Queen Creek and Greater Phoenix homeowners.",
+    image: "shingle",
+    intro: "Shingle roof decisions depend on surface wear, missing tabs, flashing, ventilation details, heat exposure, and whether repair still makes practical sense.",
+    signs: [["Missing shingles", "Open or lifted sections that leave the roof vulnerable."], ["Aging asphalt", "Curling, surface wear, or visible deterioration after heat exposure."], ["Flashing leaks", "Water entry around walls, vents, valleys, or penetrations."], ["Storm movement", "Loose tabs or exposed sections after wind."], ["Replacement planning", "A broader decision when repairs no longer solve the roof condition."], ["Finished surface review", "Documentation of the final shingle field and roof details."]],
+    documents: ["Shingle field condition and missing or lifted areas", "Vents, valleys, edges, and flashing details", "Repairable issues compared with replacement indicators", "Written material and scope notes before work is approved"],
+    context: "Quest keeps the decision grounded: fix the section when that is enough, or explain replacement when widespread wear makes patching a poor value.",
+    faq: [["How do I know if shingles need repair or replacement?", "Quest documents roof condition and explains whether the concern is isolated or widespread."], ["Do you inspect flashing on shingle roofs?", "Yes. Flashing, penetrations, edges, and roof transitions are part of the review."]]
   },
   {
     slug: "metal-roofing",
-    title: "Metal Roofing Phoenix AZ | Quest Roofing",
-    h1: "Metal Roofing in Phoenix, AZ",
-    meta: "We repair and replace Phoenix metal roofs, including standing seam and exposed-fastener systems. Get a free estimate.",
-    name: "Metal Roofing",
-    intro: "We work with standing seam and exposed-fastener metal roof systems. Metal roofing can handle Arizona heat well, but fasteners, seams, and flashings still need careful inspection.",
-    signs: ["Loose or aging fasteners", "Leaks near penetrations", "Panel movement", "Damaged trim or flashing", "Storm-related impact concerns"],
-    process: ["Inspect seams, panels, fasteners, and flashings", "Document repair points", "Explain material and system options", "Prepare written estimate", "Complete approved repair or replacement"],
-    faq: [
-      ["How long can metal roofing last?", "Metal roof life depends on the system, fasteners, flashing details, and maintenance."],
-      ["Do you handle metal roofing?", "Yes. We repair and replace metal roofing systems, including standing seam and exposed-fastener roofs."]
-    ]
+    nav: "Metal Roofing",
+    title: "Metal Roofing in Greater Phoenix | Quest Roofing",
+    h1: "Metal roofing details documented.",
+    meta: "Metal roof repair and replacement guidance for Queen Creek and Greater Phoenix homes.",
+    image: "metal",
+    intro: "Metal roofing can perform well in Arizona when seams, fasteners, trim, valleys, and penetrations are inspected and detailed correctly.",
+    signs: [["Loose fasteners", "Fastener movement or aging that can lead to water entry."], ["Panel movement", "Metal expansion, contraction, or loose sections that need review."], ["Valley detail concern", "High-flow areas where clean metal work matters."], ["Penetration leak", "Openings around pipes or equipment that need documented flashing."], ["Trim damage", "Edges, transitions, or visible finish concerns."], ["Storm impact", "Post-wind or debris concerns that need inspection photos."]],
+    documents: ["Panel field, seams, fasteners, and trim", "Valleys, penetrations, and edge conditions", "Visible movement, damage, or leak paths", "Written options for repair or replacement"],
+    context: "Metal roof performance depends on small details. Quest documents those details before recommending a repair, replacement section, or larger project.",
+    faq: [["Do you work on standing seam and exposed-fastener roofs?", "Yes. Quest reviews metal roof details and explains the scope before work is approved."], ["Can metal roof leaks be repaired?", "Often, but the right answer depends on seams, fasteners, flashing, and surrounding roof condition."]]
+  },
+  {
+    slug: "foam-roofing",
+    nav: "Foam Roofing",
+    title: "Foam Roofing in Greater Phoenix | Quest Roofing",
+    h1: "Foam roofing and flat roof recoats.",
+    meta: "Foam roofing inspections, recoats, and flat roof guidance for Queen Creek and Greater Phoenix homeowners.",
+    image: "underlayment",
+    intro: "Flat and low-slope roofs need attention to coating wear, cracks, ponding, punctures, drainage, and waterproofing concerns.",
+    signs: [["Cracked coating", "Open areas that may expose the roof system to water and sun."], ["Ponding water", "Low spots or drainage concerns that need review."], ["Sun-damaged surface", "A worn or chalky surface that may need renewed protection."], ["Leak on flat section", "Interior water entry tied to a low-slope roof area."], ["Recoat planning", "A surface that may need coating work before larger damage develops."], ["Coverage concern", "Areas where waterproofing continuity needs to be verified."]],
+    documents: ["Coating condition, cracks, punctures, and worn areas", "Drainage and ponding observations", "Repair versus recoat context", "Written foam or flat roof scope when work is needed"],
+    context: "A recoat may be appropriate when the existing system is sound. Quest documents the surface before recommending that path.",
+    faq: [["Do foam roofs always need replacement?", "No. Some foam and flat roof surfaces are candidates for repair or recoat when the system is still sound."], ["What do you check on flat roofs?", "Quest looks at drainage, coating wear, cracks, punctures, penetrations, and visible waterproofing concerns."]]
+  },
+  {
+    slug: "roof-inspection",
+    nav: "Free Inspection",
+    title: "Free Roof Inspection in Greater Phoenix | Quest Roofing",
+    h1: "Free roof inspections with written next steps.",
+    meta: "Free roof inspections for Queen Creek and Greater Phoenix homeowners, with photos, written explanations, and clear estimate scope.",
+    image: "inspection",
+    intro: "A useful inspection should answer what is wrong, what can wait, and what needs attention, with photos and a written explanation.",
+    signs: [["Not sure yet", "You know something looks off but need a roof professional to document it."], ["Recent storm", "Wind or rain raised concerns about tiles, shingles, flashing, or flat sections."], ["Planning ahead", "You want context before a roof decision becomes urgent."], ["Interior stain", "A ceiling mark needs to be tied to a real roof condition."], ["Material comparison", "Tile, shingle, metal, or foam options need practical explanation."], ["Property preparation", "Photos and roof history can make the first visit more useful."]],
+    documents: ["Photos of visible findings and roof concern areas", "Plain-language explanation of the roof condition", "Repair or replacement options when relevant", "Written estimate before approved work is scheduled"],
+    context: "The inspection is built for clarity. Quest documents what it sees, explains what it means, and gives the homeowner a clear next step.",
+    faq: [["Do you offer free inspections and written estimates?", "Yes. Quest can start with an inspection request and provide a written estimate so the scope is clear before work begins."], ["What should I prepare?", "Roof age, leak history, storm timing, interior photos, exterior photos if safe, and address or cross streets are helpful."]]
   }
 ];
 
-const officialServiceSlugs = [
-  "roof-repair",
-  "tile-roofing",
-  "shingle-roofing",
-  "metal-roofing",
-  "foam-roofing",
-  "roof-inspection"
-];
-
-const publishedServices = officialServiceSlugs.map((slug) => services.find((service) => service.slug === slug));
-const serviceLabel = (service) => service.slug === "roof-inspection" ? "Free Inspection" : service.name;
-
 const cities = [
-  ["phoenix", "Phoenix", "We help Phoenix homeowners with roof repair, replacement, inspections, and storm response across central, north, and surrounding Phoenix neighborhoods.", ["Tile and shingle systems both appear throughout Phoenix neighborhoods", "Flat and foam roof sections are common on many desert homes", "Monsoon wind and heat exposure make written inspections important"]],
-  ["scottsdale", "Scottsdale", "We help Scottsdale homeowners protect tile, foam, and metal roof systems where appearance, HOA expectations, and clear documentation all matter.", ["Tile roofs are common across many Scottsdale homes", "Foam and flat roof sections need coating attention", "Written scopes help homeowners compare repair versus replacement clearly"]],
-  ["paradise-valley", "Paradise Valley", "We help Paradise Valley homeowners with a clean process, careful documentation, and roof systems that fit higher-end residential properties.", ["Tile and specialty roof details need careful inspection", "We check valleys, penetrations, and transitions during leak diagnosis", "Clear written estimates matter before approving work"]],
-  ["gilbert", "Gilbert", "We serve Gilbert from our Queen Creek base and help homeowners with tile, shingle, foam, metal, repair, and replacement needs.", ["Tile and shingle roofs are common", "Monsoon leaks can show up around penetrations", "Local scheduling keeps this area practical for the crew"]],
-  ["queen-creek", "Queen Creek", "Queen Creek is our home base, so local inspections, repairs, and replacements are a natural part of the way we serve Arizona homeowners.", ["Local proximity supports faster scheduling", "Tile, shingle, foam, and metal systems are all relevant", "Homeowners can ask for written estimates and inspection photos"]],
-  ["mesa", "Mesa", "We help Mesa homeowners with older and newer roof systems, including repair, replacement, inspections, tile, shingle, foam, and metal roofing.", ["Older roof systems may need careful repair-versus-replace review", "Tile underlayment concerns are common in Arizona", "Foam and flat roof sections need coating attention"]],
-  ["chandler", "Chandler", "We help Chandler homeowners get clear repair guidance, written estimates, and roof system options from a nearby Arizona roofing contractor.", ["Tile and shingle systems are common", "Storm-season leak response matters", "Written estimates help avoid pressure selling"]],
-  ["tempe", "Tempe", "We help Tempe homeowners compare repair, inspection, shingle, tile, foam, and replacement options with a clear written scope.", ["Mixed roof ages make inspection detail important", "Flat and low-slope sections appear on many properties", "Clear scope helps homeowners compare options"]]
-].map(([slug, name, intro, localNotes]) => ({
+  ["queen-creek", "Queen Creek", "Queen Creek roofing from a local base.", "Quest is based in Queen Creek, so local tile roofs, newer subdivisions, dust, heat, and storm exposure are part of the everyday inspection conversation.", [["Tile roof checks", "Concrete and clay tile roofs need attention to underlayment clues, valleys, and slipped rows."], ["Newer home questions", "Newer roof systems still need documentation when storms, leaks, or material concerns show up."], ["Dust and heat exposure", "Arizona conditions can make small roof details age faster than homeowners expect."]]],
+  ["gilbert", "Gilbert", "Gilbert roofing with photo-backed scope.", "Gilbert homes commonly include tile, shingle, and flat roof sections, so Quest starts with inspection photos and a written scope before work is approved.", [["Monsoon leak paths", "Wind-driven rain often shows up around penetrations, valleys, and roof transitions."], ["Tile and shingle mix", "Different roof areas may need different repair or replacement conversations."], ["Written estimate clarity", "A clear scope helps homeowners compare roof recommendations without pressure."]]],
+  ["chandler", "Chandler", "Chandler roof inspections and estimates.", "Chandler homeowners often need practical answers after monsoon leaks, tile movement, shingle wear, or flat roof coating concerns.", [["Storm-season leaks", "Quest documents the affected roof area instead of guessing from a ceiling stain alone."], ["Tile and shingle systems", "The repair path depends on the actual material, age, and surrounding roof condition."], ["Clear next step", "The written estimate explains what is included before work is scheduled."]]],
+  ["mesa", "Mesa", "Mesa roofing for mixed roof ages.", "Mesa has older and newer roof systems, so Quest looks carefully at material condition, underlayment clues, flat sections, and repair-versus-replace context.", [["Older roof review", "Aging materials need a careful inspection before anyone recommends a large scope."], ["Flat and foam sections", "Low-slope areas need coating, drainage, crack, and penetration checks."], ["Tile underlayment", "Tile roofs can look sound while the system beneath needs attention."]]],
+  ["tempe", "Tempe", "Tempe roofing with clear documentation.", "Tempe roof calls can involve mixed ages, shingle wear, tile details, foam sections, and access variation, so written scope matters.", [["Mixed roof ages", "Older repairs and newer materials may need to be evaluated together."], ["Low-slope details", "Flat sections need inspection around drainage, coating, and penetrations."], ["Scope comparison", "Photos make it easier to compare repair and replacement recommendations."]]],
+  ["scottsdale", "Scottsdale", "Scottsdale roofing with detail-focused scope.", "Scottsdale homes often need careful tile, flat section, flashing, and finish-detail review, especially when appearance and documentation both matter.", [["Tile system detail", "Tile work should account for underlayment, valleys, staged rows, and visible finish."], ["Flat roof sections", "Foam and low-slope areas need coating and drainage review."], ["Premium finish expectations", "Quest documents the roof condition and scope so the finished work is easier to evaluate."]]],
+  ["paradise-valley", "Paradise Valley", "Paradise Valley roof work documented before approval.", "Paradise Valley roof decisions often involve premium homes, tile systems, detail work, flat sections, and a strong need for clear documentation.", [["Detail work", "Transitions, valleys, penetrations, and finish lines should be inspected closely."], ["Tile and flat sections", "Multiple roof systems may appear on the same property and require different scopes."], ["Owner confidence", "Written scope and photos help owners approve work without relying on vague claims."]]],
+  ["phoenix", "Phoenix", "Phoenix roofing for heat, wind, and mixed roof types.", "Phoenix roof work can involve mixed roof types, flat and foam sections, heat exposure, monsoon wind, older neighborhoods, and roof access variation.", [["Flat and foam sections", "Low-slope areas need attention to coating condition, drainage, and penetrations."], ["Heat exposure", "Arizona sun can accelerate surface wear, flashing stress, and shingle aging."], ["Monsoon wind", "Loose materials and exposed areas should be documented quickly after storm concerns."]]]
+].map(([slug, name, h1, intro, concerns]) => ({
   slug,
   name,
-  title: `Roofing Company in ${name}, AZ | Quest Roofing`,
-  h1: `Roofing Company in ${name}, AZ`,
-  meta: `We serve ${name}, AZ with roof repair, replacement, tile, shingle, foam, metal roofing, and free written estimates.`,
+  h1,
   intro,
-  localNotes
+  concerns,
+  title: `Roofing Company in ${name}, AZ | Quest Roofing`,
+  meta: `Quest Roofing serves ${name}, Arizona with roof repair, inspections, replacement planning, tile, shingle, foam, and metal roofing.`
 }));
 
-const layout = ({ title, meta, canonical, body, schema, pathPrefix = "..", bodyClass = "", intro = "" }) => `<!DOCTYPE html>
+function roc(className = "credential-link") {
+  return `<a class="${className}" href="${rocUrl}" target="_blank" rel="noopener">AZ ROC #355136</a>`;
+}
+
+function gaf(className = "credential-link") {
+  return `<a class="${className}" href="${gafUrl}" target="_blank" rel="noopener">GAF Certified</a>`;
+}
+
+const businessSchema = {
+  "@type": "RoofingContractor",
+  "@id": `${siteUrl}/#business`,
+  name: "Quest Roofing",
+  url: `${siteUrl}/`,
+  logo: `${siteUrl}/${logoPath}`,
+  image: socialImage,
+  telephone: "+1-602-399-6455",
+  email,
+  address: { "@type": "PostalAddress", addressLocality: "Queen Creek", addressRegion: "AZ", addressCountry: "US" },
+  identifier: "AZ ROC #355136",
+  areaServed: cities.map((city) => ({ "@type": "City", name: city.name })),
+  knowsAbout: services.map((service) => service.nav)
+};
+
+const faqSchema = (faq) => ({
+  "@type": "FAQPage",
+  mainEntity: faq.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } }))
+});
+
+const pageSchema = (canonical, title, meta, extra = []) => ({
+  "@context": "https://schema.org",
+  "@graph": [
+    businessSchema,
+    { "@type": "WebPage", "@id": `${canonical}#webpage`, url: canonical, name: title, description: meta, about: { "@id": `${siteUrl}/#business` }, inLanguage: "en-US" },
+    ...extra
+  ]
+});
+
+function header(prefix = "") {
+  return `<header class="site-header" id="top">
+    <div class="top-bar"><div class="container top-bar-inner"><p>${roc()} / ${gaf()} / Free written estimates / Licensed, Bonded, Insured</p><div class="top-bar-actions"><a href="${phoneHref}">${phone}</a><a href="mailto:${email}">${email}</a></div></div></div>
+    <div class="container header-inner">
+      <a class="brand" href="${prefix ? `${prefix}/index.html` : "index.html"}" aria-label="Quest Roofing home"><span class="brand-mark"><img src="${asset(prefix, logoPath)}" alt="Quest Roofing" width="1184" height="624"></span><span class="brand-copy"><strong>Quest Roofing</strong><span>Queen Creek, Arizona</span></span></a>
+      <a class="header-call" href="${phoneHref}">Call</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation"><span></span><span></span></button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <a href="${home(prefix, "services")}">Services</a><a href="${home(prefix, "process")}">Process</a><a href="${link(prefix, "gallery/index.html")}">Gallery</a><a href="${home(prefix, "service-area")}">Service Area</a><a href="${home(prefix, "reviews")}">Reviews</a><a href="${home(prefix, "faq")}">FAQ</a><a href="${link(prefix, "contact/index.html")}">Contact</a><a class="nav-cta" href="${home(prefix, "estimate")}">Schedule Free Inspection</a>
+      </nav>
+    </div>
+  </header>`;
+}
+
+function footer(prefix = "") {
+  return `<footer class="site-footer">
+    <div class="container footer-layout">
+      <div><p class="footer-brand">Quest Roofing</p><p>Queen Creek, Arizona roofing contractor serving the Greater Phoenix area with photo-backed inspections and written estimates.</p><ul class="footer-contact"><li><span>Phone</span><a href="${phoneHref}">${phone}</a></li><li><span>Email</span><a href="mailto:${email}">${email}</a></li><li><span>License</span>${roc()}</li><li><span>Credential</span>${gaf()}</li><li><span>Trust</span><strong>Licensed, Bonded, Insured</strong></li></ul></div>
+      <nav class="footer-link-grid" aria-label="Footer navigation"><div><strong>Services</strong>${services.map((service) => `<a href="${link(prefix, `services/${service.slug}/index.html`)}">${service.nav}</a>`).join("")}</div><div><strong>Cities</strong>${cities.map((city) => `<a href="${link(prefix, `roofing-${city.slug}-az/index.html`)}">${city.name}</a>`).join("")}</div><div><strong>Company</strong><a href="${link(prefix, "gallery/index.html")}">Gallery</a><a href="${link(prefix, "about-us/reviews/index.html")}">Reviews</a><a href="${link(prefix, "resources/design-your-roof/index.html")}">Roof Planning</a><a href="${link(prefix, "resources/roofing-glossary/index.html")}">Roofing Glossary</a><a href="${link(prefix, "contact/index.html")}">Contact</a></div></nav>
+    </div>
+    <div class="container footer-bottom"><span>Copyright <span id="footer-year">2026</span> Quest Roofing</span><a href="#top">Back to top</a></div>
+  </footer><div class="mobile-cta-bar" aria-label="Quick contact"><a href="${phoneHref}">Call</a><a href="${home(prefix, "estimate")}">Free Inspection</a></div>`;
+}
+
+function layout({ title, meta, canonical, body, schema, prefix = "", bodyClass = "" }) {
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -144,7 +207,9 @@ const layout = ({ title, meta, canonical, body, schema, pathPrefix = "..", bodyC
   <title>${title}</title>
   <meta name="description" content="${meta}">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <meta name="theme-color" content="#2458ad">
+  <meta name="theme-color" content="#0B1D33">
+  <meta name="geo.region" content="US-AZ">
+  <meta name="geo.placename" content="Queen Creek">
   <link rel="canonical" href="${canonical}">
   <link rel="icon" href="${favicon}">
   <meta property="og:type" content="website">
@@ -153,602 +218,340 @@ const layout = ({ title, meta, canonical, body, schema, pathPrefix = "..", bodyC
   <meta property="og:description" content="${meta}">
   <meta property="og:url" content="${canonical}">
   <meta property="og:image" content="${socialImage}">
+  <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${title}">
   <meta name="twitter:description" content="${meta}">
   <meta name="twitter:image" content="${socialImage}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="${pathPrefix}/tokens.css">
-  <link rel="stylesheet" href="${pathPrefix}/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="${asset(prefix, "tokens.css")}">
+  <link rel="stylesheet" href="${asset(prefix, "styles.css")}">
   <script type="application/ld+json">${JSON.stringify(schema)}</script>
 </head>
 <body${bodyClass ? ` class="${bodyClass}"` : ""}>
-  <div class="site-shell">
-    <header class="site-header" id="top">
-      <div class="top-bar">
-        <div class="container top-bar-inner">
-          <p>${rocLink} - ${gafLink} - Free written estimates</p>
-          <div class="top-bar-actions">
-            <a href="${phoneHref}">${phone}</a>
-            <a href="mailto:${email}">${email}</a>
-          </div>
-        </div>
-      </div>
-      <div class="container header-inner">
-        <a class="brand" href="${pathPrefix}/index.html" aria-label="Quest Roofing home">
-          <span class="brand-mark"><img src="${pathPrefix}/${brandLogoPath}" alt="Quest Roofing" width="1184" height="624"></span>
-          <span class="brand-copy"><strong>Quest Roofing</strong><span>Queen Creek, Arizona</span></span>
-        </a>
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation"><span></span><span></span></button>
-        <nav class="site-nav" id="site-nav" aria-label="Primary">
-          <div class="nav-group">
-            <button class="nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">About</button>
-            <div class="nav-menu" aria-label="About pages">
-              <a href="${pathPrefix}/about-us/our-team/index.html">Our Team</a>
-              <a href="${pathPrefix}/about-us/completed-projects/index.html">Completed Projects</a>
-              <a href="${pathPrefix}/about-us/core-values/index.html">Core Values</a>
-              <a href="${pathPrefix}/about-us/community-outreach/index.html">Community Outreach</a>
-              <a href="${pathPrefix}/about-us/reviews/index.html">Reviews</a>
-            </div>
-          </div>
-          <div class="nav-group">
-            <button class="nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Services</button>
-            <div class="nav-menu" aria-label="Service pages">
-              <a href="${pathPrefix}/index.html#services">Services Overview</a>
-              ${publishedServices.map((service) => `<a href="${pathPrefix}/services/${service.slug}/index.html">${serviceLabel(service)}</a>`).join("\n              ")}
-            </div>
-          </div>
-          <a href="${pathPrefix}/index.html#process">Process</a>
-          <a href="${pathPrefix}/index.html#why-quest">Why Quest</a>
-          <a href="${pathPrefix}/gallery/index.html">Gallery</a>
-          <a href="${pathPrefix}/resources/design-your-roof/index.html">Resources</a>
-          <a class="nav-cta" href="${pathPrefix}/index.html#estimate">Request Quote</a>
-        </nav>
-      </div>
-    </header>
-    <main class="subpage-main">
-${intro}
-${body}
-    </main>
-    <footer class="site-footer">
-      <div class="container footer-inner footer-inner-wide">
-        <div>
-          <p class="footer-brand">Quest Roofing</p>
-          <p class="footer-copy">We are a licensed roofing contractor based in Queen Creek, Arizona.</p>
-          <p class="footer-meta"><span>${rocLink}</span><span>${gafLink}</span><span>Copyright 2026 Quest Roofing</span></p>
-        </div>
-        <nav class="footer-seo-links" aria-label="SEO footer links">
-          <div><strong>Services</strong>${publishedServices.map((service) => `<a href="${pathPrefix}/services/${service.slug}/index.html">${serviceLabel(service)}</a>`).join("")}</div>
-          <div><strong>Cities</strong>${cities.map((city) => `<a href="${pathPrefix}/roofing-${city.slug}-az/index.html">${city.name}</a>`).join("")}</div>
-        </nav>
-      </div>
-    </footer>
-  </div>
-  <script src="${pathPrefix}/script.js"></script>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="site-shell">${header(prefix)}${body}${footer(prefix)}</div>
+  <script src="${asset(prefix, "script.js")}"></script>
 </body>
 </html>
 `;
+}
 
-const businessSchema = {
-  "@type": "RoofingContractor",
-  "@id": `${siteUrl}/#business`,
-  name: "Quest Roofing",
-  url: `${siteUrl}/`,
-  logo,
-  telephone: "+1-602-399-6455",
-  email,
-  address: { "@type": "PostalAddress", addressLocality: "Queen Creek", addressRegion: "AZ", addressCountry: "US" },
-  identifier: "AZ ROC #355136"
-};
+function cardGrid(cards) {
+  return `<div class="seo-card-grid">${cards.map(([title, text]) => `<article><h3>${title}</h3><p>${text}</p></article>`).join("")}</div>`;
+}
 
-const breadcrumbSchema = (items) => ({
-  "@type": "BreadcrumbList",
-  itemListElement: items.map((item, index) => ({
-    "@type": "ListItem",
-    position: index + 1,
-    name: item.name,
-    item: item.url
-  }))
-});
+function section(heading, copy, content, className = "", id = "") {
+  return `<section class="section-band ${className}"${id ? ` id="${id}"` : ""}><div class="container"><div class="section-heading"><h2>${heading}</h2>${copy ? `<p>${copy}</p>` : ""}</div>${content}</div></section>`;
+}
 
-const pageSchema = ({ canonical, title, meta, breadcrumbs = [], extra = [] }) => ({
-  "@context": "https://schema.org",
-  "@graph": [
-    businessSchema,
-    { "@type": "WebPage", "@id": `${canonical}#webpage`, url: canonical, name: title, description: meta, about: { "@id": `${siteUrl}/#business` }, inLanguage: "en-US" },
-    ...(breadcrumbs.length ? [breadcrumbSchema(breadcrumbs)] : []),
-    ...extra
-  ]
-});
+function inlineCta(prefix) {
+  return `<div class="inline-cta"><strong>Need a documented roof answer?</strong><a class="button button-primary" href="${home(prefix, "estimate")}">Schedule Free Inspection</a><a class="button button-secondary" href="${phoneHref}">Call ${phone}</a></div>`;
+}
 
-const section = (heading, content, className = "") => `<section class="section-band section-light seo-section${className ? ` ${className}` : ""}"><div class="container"><h2>${heading}</h2>${content}</div></section>`;
-const list = (items) => `<ul class="seo-list">${items.map((item) => `<li>${item}</li>`).join("")}</ul>`;
-const faqHtml = (faq) => `<div class="faq-list">${faq.map(([q, a]) => `<details class="faq-item"><summary>${q}</summary><p>${a}</p></details>`).join("")}</div>`;
-
-const estimateLink = (pathPrefix, label = "Request a written estimate") => `<a class="subpage-text-link" href="${pathPrefix}/index.html#estimate">${label}</a>`;
-const callLink = `<a class="subpage-text-link" href="${phoneHref}">Call ${phone}</a>`;
-const keyedList = (items, className) => `<ul class="${className}">${items.map((item) => `<li>${item}</li>`).join("")}</ul>`;
-
-const serviceDesigns = {
-  "roof-repair": {
-    shape: "triage",
-    label: "Repair triage",
-    summary: "We start by separating active leaks, visible damage, and repairable roof details so the estimate does not jump straight to replacement.",
-    panelTitle: "First things we isolate",
-    prompt: "Send photos of the leak area if you have them. We will still verify the roof condition before quoting work."
-  },
-  "tile-roofing": {
-    shape: "photo-led",
-    label: "Tile system review",
-    summary: "We look past the tile surface and check underlayment clues, valleys, penetrations, and tile movement before recommending repair or replacement.",
-    panelTitle: "Tile work has layers",
-    prompt: "The visible tile matters, but the system underneath often decides the scope."
-  },
-  "shingle-roofing": {
-    shape: "comparison",
-    label: "Shingle decision guide",
-    summary: "We compare repair, partial replacement, and full replacement based on shingle field condition, flashing, roof age, and heat exposure.",
-    panelTitle: "Repair or replace?",
-    prompt: "We explain which path fits the roof instead of making every shingle call sound the same."
-  },
-  "metal-roofing": {
-    shape: "spec",
-    label: "Metal roof details",
-    summary: "We inspect seams, fasteners, panels, flashings, trim, and penetrations because metal roof performance depends on the details.",
-    panelTitle: "Details we document",
-    prompt: "Metal roofing can be durable in Arizona, but only when the weak points are handled cleanly."
-  },
-  "foam-roofing": {
-    shape: "coating",
-    label: "Foam and flat roof review",
-    summary: "We look at coating wear, drainage, cracks, punctures, ponding, and recoat timing before we quote foam or flat roof work.",
-    panelTitle: "Surface condition first",
-    prompt: "A recoat can be the right answer when the existing foam system is still sound."
-  },
-  "roof-inspection": {
-    shape: "checklist",
-    label: "Inspection workbench",
-    summary: "We use photos, plain-language notes, and a written estimate when work is needed so the roof condition is easier to compare.",
-    panelTitle: "What the inspection should answer",
-    prompt: "The goal is clarity: what is wrong, what can wait, and what needs attention."
-  }
-};
-
-const serviceIntroPanel = (service, design, pathPrefix) => {
-  if (design.shape === "triage") {
-    return `<div class="service-diagnostic-board">
-      <p class="panel-label">${design.panelTitle}</p>
-      ${service.signs.slice(0, 4).map((sign, index) => `<article><span>0${index + 1}</span><strong>${sign}</strong></article>`).join("")}
-      <p>${design.prompt}</p>
-    </div>`;
-  }
-
-  if (design.shape === "photo-led") {
-    return `<figure class="service-photo-proof service-photo-proof-tile">
-      <span>${design.panelTitle}</span>
-      <figcaption>${design.prompt}</figcaption>
-    </figure>`;
-  }
-
-  if (design.shape === "comparison") {
-    return `<div class="service-compare-board">
-      <div><span>Repair</span><p>Localized damage, clear leak source, and useful remaining roof life.</p></div>
-      <div><span>Replace</span><p>Widespread wear, repeated leaks, or system age that makes patching a poor value.</p></div>
-      ${estimateLink(pathPrefix, "Compare options with us")}
-    </div>`;
-  }
-
-  if (design.shape === "spec") {
-    return `<div class="service-spec-sheet">
-      <p class="panel-label">${design.panelTitle}</p>
-      ${service.signs.map((sign) => `<div><span>${sign}</span><strong>Inspect and document</strong></div>`).join("")}
-    </div>`;
-  }
-
-  if (design.shape === "coating") {
-    return `<div class="service-coating-board">
-      <p class="panel-label">${design.panelTitle}</p>
-      <div class="coating-layers" aria-hidden="true"><span></span><span></span><span></span></div>
-      ${keyedList(service.signs.slice(0, 4), "service-mini-list")}
-      <p>${design.prompt}</p>
-    </div>`;
-  }
-
-  return `<div class="service-checklist-board">
-    <p class="panel-label">${design.panelTitle}</p>
-    ${service.process.slice(0, 5).map((item) => `<label><input type="checkbox" checked disabled><span>${item}</span></label>`).join("")}
-  </div>`;
-};
-
-const serviceIntro = (service, pathPrefix) => {
-  const design = serviceDesigns[service.slug];
-  return `<section class="subpage-intro service-intro service-intro-${design.shape}" aria-labelledby="page-title">
-    <div class="container service-intro-grid">
-      <div class="subpage-intro-copy">
-        <p class="eyebrow">${design.label}</p>
-        <h1 id="page-title">${service.h1}</h1>
-        <p>${design.summary}</p>
-        <div class="subpage-action-row">
-          ${estimateLink(pathPrefix)}
-          ${callLink}
-        </div>
-      </div>
-      ${serviceIntroPanel(service, design, pathPrefix)}
-    </div>
-  </section>`;
-};
-
-const cityDesigns = {
-  phoenix: { shape: "heat-index", label: "Phoenix roof conditions", panelTitle: "Heat, monsoon rain, and mixed roof systems" },
-  scottsdale: { shape: "hoa-grid", label: "Scottsdale roof decisions", panelTitle: "Appearance and documentation both matter" },
-  "paradise-valley": { shape: "detail-led", label: "Paradise Valley roof details", panelTitle: "Careful scopes for higher-expectation properties" },
-  gilbert: { shape: "route", label: "Gilbert service path", panelTitle: "Nearby scheduling from our Queen Creek base" },
-  "queen-creek": { shape: "home-base", label: "Our home base", panelTitle: "Queen Creek calls stay close to the crew" },
-  mesa: { shape: "audit", label: "Mesa roof audit", panelTitle: "Older and newer systems need different questions" },
-  chandler: { shape: "matrix", label: "Chandler roof planning", panelTitle: "Repair guidance without pressure" },
-  tempe: { shape: "check", label: "Tempe roof checklist", panelTitle: "Mixed roof ages, flat sections, and clear scope" }
-};
-
-const cityIntro = (city, pathPrefix) => {
-  const design = cityDesigns[city.slug];
-  return `<section class="subpage-intro city-intro city-intro-${design.shape}" aria-labelledby="page-title">
-    <div class="container city-intro-grid">
-      <div class="subpage-intro-copy">
-        <p class="eyebrow">${design.label}</p>
-        <h1 id="page-title">${city.h1}</h1>
-        <p>${city.intro}</p>
-        <div class="city-link-line">
-          ${publishedServices.map((service) => `<a href="${pathPrefix}/services/${service.slug}/index.html">${serviceLabel(service)}</a>`).join("")}
-        </div>
-      </div>
-      <aside class="city-context-card">
-        <p class="panel-label">${design.panelTitle}</p>
-        ${keyedList(city.localNotes, "city-note-list")}
-        ${estimateLink(pathPrefix, `Request a ${city.name} estimate`)}
-      </aside>
-    </div>
-  </section>`;
-};
-
-const supportIntro = (page, pathPrefix) => {
-  const supportSlug = page.path.replace(/\/$/, "").replace(/\//g, "-");
-  const baseCopy = `<div class="subpage-intro-copy"><p class="eyebrow">${page.eyebrow}</p><h1 id="page-title">${page.h1}</h1><p>${page.meta}</p></div>`;
-
-  if (page.path === "about-us/our-team/") {
-    return `<section class="subpage-intro support-intro team-intro" aria-labelledby="page-title"><div class="container team-intro-grid">${baseCopy}<ol class="team-flow"><li><span>Call</span><strong>We gather the roof concern.</strong></li><li><span>Inspect</span><strong>We document what we find.</strong></li><li><span>Estimate</span><strong>We explain the written scope.</strong></li></ol></div></section>`;
-  }
-
-  if (page.path === "about-us/core-values/") {
-    return `<section class="subpage-intro support-intro values-intro" aria-labelledby="page-title"><div class="container values-intro-grid">${baseCopy}<div class="values-statement"><p>We would rather earn the project with clear evidence than pressure you into a decision.</p>${estimateLink(pathPrefix, "See the process")}</div></div></section>`;
-  }
-
-  if (page.path === "about-us/community-outreach/") {
-    return `<section class="subpage-intro support-intro community-intro" aria-labelledby="page-title"><div class="container community-intro-grid">${baseCopy}<div class="community-resource-board"><a href="${pathPrefix}/resources/design-your-roof/index.html">Roof planning</a><a href="${pathPrefix}/resources/roofing-glossary/index.html">Roofing terms</a><a href="${pathPrefix}/services/roof-inspection/index.html">Storm readiness</a></div></div></section>`;
-  }
-
-  if (page.path === "about-us/reviews/") {
-    return `<section class="subpage-intro support-intro reviews-intro" aria-labelledby="page-title"><div class="container reviews-intro-grid">${baseCopy}<div class="review-proof-note"><p class="panel-label">Review standard</p><p>We only want public proof that can be verified, so the page stays trustworthy instead of inflated.</p><a href="${pathPrefix}/index.html#reviews">Go to review section</a></div></div></section>`;
-  }
-
-  if (page.path === "resources/design-your-roof/") {
-    return `<section class="subpage-intro support-intro roof-design-intro" aria-labelledby="page-title"><div class="container roof-design-intro-grid">${baseCopy}<div class="roof-system-switcher"><a href="${pathPrefix}/services/tile-roofing/index.html">Tile</a><a href="${pathPrefix}/services/shingle-roofing/index.html">Shingle</a><a href="${pathPrefix}/services/foam-roofing/index.html">Foam</a><a href="${pathPrefix}/services/metal-roofing/index.html">Metal</a></div></div></section>`;
-  }
-
-  if (page.path === "resources/roofing-glossary/") {
-    return `<section class="subpage-intro support-intro glossary-intro" aria-labelledby="page-title"><div class="container glossary-intro-grid">${baseCopy}<div class="glossary-term-cloud"><span>Underlayment</span><span>Flashing</span><span>Valley</span><span>Coating</span><span>Decking</span><span>Scope</span></div></div></section>`;
-  }
-
-  if (page.path === "contact/") {
-    return `<section class="subpage-intro support-intro contact-intro" aria-labelledby="page-title"><div class="container contact-intro-grid">${baseCopy}<div class="contact-start-panel"><a href="${phoneHref}"><span>Call</span><strong>${phone}</strong></a><a href="mailto:${email}"><span>Email</span><strong>${email}</strong></a><a href="${pathPrefix}/index.html#estimate"><span>Form</span><strong>Open estimate request</strong></a></div></div></section>`;
-  }
-
-  return `<section class="subpage-intro support-intro support-intro-${supportSlug}" aria-labelledby="page-title"><div class="container support-intro-grid">${baseCopy}${estimateLink(pathPrefix)}</div></section>`;
-};
-
-const supportFinalCta = (page, pathPrefix) => {
-  if (page.path === "contact/") {
-    return section("Ready to send the details?", `<p>Use the form, call us, or email photos. We will help organize the request around roof condition and timing.</p><p class="seo-link-row"><a href="${pathPrefix}/index.html#estimate">Open estimate form</a><a href="${phoneHref}">Call ${phone}</a><a href="mailto:${email}">Email photos</a></p>`, "seo-section-cta");
-  }
-
-  if (page.path.startsWith("resources/")) {
-    return section("Use this during the estimate", `<p>Bring the roof age, leak history, photos, storm timing, and material questions. We will connect the guide back to your actual roof.</p><p class="seo-link-row"><a href="${pathPrefix}/index.html#estimate">Request an estimate</a><a href="${pathPrefix}/services/roof-inspection/index.html">Schedule an inspection</a></p>`, "seo-section-cta");
-  }
-
-  return section("Start with documented proof", `<p>When you are ready, we can inspect the roof, show you what we find, and put the recommendation in writing.</p><p class="seo-link-row"><a href="${pathPrefix}/index.html#estimate">Request an estimate</a><a href="${phoneHref}">Call ${phone}</a></p>`, "seo-section-cta");
-};
-
-publishedServices.forEach((service) => {
-  const canonical = `${siteUrl}/services/${service.slug}/`;
-  const cityLinkList = cities.map((city) => `<a href="../../roofing-${city.slug}-az/index.html">${city.name}</a>`).join(", ");
-  const body = [
-    section(`What ${service.name} includes`, `<p>${service.intro}</p>${list(service.process)}`),
-    section(`Signs you may need ${service.name.toLowerCase()}`, `<div class="seo-card-grid">${service.signs.map((sign) => `<article><span></span><h3>${sign}</h3><p>We document this during inspection so your estimate is tied to the actual roof condition.</p></article>`).join("")}</div>`),
-    section("How we keep the request clear", `<div class="seo-card-grid seo-card-grid-3"><article><h3>Photo-backed inspection</h3><p>We make roof concerns easier to evaluate by showing you the problem areas.</p></article><article><h3>Repair-versus-replace context</h3><p>We explain whether a targeted repair is enough or whether the system needs larger work.</p></article><article><h3>Closeout expectations</h3><p>We discuss cleanup, workmanship coverage, and manufacturer materials as part of the project conversation.</p></article></div>`),
-    section("Service areas", `<p>We are based in Queen Creek and serve homeowners across the greater Phoenix area, including Scottsdale, Paradise Valley, Fountain Hills, and Phoenix-area communities.</p><p class="seo-link-row">${cityLinkList}</p>`),
-    section(`${service.name} FAQ`, faqHtml(service.faq))
-  ].join("");
-  const schema = pageSchema({
-    canonical,
-    title: service.title,
-    meta: service.meta,
-    breadcrumbs: [
-      { name: "Home", url: `${siteUrl}/` },
-      { name: "Services", url: `${siteUrl}/#services` },
-      { name: service.name, url: canonical }
-    ],
-    extra: [
-      { "@type": "Service", name: service.name, provider: { "@id": `${siteUrl}/#business` }, areaServed: cities.map((city) => ({ "@type": "City", name: city.name })) },
-      { "@type": "FAQPage", mainEntity: service.faq.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
-    ]
-  });
-  const html = layout({
-    title: service.title,
-    meta: service.meta,
-    canonical,
-    body,
-    schema,
-    pathPrefix: "../..",
-    intro: serviceIntro(service, "../.."),
-    bodyClass: `subpage subpage-service subpage-${service.slug}`
-  });
-  const file = join("services", service.slug, "index.html");
-  mkdirSync(dirname(file), { recursive: true });
-  writeFileSync(file, html);
-});
-
-cities.forEach((city) => {
-  const canonical = `${siteUrl}/roofing-${city.slug}-az/`;
-  const serviceLinkList = publishedServices.map((service) => `<a href="../services/${service.slug}/index.html">${serviceLabel(service)}</a>`).join(", ");
+function homepage() {
+  const title = "Queen Creek Roofing Contractor | Quest Roofing";
+  const meta = "Quest Roofing helps Queen Creek and Greater Phoenix homeowners with roof repair, replacement, tile, shingle, foam, metal roofing, and free written estimates.";
   const faq = [
-    [`Does Quest Roofing serve ${city.name}?`, `Yes. We serve ${city.name} as part of our Arizona roofing service area from our Queen Creek base.`],
-    [`What roofing services are available in ${city.name}?`, "We offer roof repair, roof inspection, tile, shingle, foam, and metal roofing services."],
-    [`Can I get a written estimate in ${city.name}?`, "Yes. We use inspection photos and written estimates so the scope is clear before work starts."]
+    ["Do you offer free inspections and written estimates?", "Yes. Quest can start with an inspection request and provide a written estimate so the scope is clear before work begins."],
+    ["How do I know if I need repair or replacement?", "Quest documents the roof condition and explains repair and replacement options before you approve work."],
+    ["What roofing systems do you work on?", "Quest works with roof repair, tile roofing, shingle roofing, metal roofing, foam roofing, and inspections."],
+    ["Where do you work?", "Quest is based in Queen Creek and serves the Greater Phoenix area, including the nearby communities listed on the site."],
+    ["What should I do if I have an active leak?", "Call 602-399-6455 and describe the leak, location, and visible damage."]
   ];
-  const body = [
-    section(`Roofing services in ${city.name}`, `<p>${city.intro}</p><p class="seo-link-row">${serviceLinkList}</p>`),
-    section(`${city.name} roof concerns`, `<div class="seo-card-grid">${city.localNotes.map((note) => `<article><span></span><h3>${note}</h3><p>We explain what we find and put our recommendation in writing.</p></article>`).join("")}</div>`),
-    section(`Why ${city.name} homeowners call Quest`, `<p>We keep recommendations direct: we inspect the roof, explain what is wrong, and provide a written estimate instead of a vague verbal guess. We also make ${rocInlineLink}, ${gafInlineLink}, and workmanship expectations easy to find.</p>`),
-    section(`${city.name} roofing FAQ`, faqHtml(faq))
-  ].join("");
-  const schema = pageSchema({
-    canonical,
-    title: city.title,
-    meta: city.meta,
-    breadcrumbs: [
-      { name: "Home", url: `${siteUrl}/` },
-      { name: "Service Areas", url: `${siteUrl}/#areas` },
-      { name: city.name, url: canonical }
-    ],
-    extra: [
-      { "@type": "Service", name: `Roofing services in ${city.name}, AZ`, provider: { "@id": `${siteUrl}/#business` }, areaServed: { "@type": "City", name: city.name } },
-      { "@type": "FAQPage", mainEntity: faq.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
-    ]
-  });
-  const html = layout({
-    title: city.title,
-    meta: city.meta,
-    canonical,
-    body,
-    schema,
-    pathPrefix: "..",
-    intro: cityIntro(city, ".."),
-    bodyClass: `subpage subpage-city subpage-${city.slug}`
-  });
-  const file = join(`roofing-${city.slug}-az`, "index.html");
-  mkdirSync(dirname(file), { recursive: true });
-  writeFileSync(file, html);
-});
+  const issueCards = [
+    ["Active leak", "Water spots, ceiling damage, or roof leaks after rain.", "flashing"],
+    ["Tile roof concern", "Broken tiles, underlayment wear, lifted rows, or flashing details.", "staged"],
+    ["Shingle replacement", "Aging asphalt shingles, missing tabs, or full replacement planning.", "shingle"],
+    ["Flat or foam roof", "Recoats, ponding, cracks, waterproofing, and reflective roof coverage.", "underlayment"],
+    ["Storm or wind damage", "Loose materials, exposed areas, or post-monsoon roof concerns.", "protection"],
+    ["Not sure yet", "Start with an inspection and written explanation.", "inspection"]
+  ];
+  const gallery = [["protection", "Property protection"], ["staged", "Tile staged for underlayment"], ["battens", "Battens and underlayment"], ["flashing", "Flashing detail"], ["pipe", "Pipe flashing detail"], ["shingle", "Finished shingle surface"], ["consultant", "On-roof documentation"]];
+  const schema = { "@context": "https://schema.org", "@graph": [businessSchema, { "@type": "WebSite", "@id": `${siteUrl}/#website`, url: `${siteUrl}/`, name: "Quest Roofing", publisher: { "@id": `${siteUrl}/#business` }, inLanguage: "en-US" }, { "@type": "WebPage", "@id": `${siteUrl}/#webpage`, url: `${siteUrl}/`, name: title, description: meta, about: { "@id": `${siteUrl}/#business` }, inLanguage: "en-US" }, faqSchema(faq)] };
+  const body = `<main id="main">
+    <section class="hero"><div class="container hero-grid"><div class="hero-copy"><p class="eyebrow">Queen Creek Roofing Contractor</p><h1>Roof repair and replacement without the runaround.</h1><p class="hero-lead">Quest Roofing helps Queen Creek and Greater Phoenix homeowners understand their roof before they approve work - with photo-backed inspections, written scopes, and clear repair or replacement options.</p><ul class="trust-pills"><li>${roc()}</li><li>${gaf()}</li><li>Licensed, Bonded, Insured</li><li>Free written estimates</li></ul><div class="hero-actions"><a class="button button-primary" href="#estimate">Schedule Free Roof Inspection</a><a class="button button-secondary button-on-dark" href="${phoneHref}">Call ${phone}</a></div><p class="hero-microcopy">Start with photos, a written scope, and a clear next step.</p></div><div class="hero-visual"><figure class="hero-photo-card">${img("consultant", "", " fetchpriority=\"high\" decoding=\"async\"")}<figcaption>On-roof inspection and documentation</figcaption></figure><div class="proof-float proof-float-one"><strong>Photo-backed inspection</strong><span>Condition photos before the scope.</span></div><div class="proof-float proof-float-two"><strong>Written estimate before work begins</strong><span>Scope clarity before approval.</span></div></div></div></section>
+    <section class="proof-strip"><div class="container proof-strip-grid"><article><span>License</span><strong>${roc()}</strong></article><article><span>Credential</span><strong>${gaf()}</strong></article><article><span>Trust</span><strong>Licensed, Bonded &amp; Insured</strong></article><article><span>Base</span><strong>Queen Creek-based</strong></article><article><span>Coverage</span><strong>Greater Phoenix Service Area</strong></article></div><!-- Client proof needed here: Google rating / BBB badge / review count / financing / warranty. --></section>
+    ${section("What roof issue are you dealing with?", "Choose the closest concern. Quest can inspect, document, and explain the right repair or replacement path.", `<div class="issue-grid">${issueCards.map(([h, p, photo]) => `<article class="issue-card">${img(photo, "", " loading=\"lazy\" decoding=\"async\"")}<div><h3>${h}</h3><p>${p}</p><a href="#estimate">Request inspection <span aria-hidden="true">&rarr;</span></a></div></article>`).join("")}</div>`, "section-issues")}
+    <section class="section-band section-human" id="story"><div class="container split-layout"><figure class="story-photo">${img("consultant", "", " loading=\"lazy\" decoding=\"async\"")}<figcaption>Inspection photos you can review before approving work.</figcaption></figure><div class="story-copy"><p class="eyebrow">People before paperwork</p><h2>Straight answers before roof work starts.</h2><p>Roof decisions are expensive. Quest makes the process easier by documenting what we see, explaining what can wait, and putting the approved scope in writing.</p><ul class="check-list"><li>Inspection photos you can review</li><li>Repair and replacement options explained clearly</li><li>Written estimate before scheduling work</li></ul></div></div></section>
+    ${section("Roofing services for Arizona homes.", "From urgent leaks to full roof replacement, Quest handles the roof systems common across Queen Creek and the Greater Phoenix area.", `<div class="service-card-grid">${services.map((service) => `<article class="service-card">${img(service.image, "", " loading=\"lazy\" decoding=\"async\"")}<div><h3>${service.nav}</h3><p>${service.intro}</p><a href="services/${service.slug}/index.html">View service <span aria-hidden="true">&rarr;</span></a></div></article>`).join("")}</div>`, "", "services")}
+    <section class="section-band section-gallery-teaser" id="gallery-preview"><div class="container"><div class="section-heading"><p class="eyebrow">Project proof</p><h2>Real roof work, documented.</h2><p>Quest uses project photos to make the condition, scope, and finished work easier to understand.</p></div><div class="editorial-gallery">${gallery.map(([photo, caption], i) => `<figure class="${i === 0 || i === 6 ? "gallery-feature" : ""}">${img(photo, "", " loading=\"lazy\" decoding=\"async\"")}<figcaption>${caption}</figcaption></figure>`).join("")}</div><div class="section-action"><a class="button button-secondary button-on-dark" href="gallery/index.html">View Project Gallery</a></div></div></section>
+    <section class="section-band section-process" id="process"><div class="container"><div class="section-heading section-heading-light"><p class="eyebrow">Process</p><h2>A clearer roofing process.</h2><p>Every step is built around documentation, written scope, and homeowner understanding.</p></div><ol class="process-track"><li><span>1</span><h3>Request</h3><p>Tell us what you are seeing or schedule an inspection.</p></li><li><span>2</span><h3>Inspect</h3><p>Quest documents the roof condition with photos.</p></li><li><span>3</span><h3>Estimate</h3><p>You receive a written scope with clear repair or replacement options.</p></li><li><span>4</span><h3>Build</h3><p>Approved work is scheduled, completed, cleaned up, and reviewed.</p></li></ol></div></section>
+    ${estimateSection()}
+    <section class="section-band section-reviews" id="reviews"><div class="container review-layout"><div class="section-heading"><p class="eyebrow">Homeowner feedback</p><h2>Homeowner feedback that speaks to the work.</h2><p>Published here without star ratings or platform badges until review source details are approved.</p></div><!-- Replace with verified Google/CRM reviews when approved by client. --><div class="review-stack"><blockquote><p>"I had a leak that caused serious issues in my living room ceiling. From inspection to final repair they were professional, efficient, and transparent about costs."</p><footer>Kristin M.</footer></blockquote><blockquote><p>"Quest Roofing did an outstanding job installing a new roof on our home. They walked us through the process, helped us choose materials, and stuck to the timeline."</p><footer>Joshua S.</footer></blockquote></div></div></section>
+    <section class="section-band section-area" id="service-area"><div class="container area-layout"><div><p class="eyebrow">Service area</p><h2>Queen Creek-based. Serving the Greater Phoenix area.</h2><p>Quest is based in Queen Creek and serves nearby Phoenix-area communities with roof inspections, repairs, replacements, and written estimates.</p></div><div class="area-panel"><div class="map-card"><span>Queen Creek</span><strong>Greater Phoenix</strong><em>Documented inspections and written estimates across nearby communities.</em></div><div class="city-pills">${cities.map((city) => `<a href="roofing-${city.slug}-az/index.html">${city.name}</a>`).join("")}</div></div></div></section>
+    <section class="section-band section-faq" id="faq"><div class="container faq-layout"><div class="section-heading"><p class="eyebrow">FAQ</p><h2>Questions homeowners ask before they book.</h2></div><div class="faq-list">${faq.map(([q, a]) => `<details class="faq-item"><summary>${q}</summary><p>${a}</p></details>`).join("")}</div></div></section>
+    <section class="final-cta"><div class="container final-cta-inner"><p class="eyebrow">Ready for a documented roof inspection?</p><h2>Start with photos, a written scope, and a clear answer.</h2><p>Whether you are dealing with a leak, aging materials, or a full replacement decision, Quest Roofing can help you understand the next step before work begins.</p><div class="hero-actions"><a class="button button-primary" href="#estimate">Schedule Free Inspection</a><a class="button button-secondary button-on-dark" href="${phoneHref}">Call ${phone}</a></div></div></section>
+  </main>`;
+  return layout({ title, meta, canonical: `${siteUrl}/`, body, schema, bodyClass: "home" });
+}
 
-const cardGrid = (cards) => `<div class="seo-card-grid seo-card-grid-3">${cards.map(({ title, text }) => `<article><h3>${title}</h3><p>${text}</p></article>`).join("")}</div>`;
-const roofSystemGrid = () => cardGrid([
-  { title: "Tile roofing", text: "Good for Arizona style and heat, but underlayment, valleys, and broken tiles need careful review." },
-  { title: "Shingle roofing", text: "A practical residential option where ventilation, heat exposure, flashing, and storm wear affect life span." },
-  { title: "Foam and flat roofing", text: "Strong low-slope options when drainage, coating condition, and recoat timing are managed correctly." },
-  { title: "Metal roofing", text: "Durable in the desert when seams, fasteners, edges, and penetrations are inspected and maintained." }
-]);
+function estimateSection() {
+  return `<section class="section-band section-estimate" id="estimate"><div class="container estimate-layout"><div class="estimate-copy"><p class="eyebrow">Free estimate</p><h2>Get your free roof estimate.</h2><p>Send the basics and Quest Roofing will have what it needs to start the conversation.</p><ul class="contact-points"><li><span>Phone</span><a href="${phoneHref}">${phone}</a></li><li><span>Email</span><a href="mailto:${email}">${email}</a></li><li><span>Coverage</span><strong>Queen Creek-based service across Greater Phoenix</strong></li></ul></div><form class="estimate-form" name="quest-estimate" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" data-estimate-form><input type="hidden" name="form-name" value="quest-estimate"><p class="bot-field"><label>Do not fill this out <input name="bot-field"></label></p><div class="form-progress" aria-label="Estimate request progress"><button class="form-step-tab is-active" type="button" data-step-target="1">Roof</button><button class="form-step-tab" type="button" data-step-target="2">Contact</button><button class="form-step-tab" type="button" data-step-target="3">Details</button></div><p class="form-announcer" aria-live="polite" data-step-status>Step 1 of 3: roof need.</p><section class="form-step is-active" data-step="1"><h3>Roof need</h3><fieldset><legend>Service needed <span aria-hidden="true">*</span></legend><div class="choice-grid">${["Roof Repair", "Tile Roofing", "Shingle Roofing", "Metal Roofing", "Foam Roofing", "Free Inspection", "Not Sure"].map((item) => `<label><input type="radio" name="service_needed" value="${item}" required><span>${item}</span></label>`).join("")}</div></fieldset><fieldset><legend>Urgency <span aria-hidden="true">*</span></legend><div class="choice-grid choice-grid-tight">${["Active leak", "Recent storm", "Planning ahead", "Not sure"].map((item) => `<label><input type="radio" name="urgency" value="${item}" required><span>${item}</span></label>`).join("")}</div></fieldset><div class="form-actions"><button class="button button-primary" type="button" data-next-step>Next</button></div></section><section class="form-step" data-step="2" hidden><h3>Contact</h3><label><span>Full name <b aria-hidden="true">*</b></span><input type="text" name="full_name" autocomplete="name" required></label><label><span>Phone <b aria-hidden="true">*</b></span><input type="tel" name="phone" autocomplete="tel" required></label><label><span>Email <b aria-hidden="true">*</b></span><input type="email" name="email" autocomplete="email" required></label><div class="form-actions"><button class="button button-secondary" type="button" data-prev-step>Back</button><button class="button button-primary" type="button" data-next-step>Next</button></div></section><section class="form-step" data-step="3" hidden><h3>Property and details</h3><label><span>Address or nearest cross streets <b aria-hidden="true">*</b></span><input type="text" name="property_location" autocomplete="street-address" required></label><label><span>Project details <b aria-hidden="true">*</b></span><textarea name="project_details" rows="5" required></textarea></label><label><span>Optional roof photo</span><input type="file" name="roof_photo" accept="image/*"></label><p class="form-note">For urgent roof leaks, call <a href="${phoneHref}">${phone}</a>.</p><div class="form-actions"><button class="button button-secondary" type="button" data-prev-step>Back</button><button class="button button-primary" type="submit">Submit Estimate Request</button></div><p class="form-status" aria-live="polite"></p></section></form></div></section>`;
+}
+
+function servicePage(service) {
+  const prefix = "../..";
+  const canonical = `${siteUrl}/services/${service.slug}/`;
+  const body = `<main id="main" class="subpage-main"><section class="subpage-hero service-hero"><div class="container subpage-hero-grid"><div><p class="eyebrow">${service.nav}</p><h1>${service.h1}</h1><p>${service.intro}</p><div class="hero-actions"><a class="button button-primary" href="${home(prefix, "estimate")}">Request Free Inspection</a><a class="button button-secondary button-on-dark" href="${phoneHref}">Call ${phone}</a></div></div><figure class="subpage-photo">${img(service.image, prefix, " loading=\"eager\" decoding=\"async\"")}<figcaption>Real Quest Roofing project documentation.</figcaption></figure></div></section>${section(`Signs you may need ${service.nav.toLowerCase()}.`, "Common roof clues are easier to evaluate when the inspection is tied to photos.", cardGrid(service.signs), "section-sand")}${inlineCta(prefix)}${section("What Quest documents.", "The scope should connect to real roof conditions, not vague sales language.", `<div class="document-grid">${service.documents.map((item) => `<article><span></span><p>${item}</p></article>`).join("")}</div>`)}${section("Repair versus replacement context.", "", `<div class="split-copy"><p>${service.context}</p><figure>${img(service.image === "flashing" ? "deck" : service.image, prefix, " loading=\"lazy\" decoding=\"async\"")}<figcaption>Scope decisions start with visible roof condition.</figcaption></figure></div>`, "section-clay")}${inlineCta(prefix)}${section(`${service.nav} FAQ.`, "", `<div class="faq-list">${service.faq.map(([q, a]) => `<details class="faq-item"><summary>${q}</summary><p>${a}</p></details>`).join("")}</div>`)}</main>`;
+  const schema = pageSchema(canonical, service.title, service.meta, [{ "@type": "Service", name: service.nav, provider: { "@id": `${siteUrl}/#business` }, areaServed: cities.map((city) => ({ "@type": "City", name: city.name })) }, faqSchema(service.faq)]);
+  return layout({ title: service.title, meta: service.meta, canonical, body, schema, prefix, bodyClass: `subpage service-page service-${service.slug}` });
+}
+
+function cityPage(city) {
+  const prefix = "..";
+  const canonical = `${siteUrl}/roofing-${city.slug}-az/`;
+  const faq = [[`Does Quest Roofing serve ${city.name}?`, `Yes. Quest serves ${city.name} as part of its Greater Phoenix service area from a Queen Creek base.`], [`What roof concerns are common in ${city.name}?`, city.concerns.map(([title]) => title).join(", ") + " are common reasons homeowners request an inspection."], [`Can I get a written estimate in ${city.name}?`, "Yes. Quest uses inspection photos and written estimates so the scope is clear before approved work is scheduled."]];
+  const body = `<main id="main" class="subpage-main"><section class="subpage-hero city-hero"><div class="container subpage-hero-grid"><div><p class="eyebrow">${city.name} roof service</p><h1>${city.h1}</h1><p>${city.intro}</p><div class="hero-actions"><a class="button button-primary" href="${home(prefix, "estimate")}">Request Free Inspection</a><a class="button button-secondary button-on-dark" href="${phoneHref}">Call ${phone}</a></div></div><aside class="city-proof-card"><span>Quest service area</span><strong>${city.name}</strong><p>Photo-backed inspections, written scopes, and clear roofing options.</p><div class="mini-proof"><span>${roc("credential-inline")}</span><span>${gaf("credential-inline")}</span></div></aside></div></section>${section(`${city.name} roof concerns.`, "Each city page uses local roof context without pretending every concern is the same.", cardGrid(city.concerns), "section-sand")}${inlineCta(prefix)}${section(`Roofing services in ${city.name}.`, "Quest handles the core roof systems represented across this site.", `<div class="service-link-grid">${services.map((service) => `<a href="${link(prefix, `services/${service.slug}/index.html`)}"><strong>${service.nav}</strong><span>${service.documents[0]}</span></a>`).join("")}</div>`)}${section(`How ${city.name} requests stay clear.`, "", `<ol class="subpage-process"><li><span>1</span><p>Tell Quest what you are seeing.</p></li><li><span>2</span><p>The roof condition is documented with photos.</p></li><li><span>3</span><p>You review a written estimate before approved work begins.</p></li></ol>`, "section-clay")}${section(`${city.name} roofing FAQ.`, "", `<div class="faq-list">${faq.map(([q, a]) => `<details class="faq-item"><summary>${q}</summary><p>${a}</p></details>`).join("")}</div>`)}</main>`;
+  const schema = pageSchema(canonical, city.title, city.meta, [{ "@type": "Service", name: `Roofing services in ${city.name}, AZ`, provider: { "@id": `${siteUrl}/#business` }, areaServed: { "@type": "City", name: city.name } }, faqSchema(faq)]);
+  return layout({ title: city.title, meta: city.meta, canonical, body, schema, prefix, bodyClass: `subpage city-page city-${city.slug}` });
+}
 
 const supportPages = [
-  {
-    path: "about-us/our-team/",
-    title: "Our Team | Quest Roofing",
-    h1: "Roofing help from our Queen Creek team.",
-    eyebrow: "About Quest",
-    meta: "Meet our Queen Creek roofing team. We focus on photo-backed inspections, straight recommendations, and written estimates.",
-    body: (pathPrefix) => [
-      section("How our team works", `<p>We stay reachable before the first appointment with clear contact paths, documented inspections, and recommendations explained in plain language.</p>${cardGrid([
-        { title: "First contact", text: "We collect roof type, service area, visible concerns, leak timing, and photos when available." },
-        { title: "Field inspection", text: "We review the roof condition and document visible findings instead of relying on vague statements." },
-        { title: "Estimate handoff", text: "We explain repair, replacement, materials, timing, and cleanup in a written scope." }
-      ])}`),
-      section("Who you interact with", `<p>We keep the process practical: scheduling, inspection, estimate, approved work, and closeout each have a clear purpose.</p>${cardGrid([
-        { title: "Scheduling", text: "We coordinate the request and help set realistic appointment expectations." },
-        { title: "Inspection", text: "We look at the roof system, photograph concern areas, and explain what we found." },
-        { title: "Project closeout", text: "We confirm approved work, cleanup expectations, and warranty or material notes." }
-      ])}`),
-      section("Before the appointment", `<p>You can make the first visit sharper by gathering roof age, leak history, storm timing, HOA notes, and interior stain photos.</p><p class="seo-link-row"><a href="${pathPrefix}/resources/design-your-roof/index.html">Compare roof systems</a><a href="${pathPrefix}/resources/roofing-glossary/index.html">Read the glossary</a></p>`)
-    ].join("")
-  },
-  {
-    path: "about-us/completed-projects/",
-    manual: true,
-    title: "Completed Roofing Projects | Quest Roofing",
-    h1: "We put project proof in the open.",
-    eyebrow: "Completed projects",
-    meta: "See how we document roofing projects with condition photos, clear scopes, and closeout details."
-  },
-  {
-    path: "about-us/core-values/",
-    title: "Core Values | Quest Roofing",
-    h1: "Clear scope. Honest guidance. Clean closeout.",
-    eyebrow: "Core values",
-    meta: "Our roofing values are clear communication, documented estimates, repair-first guidance, and respectful jobsite cleanup.",
-    body: (pathPrefix) => [
-      section("Our working standard", `${cardGrid([
-        { title: "Repair-first when appropriate", text: "If a targeted repair solves the problem, we will not jump straight to replacement." },
-        { title: "Replacement when justified", text: "If the system is past practical repair, we explain the reason in plain language." },
-        { title: "Written accountability", text: "We put photos, materials, timeline, and price in front of you before work begins." },
-        { title: "Respectful cleanup", text: "We treat the yard, driveway, access path, and final walkthrough as part of the job." },
-        { title: "Local roof knowledge", text: "We account for Arizona heat, monsoon rain, tile underlayment, and flat roof coating when we recommend a fix." },
-        { title: "No pressure language", text: "We want you to understand the roof condition well enough to make a calm decision." }
-      ])}`),
-      section("What this means during a roof call", `<p>We explain the problem area, the proposed fix, the material or system involved, and the next step without hiding behind jargon.</p><p class="seo-link-row"><a href="${pathPrefix}/resources/roofing-glossary/index.html">Roofing glossary</a><a href="${pathPrefix}/index.html#estimate">Request a written estimate</a></p>`)
-    ].join("")
-  },
-  {
-    path: "about-us/community-outreach/",
-    title: "Community Outreach | Quest Roofing",
-    h1: "We support our community with useful roof guidance.",
-    eyebrow: "Community Outreach",
-    meta: "Our community outreach focuses on homeowner education, storm readiness, and practical roof guidance in Arizona.",
-    body: (pathPrefix) => [
-      section("Useful local support", `${cardGrid([
-        { title: "Storm readiness", text: "We help homeowners know what to check before monsoon season and when to call after wind or hail." },
-        { title: "Estimate education", text: "We make roofing terms, roof systems, and repair-versus-replace decisions easier to understand." },
-        { title: "Neighborhood roof questions", text: "We support HOAs, property managers, and homeowners who need clear roof documentation." }
-      ])}`),
-      section("Trustworthy community proof", `<p>We do not claim donations, sponsorships, school projects, or nonprofit work unless we can back them with real details. That keeps trust stronger long term.</p>${cardGrid([
-        { title: "Real events", text: "When we share an event, we include the name, date, location, photos, and what we actually contributed." },
-        { title: "Helpful resources", text: "Storm checklists, roof terminology, and service guides help local homeowners immediately." },
-        { title: "Verifiable claims", text: "We hold community proof to the same standard as a roof estimate: make it clear and document it." }
-      ])}`),
-      section("Homeowner resources", `<p class="seo-link-row"><a href="${pathPrefix}/resources/design-your-roof/index.html">Design your roof</a><a href="${pathPrefix}/resources/roofing-glossary/index.html">Roofing glossary</a><a href="${pathPrefix}/services/roof-inspection/index.html">Free inspection</a></p>`)
-    ].join("")
-  },
-  {
-    path: "about-us/reviews/",
-    title: "Reviews | Quest Roofing",
-    h1: "Our reviews prove the process.",
-    eyebrow: "Homeowner stories",
-    meta: "Our roofing reviews focus on communication, clean work, cost clarity, and honest recommendations.",
-    body: (pathPrefix) => [
-      section("Review themes homeowners compare", `${cardGrid([
-        { title: "Communication", text: "We return calls, clarify appointments, and make sure the homeowner knows what happens next." },
-        { title: "Clean work", text: "We treat the jobsite like part of the project, not an afterthought." },
-        { title: "Honest recommendation", text: "We explain repair, replacement, or monitoring with roof-condition evidence." },
-        { title: "Written scope", text: "We give enough estimate detail to compare options and approve the work confidently." },
-        { title: "Storm response", text: "After monsoon damage, urgency and documentation both matter." },
-        { title: "Closeout", text: "We make sure the homeowner understands what was completed and what warranty or material notes apply." }
-      ])}`),
-      section("Verified review sources", `<p>We only want to publish review counts, ratings, and customer details when they come from approved review feeds or screenshots. That keeps our proof clean and believable.</p><p class="seo-link-row"><a href="${pathPrefix}/index.html#reviews">Homepage review section</a><a href="${pathPrefix}/index.html#estimate">Request an estimate</a></p>`)
-    ].join("")
-  },
-  {
-    path: "gallery/",
-    manual: true,
-    title: "Roofing Gallery | Quest Roofing",
-    h1: "We show roof conditions, repairs, and completed work.",
-    eyebrow: "Gallery",
-    meta: "Browse our roofing gallery for roof inspections, repair details, and completed Arizona roofing work."
-  },
-  {
-    path: "resources/design-your-roof/",
-    title: "Design Your Roof | Quest Roofing",
-    h1: "Compare roofing options before we estimate the work.",
-    eyebrow: "Resources",
-    meta: "Use our roof material planning resource to compare tile, shingle, foam, and metal roofing decisions in Arizona.",
-    body: (pathPrefix) => [
-      section("Compare roof systems", roofSystemGrid()),
-      section("Questions to answer before choosing", `${cardGrid([
-        { title: "What is the roof slope?", text: "Flat and low-slope sections need different systems than steep shingle or tile areas." },
-        { title: "What is failing?", text: "Underlayment, coating, flashing, fasteners, and surface material call for different fixes." },
-        { title: "What does the neighborhood require?", text: "HOA expectations, color, profile, and visible roof style can affect our final recommendation." },
-        { title: "How long will you own the home?", text: "A short-term repair and a long-term replacement may both be valid, depending on your plan." },
-        { title: "What has leaked before?", text: "Past leak history helps us focus the inspection on valleys, penetrations, transitions, and drainage." },
-        { title: "What proof do you need?", text: "Photos and a written scope help compare estimates without pressure." }
-      ])}`),
-      section("Bring this to the estimate", `<p>Roof age, leak history, photos, storm timing, HOA notes, and preferred roof material help us make the first conversation more useful.</p><p class="seo-link-row"><a href="${pathPrefix}/services/tile-roofing/index.html">Tile</a><a href="${pathPrefix}/services/shingle-roofing/index.html">Shingle</a><a href="${pathPrefix}/services/foam-roofing/index.html">Foam</a><a href="${pathPrefix}/services/metal-roofing/index.html">Metal</a></p>`)
-    ].join("")
-  },
-  {
-    path: "resources/roofing-glossary/",
-    title: "Roofing Glossary | Quest Roofing",
-    h1: "Plain-English roofing terms.",
-    eyebrow: "Resources",
-    meta: "Use our simple roofing glossary to compare estimates and understand inspection findings before approving roof work.",
-    body: (pathPrefix) => [
-      section("Common estimate terms", `${cardGrid([
-        { title: "Underlayment", text: "The protective layer beneath tile that often matters more than the tile surface itself." },
-        { title: "Flashing", text: "Metal or roof detail used around walls, edges, chimneys, and transitions to control water." },
-        { title: "Penetration", text: "Anything passing through the roof surface, such as vents, pipes, skylights, or equipment." },
-        { title: "Valley", text: "The area where roof planes meet and water concentrates during rain." },
-        { title: "Coating", text: "The protective top layer used on foam and some flat roof systems." },
-        { title: "Decking", text: "The structural roof surface below the roofing assembly." },
-        { title: "Fastener", text: "Screws, nails, or other attachments that can loosen or age over time." },
-        { title: "Ridge", text: "The high line where two roof planes meet." },
-        { title: "Scope", text: "The written description of what work is included, excluded, and priced." }
-      ])}`),
-      section("Why these terms matter", `<p>When we say the problem is flashing, underlayment, coating, or decking, we want the estimate to connect that term to a specific roof condition photo.</p><p class="seo-link-row"><a href="${pathPrefix}/services/roof-inspection/index.html">Schedule an inspection</a><a href="${pathPrefix}/resources/design-your-roof/index.html">Compare roof systems</a></p>`)
-    ].join("")
-  },
-  {
-    path: "contact/",
-    title: "Contact Quest Roofing",
-    h1: "Talk with us about your roof.",
-    eyebrow: "Contact",
-    meta: "Contact us for a free inspection or written roofing estimate from our Queen Creek-based Arizona roofing team.",
-    body: (pathPrefix) => [
-      section("Fastest ways to start", `${cardGrid([
-        { title: "Call", text: `Call ${phone} for urgent leaks, scheduling questions, or a direct estimate request.` },
-        { title: "Email", text: `Email ${email} with your name, address or cross streets, service need, and photos if available.` },
-        { title: "Estimate form", text: "Use the homepage form when you want us to organize the request by roof service and contact details." }
-      ])}`),
-      section("What to send", `<p>Include your address or nearest cross streets, roof type if known, leak location, storm timing, interior stain photos, exterior roof photos if safe, and whether the property is residential or commercial.</p><p class="seo-link-row"><a href="${pathPrefix}/index.html#estimate">Open estimate form</a><a href="tel:6023996455">Call ${phone}</a><a href="mailto:${email}">Email Quest</a></p>`),
-      section("Common request paths", `<p class="seo-link-row"><a href="${pathPrefix}/services/roof-repair/index.html">Roof repair</a><a href="${pathPrefix}/services/roof-inspection/index.html">Free inspection</a><a href="${pathPrefix}/services/tile-roofing/index.html">Tile roofing</a><a href="${pathPrefix}/services/foam-roofing/index.html">Foam roofing</a></p>`)
-    ].join("")
-  }
-];
+  ["about-us/our-team/", "Our Team | Quest Roofing", "Roofing help organized around documentation.", "About Quest", "Learn how Quest Roofing handles scheduling, roof inspection, written estimates, and project closeout from Queen Creek, Arizona.", [["Scheduling", "We collect roof type, visible concerns, leak timing, and photos when available."], ["Inspection", "We document roof condition instead of relying on vague verbal guesses."], ["Estimate handoff", "We explain repair, replacement, materials, and timing in a written scope."]]],
+  ["about-us/core-values/", "Core Values | Quest Roofing", "Clear scope. Honest guidance. Clean closeout.", "Core values", "Quest Roofing values clear communication, documented estimates, repair-first guidance when appropriate, and respectful project closeout.", [["Repair-first when appropriate", "If a targeted repair solves the problem, we explain that path."], ["Replacement when justified", "If the system needs larger work, we show the reason clearly."], ["Written accountability", "Photos and written scope help homeowners approve work calmly."]]],
+  ["about-us/community-outreach/", "Community Outreach | Quest Roofing", "Useful roof guidance for local homeowners.", "Community outreach", "Quest Roofing supports homeowners with storm readiness, roofing education, and practical local roof guidance.", [["Storm readiness", "Know what to watch before and after monsoon weather."], ["Estimate education", "Use plain-language roof terms to compare scopes."], ["Verifiable proof", "Community claims should be documented before they are published."]]],
+  ["resources/design-your-roof/", "Design Your Roof | Quest Roofing", "Compare roof systems before approving work.", "Roof planning", "Compare tile, shingle, foam, and metal roof decisions before requesting a roofing estimate from Quest Roofing.", [["Tile roofing", "Good Arizona fit when underlayment, valleys, and tile condition are documented."], ["Shingle roofing", "Practical residential option when heat, flashing, and roof age are considered."], ["Foam roofing", "Useful for flat and low-slope roofs when coating and drainage are managed."], ["Metal roofing", "Detail-driven system where seams, fasteners, and flashing matter."]]],
+  ["resources/roofing-glossary/", "Roofing Glossary | Quest Roofing", "Plain-English roofing terms.", "Roofing glossary", "Understand roofing terms like underlayment, flashing, valley, coating, decking, and written scope before approving work.", [["Underlayment", "Protective layer beneath tile that often drives the real roof scope."], ["Flashing", "Metal or roof detail used around walls, edges, valleys, and penetrations."], ["Valley", "Where roof planes meet and water concentrates during rain."], ["Coating", "Protective top layer used on foam and some flat roof systems."], ["Decking", "Structural roof surface below the roofing assembly."], ["Scope", "Written description of what work is included and priced."]]]
+].map(([path, title, h1, eyebrow, meta, cards]) => ({ path, title, h1, eyebrow, meta, cards }));
 
-supportPages.forEach((page) => {
-  if (page.manual) {
-    return;
-  }
-
+function supportPage(page) {
+  const prefix = page.path.split("/").filter(Boolean).length > 1 ? "../.." : "..";
   const canonical = `${siteUrl}/${page.path}`;
-  const pathPrefix = page.path.split("/").length > 2 ? "../.." : "..";
-  const supportSlug = page.path.replace(/\/$/, "").replace(/\//g, "-");
-  const body = `${page.body(pathPrefix)}${supportFinalCta(page, pathPrefix)}`;
-  const schema = pageSchema({
-    canonical,
-    title: page.title,
-    meta: page.meta,
-    breadcrumbs: [
-      { name: "Home", url: `${siteUrl}/` },
-      { name: page.eyebrow, url: canonical }
-    ]
-  });
-  const html = layout({
-    title: page.title,
-    meta: page.meta,
-    canonical,
-    body,
-    schema,
-    pathPrefix,
-    intro: supportIntro(page, pathPrefix),
-    bodyClass: `subpage subpage-support subpage-${supportSlug}`
-  });
-  const file = join(page.path, "index.html");
-  mkdirSync(dirname(file), { recursive: true });
-  writeFileSync(file, html);
-});
+  const body = `<main id="main" class="subpage-main"><section class="subpage-hero support-hero"><div class="container subpage-hero-grid"><div><p class="eyebrow">${page.eyebrow}</p><h1>${page.h1}</h1><p>${page.meta}</p><div class="hero-actions"><a class="button button-primary" href="${home(prefix, "estimate")}">Schedule Free Inspection</a><a class="button button-secondary button-on-dark" href="${phoneHref}">Call ${phone}</a></div></div><figure class="subpage-photo">${img("inspection", prefix, " loading=\"eager\" decoding=\"async\"")}<figcaption>Photo-backed roofing documentation from Quest Roofing.</figcaption></figure></div></section>${section("Useful details.", "", cardGrid(page.cards), "section-sand")}${inlineCta(prefix)}</main>`;
+  return layout({ title: page.title, meta: page.meta, canonical, body, schema: pageSchema(canonical, page.title, page.meta), prefix, bodyClass: `subpage support-page ${page.path.replace(/\//g, "-")}` });
+}
 
-const urls = [
+function galleryPage(path = "gallery/") {
+  const prefix = path.split("/").filter(Boolean).length > 1 ? "../.." : "..";
+  const title = path.startsWith("about-us") ? "Completed Roofing Projects | Quest Roofing" : "Roofing Gallery | Quest Roofing";
+  const h1 = path.startsWith("about-us") ? "Real roof work with visible project proof." : "Real roof work, organized for review.";
+  const meta = "Browse real Quest Roofing project photos showing roof inspections, repair details, underlayment, flashing, and finished surfaces.";
+  const photos = [["protection", "Property protection"], ["staged", "Tile staged for underlayment"], ["battens", "Battens and underlayment"], ["underlayment", "Clean deck preparation"], ["flashing", "Flashing repair detail"], ["pipe", "Pipe flashing detail"], ["metal", "Metal valley flashing"], ["deck", "Deck repair area"], ["shingle", "Finished shingle surface"], ["tileFinished", "Finished tile roof slope"], ["consultant", "On-roof documentation"], ["inspection", "Inspection context"]];
+  const canonical = `${siteUrl}/${path}`;
+  const body = `<main id="main" class="subpage-main"><section class="subpage-hero support-hero"><div class="container subpage-hero-grid"><div><p class="eyebrow">Gallery</p><h1>${h1}</h1><p>${meta}</p><div class="hero-actions"><a class="button button-primary" href="${home(prefix, "estimate")}">Schedule Free Inspection</a><a class="button button-secondary button-on-dark" href="${phoneHref}">Call ${phone}</a></div></div><figure class="subpage-photo">${img("protection", prefix, " loading=\"eager\" decoding=\"async\"")}<figcaption>Project documentation and roof detail photos.</figcaption></figure></div></section>${section("Browse project documentation.", "", `<div class="gallery-wall">${photos.map(([photo, caption], index) => `<a class="${index % 5 === 0 ? "wide" : ""}" href="${asset(prefix, images[photo][0])}" target="_blank" rel="noopener">${img(photo, prefix, " loading=\"lazy\" decoding=\"async\"")}<span>${caption}</span></a>`).join("")}</div>`, "section-gallery-page")}${inlineCta(prefix)}</main>`;
+  return layout({ title, meta, canonical, body, schema: pageSchema(canonical, title, meta), prefix, bodyClass: "subpage gallery-page" });
+}
+
+function reviewsPage() {
+  const prefix = "../..";
+  const title = "Reviews | Quest Roofing";
+  const meta = "Quest Roofing shares homeowner feedback focused on communication, clean work, cost clarity, and written scope.";
+  const canonical = `${siteUrl}/about-us/reviews/`;
+  const body = `<main id="main" class="subpage-main"><section class="subpage-hero support-hero"><div class="container subpage-hero-grid"><div><p class="eyebrow">Reviews</p><h1>Homeowner feedback without inflated proof.</h1><p>${meta}</p><div class="hero-actions"><a class="button button-primary" href="${home(prefix, "estimate")}">Schedule Free Inspection</a><a class="button button-secondary button-on-dark" href="${phoneHref}">Call ${phone}</a></div></div></div></section>${section("Homeowner feedback that speaks to the work.", "Published without star ratings or platform badges until review source details are approved.", `<!-- Replace with verified Google/CRM reviews when approved by client. --><div class="review-stack"><blockquote><p>"I had a leak that caused serious issues in my living room ceiling. From inspection to final repair they were professional, efficient, and transparent about costs."</p><footer>Kristin M.</footer></blockquote><blockquote><p>"Quest Roofing did an outstanding job installing a new roof on our home. They walked us through the process, helped us choose materials, and stuck to the timeline."</p><footer>Joshua S.</footer></blockquote></div><div class="inline-note">Review counts, platform badges, and rating claims should be added only after the client approves the source.</div>`, "section-sand")}${inlineCta(prefix)}</main>`;
+  return layout({ title, meta, canonical, body, schema: pageSchema(canonical, title, meta), prefix, bodyClass: "subpage reviews-page" });
+}
+
+function contactPage() {
+  const prefix = "..";
+  const title = "Contact Quest Roofing";
+  const meta = "Contact Quest Roofing for a free inspection or written roofing estimate in Queen Creek and the Greater Phoenix area.";
+  const canonical = `${siteUrl}/contact/`;
+  const body = `<main id="main" class="subpage-main"><section class="subpage-hero support-hero"><div class="container subpage-hero-grid"><div><p class="eyebrow">Contact</p><h1>Talk with Quest Roofing about your roof.</h1><p>${meta}</p><div class="hero-actions"><a class="button button-primary" href="${home(prefix, "estimate")}">Submit Estimate Request</a><a class="button button-secondary button-on-dark" href="${phoneHref}">Call ${phone}</a></div></div><figure class="subpage-photo">${img("inspection", prefix, " loading=\"eager\" decoding=\"async\"")}<figcaption>Send details so the first conversation starts clearer.</figcaption></figure></div></section>${section("Fastest ways to start.", "", `<div class="contact-grid"><a href="${phoneHref}"><span>Call</span><strong>${phone}</strong><em>Use for active leaks or scheduling questions.</em></a><a href="mailto:${email}"><span>Email</span><strong>${email}</strong><em>Send your name, roof concern, and photos if available.</em></a><a href="${home(prefix, "estimate")}"><span>Form</span><strong>Submit Estimate Request</strong><em>Use the guided homepage form for a written request.</em></a></div>`, "section-sand")}${section("What to send.", "", `<p class="wide-copy">Include your address or nearest cross streets, roof type if known, leak location, storm timing, interior stain photos, exterior roof photos if safe, and the service you think you need.</p>`, "section-sand")}</main>`;
+  return layout({ title, meta, canonical, body, schema: pageSchema(canonical, title, meta), prefix, bodyClass: "subpage contact-page" });
+}
+
+function notFoundPage() {
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Page Not Found | Quest Roofing</title><meta name="robots" content="noindex, follow"><meta name="theme-color" content="#0B1D33"><link rel="icon" href="${favicon}"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="tokens.css"><link rel="stylesheet" href="styles.css"></head><body class="subpage"><a class="skip-link" href="#main">Skip to content</a><div class="site-shell">${header(".")}<main id="main" class="subpage-main"><section class="subpage-hero"><div class="container subpage-hero-grid"><div><p class="eyebrow">404</p><h1>Page not found.</h1><p>The page may have moved. Start from the homepage, service pages, or call Quest Roofing directly.</p><div class="hero-actions"><a class="button button-primary" href="index.html">Go Home</a><a class="button button-secondary button-on-dark" href="${phoneHref}">Call ${phone}</a></div></div></div></section></main>${footer(".")}</div><script src="script.js"></script></body></html>`;
+}
+
+const tokensCss = `/* Hallmark - pre-emit critique: P5 H5 E5 S5 R5 V5 | Quest Roofing documented Arizona trust */
+:root {
+  --font-display: "Sora", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --color-deep-navy: #0B1D33;
+  --color-strong-navy: #132B45;
+  --color-roof-orange: #E85D24;
+  --color-burnt-clay: #B95B35;
+  --color-desert-sand: #F6EFE4;
+  --color-warm-off-white: #FFFDF8;
+  --color-asphalt-gray: #3C4652;
+  --color-muted-line: #D9D2C5;
+  --color-trust-green: #2F7D4F;
+  --color-white: #FFFFFF;
+  --color-ink: var(--color-deep-navy);
+  --color-ink-soft: var(--color-asphalt-gray);
+  --color-surface: var(--color-white);
+  --color-page: var(--color-warm-off-white);
+  --color-panel: var(--color-desert-sand);
+  --color-line: var(--color-muted-line);
+  --color-accent: var(--color-roof-orange);
+  --color-accent-strong: var(--color-burnt-clay);
+  --color-focus: var(--color-trust-green);
+  --color-on-dark: var(--color-warm-off-white);
+  --color-on-dark-soft: #DDE5E8;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --text-xs: 0.76rem;
+  --text-sm: 0.88rem;
+  --text-base: 1rem;
+  --text-lg: 1.12rem;
+  --text-xl: 1.28rem;
+  --text-2xl: clamp(1.55rem, 2.1vw, 2.1rem);
+  --text-3xl: clamp(2rem, 3.4vw, 3.1rem);
+  --text-display: clamp(2.55rem, 5.4vw, 5rem);
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-card: 1.25rem;
+  --radius-panel: 1.5rem;
+  --radius-pill: 999px;
+  --rule: 1px;
+  --shadow-card: 0 18px 50px rgb(11 29 51 / 0.12);
+  --shadow-panel: 0 28px 80px rgb(11 29 51 / 0.2);
+  --shadow-button: 0 14px 30px rgb(232 93 36 / 0.28);
+  --focus-ring: 0 0 0 3px rgb(47 125 79 / 0.34);
+  --dur-fast: 150ms;
+  --dur-base: 240ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+`;
+
+const stylesCss = `/* Hallmark - macrostructure: documented contractor trust - tone: premium Arizona practical - anchor hue: roof orange */
+@import url("tokens.css");
+*,*::before,*::after{box-sizing:border-box}html,body{margin:0;overflow-x:clip;background:var(--color-page)}html{scroll-behavior:smooth;scroll-padding-top:7.5rem}body{color:var(--color-ink);font-family:var(--font-body);font-size:var(--text-base);line-height:1.62;text-rendering:optimizeLegibility}body.nav-open{overflow:hidden}img{display:block;max-width:100%;height:auto}a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}button{cursor:pointer}:focus-visible{outline:3px solid var(--color-focus);outline-offset:3px}.skip-link{position:fixed;top:var(--space-3);left:var(--space-3);z-index:100;transform:translateY(-150%);border-radius:var(--radius-pill);background:var(--color-accent);color:var(--color-white);padding:var(--space-3) var(--space-5);font-weight:800}.skip-link:focus{transform:translateY(0)}.container{width:min(100% - 2rem,76rem);margin-inline:auto}.site-shell{min-height:100vh;overflow-x:clip}.site-header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--color-warm-off-white),transparent 4%);border-bottom:var(--rule) solid color-mix(in srgb,var(--color-line),transparent 20%);backdrop-filter:blur(18px)}.top-bar{background:var(--color-deep-navy);color:var(--color-on-dark-soft);font-size:var(--text-sm)}.top-bar-inner,.top-bar-actions,.header-inner,.brand,.site-nav,.hero-actions,.footer-bottom{display:flex;align-items:center}.top-bar-inner{justify-content:space-between;gap:var(--space-4);min-height:2.45rem}.top-bar p{margin:0}.top-bar-actions{gap:var(--space-5);font-weight:700;color:var(--color-white)}.credential-link,.credential-inline{text-decoration:underline;text-decoration-thickness:.08em;text-underline-offset:.2em}.credential-link:hover,.credential-link:focus-visible,.credential-inline:hover,.credential-inline:focus-visible{color:var(--color-accent)}.header-inner{justify-content:space-between;gap:var(--space-5);min-height:5rem}.brand{gap:var(--space-3);min-width:0}.brand-mark{display:grid;place-items:center;width:3.2rem;height:3.2rem;border-radius:var(--radius-md);background:var(--color-deep-navy);padding:.38rem;box-shadow:var(--shadow-card);flex:0 0 auto}.brand-mark img{width:100%;height:100%;object-fit:contain}.brand-copy{display:grid;line-height:1.1}.brand-copy strong,h1,h2,h3{font-family:var(--font-display);line-height:1.05;letter-spacing:0}.brand-copy strong{font-size:var(--text-lg)}.brand-copy span{color:var(--color-ink-soft);font-size:var(--text-sm);font-weight:700}.site-nav{gap:var(--space-4);font-size:var(--text-sm);font-weight:800}.site-nav a{min-height:2.75rem;display:inline-flex;align-items:center;border-radius:var(--radius-pill);padding-inline:var(--space-3)}.site-nav a:hover,.site-nav a:focus-visible{color:var(--color-accent)}.nav-cta,.button{border:0;border-radius:var(--radius-pill);min-height:2.9rem;display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);padding:.8rem 1.25rem;font-weight:850;line-height:1.1;text-align:center;transition:transform var(--dur-fast) var(--ease-out),background-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out)}.nav-cta,.button-primary{background:var(--color-accent);color:var(--color-white);box-shadow:var(--shadow-button)}.button-secondary{border:var(--rule) solid color-mix(in srgb,var(--color-deep-navy),transparent 72%);background:var(--color-warm-off-white);color:var(--color-deep-navy)}.button-on-dark{border-color:color-mix(in srgb,var(--color-white),transparent 74%);background:color-mix(in srgb,var(--color-white),transparent 90%);color:var(--color-white)}.button:hover,.button:focus-visible,.nav-cta:hover,.nav-cta:focus-visible{transform:translateY(-1px)}.nav-toggle,.header-call{display:none}.hero{position:relative;overflow:hidden;background:linear-gradient(112deg,var(--color-deep-navy) 0%,var(--color-strong-navy) 48%,var(--color-desert-sand) 48.2%,var(--color-warm-off-white) 100%);color:var(--color-on-dark);padding:clamp(4.5rem,8vw,7rem) 0 clamp(3rem,6vw,5rem)}.hero-grid,.split-layout,.estimate-layout,.review-layout,.area-layout,.subpage-hero-grid,.footer-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2rem,5vw,4rem);align-items:center}.hero-copy{max-width:42rem}.eyebrow{margin:0 0 var(--space-3);color:var(--color-accent);font-size:var(--text-sm);font-weight:900;text-transform:uppercase;letter-spacing:.06em}.hero h1,.subpage-hero h1{margin:0;color:inherit;font-size:var(--text-display);overflow-wrap:anywhere}.hero-lead,.subpage-hero p,.section-heading p,.story-copy p,.estimate-copy p,.final-cta p{max-width:48rem;font-size:var(--text-lg)}.hero-lead{color:var(--color-on-dark-soft)}.trust-pills,.check-list,.contact-points,.footer-contact{padding:0;margin:var(--space-6) 0;list-style:none}.trust-pills{display:flex;flex-wrap:wrap;gap:var(--space-2)}.trust-pills li{border:var(--rule) solid color-mix(in srgb,var(--color-white),transparent 78%);border-radius:var(--radius-pill);background:color-mix(in srgb,var(--color-white),transparent 90%);color:var(--color-on-dark);padding:.5rem .8rem;font-size:var(--text-sm);font-weight:800}.hero-actions{flex-wrap:wrap;gap:var(--space-3)}.hero-microcopy{margin:var(--space-4) 0 0;color:var(--color-on-dark-soft);font-weight:700}.hero-visual{position:relative;min-height:34rem}.hero-photo-card,.story-photo,.subpage-photo{overflow:hidden;margin:0;border-radius:var(--radius-panel);background:var(--color-surface);box-shadow:var(--shadow-panel)}.hero-photo-card{position:absolute;inset:0;transform:rotate(1deg)}.hero-photo-card img,.story-photo img,.subpage-photo img{width:100%;height:100%;min-height:100%;object-fit:cover}.hero-photo-card figcaption,.story-photo figcaption,.subpage-photo figcaption{position:absolute;left:var(--space-4);right:var(--space-4);bottom:var(--space-4);border-radius:var(--radius-md);background:color-mix(in srgb,var(--color-deep-navy),transparent 10%);color:var(--color-on-dark);padding:var(--space-3) var(--space-4);font-weight:800}.proof-float{position:absolute;width:min(18rem,54%);border-radius:var(--radius-card);background:var(--color-warm-off-white);color:var(--color-deep-navy);box-shadow:var(--shadow-card);padding:var(--space-4)}.proof-float strong,.proof-float span{display:block}.proof-float-one{top:var(--space-6);left:calc(var(--space-4)*-1)}.proof-float-two{right:calc(var(--space-3)*-1);bottom:var(--space-8)}.proof-strip{background:var(--color-warm-off-white);border-bottom:var(--rule) solid var(--color-line);padding:var(--space-5) 0}.proof-strip-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--space-3)}.proof-strip article{border:var(--rule) solid var(--color-line);border-radius:var(--radius-card);background:var(--color-surface);padding:var(--space-4)}.proof-strip span,.contact-points span,.footer-contact span,.map-card span,.city-proof-card span,.gallery-wall span,.contact-grid span{display:block;color:var(--color-accent-strong);font-size:var(--text-xs);font-weight:900;text-transform:uppercase;letter-spacing:.06em}.proof-strip strong{display:block;margin-top:var(--space-1)}.section-band{position:relative;padding:clamp(3.5rem,7vw,7rem) 0;background:var(--color-warm-off-white)}.section-sand,.section-human,.section-area,.section-gallery-page{background:var(--color-desert-sand)}.section-clay{background:color-mix(in srgb,var(--color-desert-sand),var(--color-burnt-clay) 8%)}.section-heading{max-width:48rem;margin-bottom:var(--space-10)}.section-heading h2,.story-copy h2,.estimate-copy h2,.final-cta h2{margin:0;color:var(--color-deep-navy);font-size:var(--text-3xl);overflow-wrap:anywhere}.section-heading p,.story-copy p,.estimate-copy p,.split-copy p,.wide-copy{color:var(--color-ink-soft)}.issue-grid,.service-card-grid,.seo-card-grid,.document-grid,.service-link-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-5)}.issue-card,.service-card,.seo-card-grid article,.document-grid article,.service-link-grid a,.review-stack blockquote,.estimate-form,.area-panel,.city-proof-card,.inline-note,.contact-grid a{border:var(--rule) solid color-mix(in srgb,var(--color-line),transparent 15%);border-radius:var(--radius-card);background:var(--color-surface);box-shadow:var(--shadow-card)}.issue-card,.service-card{overflow:hidden}.issue-card img,.service-card img{width:100%;height:13rem;object-fit:cover}.issue-card div,.service-card div,.seo-card-grid article,.document-grid article,.service-link-grid a{padding:var(--space-5)}.issue-card h3,.service-card h3,.seo-card-grid h3,.service-link-grid strong{margin:0 0 var(--space-2);color:var(--color-deep-navy);font-size:var(--text-xl)}.issue-card p,.service-card p,.seo-card-grid p,.service-link-grid span{margin:0;color:var(--color-ink-soft)}.issue-card a,.service-card a,.service-link-grid a{color:var(--color-accent-strong);font-weight:900}.story-photo,.subpage-photo{position:relative;min-height:32rem}.check-list{display:grid;gap:var(--space-3)}.check-list li{position:relative;padding-left:2rem;color:var(--color-deep-navy);font-weight:800}.check-list li::before,.document-grid article span{content:"";position:absolute;width:.8rem;height:.8rem;border-radius:50%;background:var(--color-trust-green)}.check-list li::before{left:0;top:.55rem}.section-gallery-teaser,.section-process,.final-cta{overflow:hidden;background:var(--color-deep-navy);color:var(--color-on-dark)}.section-gallery-teaser .section-heading h2,.section-process .section-heading h2,.final-cta h2{color:var(--color-on-dark)}.section-gallery-teaser .section-heading p,.section-process .section-heading p,.final-cta p{color:var(--color-on-dark-soft)}.editorial-gallery,.gallery-wall{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-flow:dense;gap:var(--space-4)}.editorial-gallery figure,.gallery-wall a{position:relative;overflow:hidden;min-height:16rem;margin:0;border-radius:var(--radius-card);background:var(--color-strong-navy)}.editorial-gallery .gallery-feature,.gallery-wall .wide{grid-column:span 2;grid-row:span 2}.editorial-gallery img,.gallery-wall img{width:100%;height:100%;object-fit:cover}.editorial-gallery figcaption,.gallery-wall span{position:absolute;left:var(--space-3);bottom:var(--space-3);border-radius:var(--radius-pill);background:color-mix(in srgb,var(--color-deep-navy),transparent 8%);color:var(--color-white);padding:.45rem .75rem}.section-action{margin-top:var(--space-8)}.process-track,.subpage-process{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-5);padding:0;margin:0;list-style:none}.process-track li,.subpage-process li{position:relative;border:var(--rule) solid color-mix(in srgb,var(--color-white),transparent 84%);border-radius:var(--radius-card);background:color-mix(in srgb,var(--color-white),transparent 92%);padding:var(--space-5)}.process-track span,.subpage-process span{display:grid;place-items:center;width:2.5rem;height:2.5rem;border-radius:50%;background:var(--color-accent);color:var(--color-white);font-weight:900}.process-track h3{color:var(--color-white)}.process-track p{color:var(--color-on-dark-soft)}.estimate-layout{align-items:start}.contact-points{display:grid;gap:var(--space-3)}.contact-points li,.footer-contact li{border-top:var(--rule) solid var(--color-line);padding-top:var(--space-3)}.contact-points a,.footer-contact a{color:var(--color-deep-navy);font-weight:900}.estimate-form{padding:var(--space-6)}.bot-field,.form-step[hidden]{display:none}.form-progress{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-2);margin-bottom:var(--space-4)}.form-step-tab{min-height:2.75rem;border:var(--rule) solid var(--color-line);border-radius:var(--radius-pill);background:var(--color-desert-sand);color:var(--color-ink-soft);font-weight:900}.form-step-tab.is-active{background:var(--color-deep-navy);color:var(--color-white)}.form-announcer,.form-note,.form-status{color:var(--color-ink-soft);font-weight:700}.form-step{display:grid;gap:var(--space-4)}.form-step h3{margin:0;font-size:var(--text-2xl)}.estimate-form fieldset{min-width:0;margin:0;padding:0;border:0}.estimate-form legend,.estimate-form label span{display:block;margin-bottom:var(--space-2);color:var(--color-deep-navy);font-weight:900}.choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-2)}.choice-grid label{min-height:3rem;display:flex;align-items:center;gap:var(--space-2);border:var(--rule) solid var(--color-line);border-radius:var(--radius-md);padding:var(--space-3);background:var(--color-warm-off-white);font-weight:800}input,select,textarea{width:100%;min-height:3rem;border:var(--rule) solid var(--color-line);border-radius:var(--radius-md);background:var(--color-warm-off-white);color:var(--color-deep-navy);padding:.8rem 1rem}textarea{resize:vertical}input:focus,select:focus,textarea:focus{outline:none;box-shadow:var(--focus-ring);border-color:var(--color-focus)}.form-actions{display:flex;flex-wrap:wrap;gap:var(--space-3)}.review-layout{align-items:start}.review-stack{display:grid;gap:var(--space-4)}.review-stack blockquote{margin:0;padding:var(--space-6)}.review-stack p{margin:0 0 var(--space-4);color:var(--color-deep-navy);font-size:var(--text-lg)}.review-stack footer{color:var(--color-accent-strong);font-weight:900}.area-layout{align-items:start}.area-panel{padding:var(--space-5)}.map-card{min-height:18rem;border-radius:var(--radius-card);background:linear-gradient(135deg,color-mix(in srgb,var(--color-accent),transparent 78%),transparent 38%),linear-gradient(160deg,var(--color-deep-navy),var(--color-strong-navy));color:var(--color-on-dark);padding:var(--space-6)}.map-card strong{display:block;margin:var(--space-3) 0;font-family:var(--font-display);font-size:var(--text-3xl)}.map-card em{font-style:normal;color:var(--color-on-dark-soft)}.city-pills{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-4)}.city-pills a{border:var(--rule) solid var(--color-line);border-radius:var(--radius-pill);background:var(--color-warm-off-white);padding:.55rem .8rem;font-weight:900}.faq-layout{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:var(--space-8);align-items:start}.faq-list{display:grid;gap:var(--space-3)}.faq-item{border:var(--rule) solid var(--color-line);border-radius:var(--radius-card);background:var(--color-surface);padding:var(--space-4)}.faq-item summary{cursor:pointer;color:var(--color-deep-navy);font-weight:900}.faq-item p{color:var(--color-ink-soft)}.final-cta{padding:clamp(4rem,8vw,7rem) 0}.final-cta-inner{max-width:48rem}.site-footer{background:var(--color-deep-navy);color:var(--color-on-dark-soft);padding:var(--space-16) 0 calc(var(--space-8) + 4rem)}.footer-layout{align-items:start}.footer-brand{margin:0;color:var(--color-white);font-family:var(--font-display);font-size:var(--text-2xl);font-weight:900}.footer-about p{max-width:32rem}.footer-contact{display:grid;gap:var(--space-3)}.footer-contact li{border-color:color-mix(in srgb,var(--color-white),transparent 84%)}.footer-contact a,.footer-contact strong{color:var(--color-white)}.footer-link-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-6)}.footer-link-grid div{display:grid;gap:var(--space-2)}.footer-link-grid strong{color:var(--color-white);font-family:var(--font-display)}.footer-link-grid a:hover,.footer-link-grid a:focus-visible,.footer-bottom a:hover,.footer-bottom a:focus-visible{color:var(--color-accent)}.footer-bottom{justify-content:space-between;gap:var(--space-4);margin-top:var(--space-10);border-top:var(--rule) solid color-mix(in srgb,var(--color-white),transparent 84%);padding-top:var(--space-4)}.mobile-cta-bar{position:fixed;left:var(--space-3);right:var(--space-3);bottom:var(--space-3);z-index:60;display:none;grid-template-columns:1fr 1fr;gap:var(--space-2);border-radius:var(--radius-pill);background:var(--color-deep-navy);padding:var(--space-2);box-shadow:var(--shadow-panel)}.mobile-cta-bar a{min-height:2.9rem;display:grid;place-items:center;border-radius:var(--radius-pill);background:var(--color-accent);color:var(--color-white);font-weight:900}.mobile-cta-bar a:first-child{background:var(--color-warm-off-white);color:var(--color-deep-navy)}.subpage-hero{background:linear-gradient(112deg,var(--color-deep-navy),var(--color-strong-navy));color:var(--color-on-dark);padding:clamp(4rem,8vw,7rem) 0}.subpage-hero p{color:var(--color-on-dark-soft)}.city-proof-card,.inline-note{padding:var(--space-6)}.city-proof-card strong{display:block;margin:var(--space-2) 0;font-family:var(--font-display);font-size:var(--text-3xl)}.mini-proof{display:flex;flex-wrap:wrap;gap:var(--space-2)}.mini-proof span{border-radius:var(--radius-pill);background:var(--color-desert-sand);padding:.45rem .7rem;font-size:var(--text-sm);font-weight:900}.inline-cta{width:min(100% - 2rem,76rem);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);border-radius:var(--radius-panel);background:var(--color-deep-navy);color:var(--color-on-dark);padding:var(--space-4);transform:translateY(-50%)}.document-grid article{position:relative;min-height:9rem}.document-grid article span{top:var(--space-5);left:var(--space-5)}.document-grid article p{margin:var(--space-6) 0 0;color:var(--color-deep-navy);font-weight:800}.split-copy{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:var(--space-8);align-items:center}.split-copy p,.wide-copy{font-size:var(--text-lg)}.split-copy figure{position:relative;overflow:hidden;min-height:24rem;margin:0;border-radius:var(--radius-panel);box-shadow:var(--shadow-card)}.split-copy img{width:100%;height:100%;object-fit:cover}.split-copy figcaption{position:absolute;left:var(--space-3);bottom:var(--space-3);border-radius:var(--radius-pill);background:color-mix(in srgb,var(--color-deep-navy),transparent 10%);color:var(--color-white);padding:.45rem .75rem;font-weight:900}.contact-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-4)}.contact-grid a{padding:var(--space-5)}.contact-grid strong,.contact-grid em{display:block}.contact-grid strong{margin:var(--space-2) 0;color:var(--color-deep-navy);font-family:var(--font-display);font-size:var(--text-xl)}.contact-grid em{color:var(--color-ink-soft);font-style:normal}@media (max-width:68rem){.top-bar{display:none}.header-inner{min-height:4.5rem}.header-call,.nav-toggle{display:inline-flex;align-items:center;justify-content:center;min-width:2.75rem;min-height:2.75rem;border-radius:var(--radius-pill);font-weight:900}.header-call{margin-left:auto;background:var(--color-deep-navy);color:var(--color-white);padding-inline:var(--space-4)}.nav-toggle{position:relative;border:var(--rule) solid var(--color-line);background:var(--color-warm-off-white)}.nav-toggle span{position:absolute;width:1.2rem;height:.14rem;border-radius:var(--radius-pill);background:var(--color-deep-navy);transition:transform var(--dur-fast) var(--ease-out)}.nav-toggle span:first-child{transform:translateY(-.25rem)}.nav-toggle span:last-child{transform:translateY(.25rem)}.nav-toggle[aria-expanded=true] span:first-child{transform:rotate(45deg)}.nav-toggle[aria-expanded=true] span:last-child{transform:rotate(-45deg)}.site-nav{position:fixed;inset:4.5rem 0 auto 0;display:grid;gap:var(--space-2);max-height:calc(100vh - 4.5rem);overflow:auto;background:var(--color-warm-off-white);border-bottom:var(--rule) solid var(--color-line);padding:var(--space-4);transform:translateY(-120%);transition:transform var(--dur-base) var(--ease-out)}.site-nav.is-open{transform:translateY(0)}.site-nav a{justify-content:center;border:var(--rule) solid var(--color-line);background:var(--color-surface)}.hero{background:var(--color-deep-navy)}.hero-grid,.split-layout,.estimate-layout,.review-layout,.area-layout,.subpage-hero-grid,.footer-layout,.faq-layout,.split-copy{grid-template-columns:1fr}.hero-visual{min-height:28rem}.proof-strip-grid,.issue-grid,.service-card-grid,.seo-card-grid,.document-grid,.service-link-grid,.process-track,.subpage-process,.footer-link-grid,.contact-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.editorial-gallery,.gallery-wall{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:42rem){html{scroll-padding-top:5rem}body{padding-bottom:5rem}.container{width:min(100% - 1.25rem,76rem)}.brand-copy span{display:none}.brand-mark{width:2.75rem;height:2.75rem}.hero,.subpage-hero{padding-top:var(--space-16)}.hero h1,.subpage-hero h1{font-size:clamp(2.2rem,13vw,3.2rem)}.hero-actions,.form-actions,.inline-cta{align-items:stretch;flex-direction:column}.button{width:100%}.hero-visual{min-height:24rem}.proof-float{position:static;width:auto;margin-top:var(--space-3)}.hero-photo-card{position:relative;min-height:20rem}.proof-strip-grid,.issue-grid,.service-card-grid,.seo-card-grid,.document-grid,.service-link-grid,.process-track,.subpage-process,.footer-link-grid,.contact-grid,.choice-grid,.editorial-gallery,.gallery-wall{grid-template-columns:1fr}.editorial-gallery .gallery-feature,.gallery-wall .wide{grid-column:auto;grid-row:auto}.story-photo,.subpage-photo{min-height:22rem}.estimate-form{padding:var(--space-4)}.form-progress{grid-template-columns:1fr}.inline-cta{transform:none;margin-block:var(--space-4)}.mobile-cta-bar{display:grid}}@media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:1ms!important;animation-duration:1ms!important;animation-iteration-count:1!important}}
+`;
+
+const stickyCtaCss = `.mobile-cta-bar{transform:translateY(calc(100% + 1rem));opacity:0;pointer-events:none;transition:transform var(--dur-base) var(--ease-out),opacity var(--dur-base) var(--ease-out)}.mobile-cta-bar.is-visible{transform:translateY(0);opacity:1;pointer-events:auto}`;
+const heroSplitCss = `.hero{background:linear-gradient(112deg,var(--color-deep-navy) 0%,var(--color-strong-navy) 62%,var(--color-desert-sand) 62.2%,var(--color-warm-off-white) 100%)}.hero-photo-card figcaption{right:auto;max-width:min(24rem,calc(100% - 2rem))}@media (max-width:68rem){.hero{background:var(--color-deep-navy)}}`;
+const mobileHeroCss = `@media (max-width:42rem){.hero,.subpage-hero{padding-top:var(--space-10)}.hero h1,.subpage-hero h1{font-size:clamp(2rem,10.5vw,2.65rem)}.hero-lead{font-size:1rem}.trust-pills{margin:var(--space-4) 0}.trust-pills li{padding:.42rem .68rem}}`;
+
+const scriptJs = `(() => {
+  const footerYear = document.getElementById("footer-year");
+  if (footerYear) footerYear.textContent = String(new Date().getFullYear());
+  const navToggle = document.querySelector(".nav-toggle");
+  const siteNav = document.querySelector(".site-nav");
+  if (navToggle && siteNav) {
+    const closeNav = () => { navToggle.setAttribute("aria-expanded", "false"); navToggle.setAttribute("aria-label", "Open navigation"); siteNav.classList.remove("is-open"); document.body.classList.remove("nav-open"); };
+    const openNav = () => { navToggle.setAttribute("aria-expanded", "true"); navToggle.setAttribute("aria-label", "Close navigation"); siteNav.classList.add("is-open"); document.body.classList.add("nav-open"); };
+    navToggle.addEventListener("click", () => navToggle.getAttribute("aria-expanded") === "true" ? closeNav() : openNav());
+    siteNav.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeNav));
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeNav(); });
+    document.addEventListener("click", (event) => { const target = event.target; if (target instanceof Element && !siteNav.contains(target) && !navToggle.contains(target)) closeNav(); });
+  }
+  const mobileCta = document.querySelector(".mobile-cta-bar");
+  if (mobileCta) {
+    const updateMobileCta = () => {
+      const active = document.activeElement;
+      const formFocused = active instanceof Element && Boolean(active.closest("[data-estimate-form]"));
+      mobileCta.classList.toggle("is-visible", window.scrollY > 360 && !formFocused);
+    };
+    window.addEventListener("scroll", updateMobileCta, { passive: true });
+    window.addEventListener("resize", updateMobileCta);
+    document.addEventListener("focusin", updateMobileCta);
+    document.addEventListener("focusout", () => window.setTimeout(updateMobileCta, 0));
+    updateMobileCta();
+  }
+  document.querySelectorAll(".faq-list").forEach((list) => {
+    list.querySelectorAll("details").forEach((item) => {
+      item.addEventListener("toggle", () => { if (item.open) list.querySelectorAll("details").forEach((other) => { if (other !== item) other.open = false; }); });
+    });
+  });
+  document.querySelectorAll("[data-estimate-form]").forEach((form) => {
+    const steps = Array.from(form.querySelectorAll("[data-step]"));
+    const tabs = Array.from(form.querySelectorAll("[data-step-target]"));
+    const status = form.querySelector(".form-status");
+    const stepStatus = form.querySelector("[data-step-status]");
+    let activeStep = 1;
+    const fieldsForStep = (stepNumber) => {
+      const step = form.querySelector('[data-step="' + stepNumber + '"]');
+      return step ? Array.from(step.querySelectorAll("input, select, textarea")) : [];
+    };
+    const setStep = (stepNumber) => {
+      activeStep = Math.min(Math.max(stepNumber, 1), steps.length);
+      steps.forEach((step) => { const isActive = Number(step.dataset.step) === activeStep; step.classList.toggle("is-active", isActive); step.hidden = !isActive; });
+      tabs.forEach((tab) => { const isActive = Number(tab.dataset.stepTarget) === activeStep; tab.classList.toggle("is-active", isActive); tab.setAttribute("aria-current", isActive ? "step" : "false"); });
+      if (stepStatus) {
+        const labels = ["roof need", "contact", "property and details"];
+        stepStatus.textContent = "Step " + activeStep + " of " + steps.length + ": " + labels[activeStep - 1] + ".";
+      }
+    };
+    const validateStep = (stepNumber) => {
+      const invalid = fieldsForStep(stepNumber).find((field) => !field.checkValidity());
+      if (invalid) { invalid.reportValidity(); return false; }
+      return true;
+    };
+    const validateAll = () => {
+      for (let index = 1; index <= steps.length; index += 1) {
+        if (!validateStep(index)) { setStep(index); return false; }
+      }
+      return true;
+    };
+    form.querySelectorAll("[data-next-step]").forEach((button) => button.addEventListener("click", () => { if (validateStep(activeStep)) setStep(activeStep + 1); }));
+    form.querySelectorAll("[data-prev-step]").forEach((button) => button.addEventListener("click", () => setStep(activeStep - 1)));
+    tabs.forEach((tab) => tab.addEventListener("click", () => {
+      const nextStep = Number(tab.dataset.stepTarget);
+      if (nextStep <= activeStep) {
+        setStep(nextStep);
+        return;
+      }
+      if (nextStep === activeStep + 1 && validateStep(activeStep)) {
+        setStep(nextStep);
+      }
+    }));
+    form.addEventListener("submit", (event) => {
+      if (!validateAll()) { event.preventDefault(); if (status) status.textContent = "Complete the required fields before submitting your estimate request."; return; }
+      const isLocal = window.location.protocol === "file:" || ["", "localhost", "127.0.0.1"].includes(window.location.hostname);
+      if (!isLocal) { if (status) status.textContent = "Submitting your estimate request."; return; }
+      event.preventDefault();
+      const formData = new FormData(form);
+      const lines = ["Quest Roofing estimate request", "", "Service needed: " + (formData.get("service_needed") || ""), "Urgency: " + (formData.get("urgency") || ""), "Name: " + (formData.get("full_name") || ""), "Phone: " + (formData.get("phone") || ""), "Email: " + (formData.get("email") || ""), "Property location: " + (formData.get("property_location") || ""), "", "Project details:", String(formData.get("project_details") || "")];
+      const mailto = "mailto:info@questroofing.com?subject=" + encodeURIComponent("Estimate request from website") + "&body=" + encodeURIComponent(lines.join("\\n"));
+      if (status) status.textContent = "Your request is ready. Email info@questroofing.com or call 602-399-6455.";
+      window.location.href = mailto;
+    });
+    setStep(1);
+  });
+})();
+`;
+
+function write(path, content) {
+  mkdirSync(dirname(path), { recursive: true });
+  writeFileSync(path, content);
+}
+
+write("tokens.css", tokensCss);
+write("styles.css", stylesCss + stickyCtaCss + heroSplitCss + mobileHeroCss);
+write("script.js", scriptJs);
+write("index.html", homepage());
+services.forEach((service) => write(join("services", service.slug, "index.html"), servicePage(service)));
+cities.forEach((city) => write(join(`roofing-${city.slug}-az`, "index.html"), cityPage(city)));
+supportPages.forEach((page) => write(join(page.path, "index.html"), supportPage(page)));
+write(join("about-us", "completed-projects", "index.html"), galleryPage("about-us/completed-projects/"));
+write(join("about-us", "reviews", "index.html"), reviewsPage());
+write(join("gallery", "index.html"), galleryPage("gallery/"));
+write(join("contact", "index.html"), contactPage());
+write("404.html", notFoundPage());
+
+const sitemapUrls = [
   ["", "1.0"],
-  ...publishedServices.map((service) => [`services/${service.slug}/`, "0.9"]),
+  ...services.map((service) => [`services/${service.slug}/`, "0.9"]),
   ...cities.map((city) => [`roofing-${city.slug}-az/`, "0.85"]),
-  ...supportPages.map((page) => [page.path, "0.75"])
+  ...supportPages.map((page) => [page.path, "0.75"]),
+  ["about-us/completed-projects/", "0.75"],
+  ["about-us/reviews/", "0.75"],
+  ["gallery/", "0.75"],
+  ["contact/", "0.75"]
 ];
 
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map(([path, priority]) => `  <url>
+${sitemapUrls.map(([path, priority]) => `  <url>
     <loc>${siteUrl}/${path}</loc>
-    <lastmod>${today}</lastmod>
+    <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>${priority}</priority>
   </url>`).join("\n")}
 </urlset>
-`;
-
-writeFileSync("sitemap.xml", sitemap);
+`);
