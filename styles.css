@@ -726,6 +726,174 @@
   }
 }
 
+/* Estimate section polish - keeps the restored Git header/nav intact. */
+.top-bar {
+  display: none;
+}
+
+.section-estimate {
+  background: linear-gradient(
+    180deg,
+    var(--color-warm-off-white) 0%,
+    color-mix(in srgb, var(--color-desert-sand), var(--color-warm-off-white) 56%) 100%
+  );
+}
+
+.section-estimate .estimate-layout {
+  width: min(100% - 2rem, 68rem);
+  grid-template-columns: minmax(0, .82fr) minmax(22rem, 1fr);
+  gap: clamp(1.25rem, 3vw, 2.25rem);
+  align-items: stretch;
+  border: var(--rule) solid color-mix(in srgb, var(--color-line), transparent 16%);
+  border-radius: var(--radius-panel);
+  background: color-mix(in srgb, var(--color-surface), transparent 2%);
+  box-shadow: 0 24px 70px rgb(11 29 51 / .1);
+  padding: clamp(.85rem, 1.8vw, 1.2rem);
+}
+
+.section-estimate .estimate-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: calc(var(--radius-panel) - .45rem);
+  background:
+    radial-gradient(circle at 88% 12%, rgb(245 86 31 / .18), transparent 32%),
+    linear-gradient(155deg, var(--color-deep-navy), var(--color-strong-navy));
+  color: var(--color-white);
+  padding: clamp(1.35rem, 3vw, 2rem);
+}
+
+.section-estimate .estimate-copy h2 {
+  max-width: 10.5ch;
+  color: var(--color-white);
+  font-size: clamp(2rem, 4vw, 3.05rem);
+}
+
+.section-estimate .estimate-copy p {
+  max-width: 30rem;
+  color: var(--color-on-dark-soft);
+  font-size: var(--text-base);
+}
+
+.estimate-contact-strip {
+  display: grid;
+  gap: .75rem;
+  margin-top: var(--space-6);
+}
+
+.estimate-contact-strip a,
+.estimate-contact-strip div {
+  display: grid;
+  gap: .15rem;
+  border: var(--rule) solid rgb(255 255 255 / .16);
+  border-radius: .85rem;
+  background: rgb(255 255 255 / .07);
+  padding: .75rem .85rem;
+}
+
+.estimate-contact-strip span {
+  color: var(--color-accent);
+  font-size: var(--text-xs);
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.estimate-contact-strip strong {
+  color: var(--color-white);
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.section-estimate .estimate-form {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: clamp(.65rem, 1.8vw, 1.1rem);
+}
+
+.section-estimate .form-progress {
+  display: flex;
+  gap: .5rem;
+  margin-bottom: var(--space-3);
+  border-bottom: var(--rule) solid color-mix(in srgb, var(--color-line), transparent 20%);
+  padding-bottom: var(--space-3);
+}
+
+.section-estimate .form-step-tab {
+  flex: 1;
+  min-height: 2.35rem;
+  border-radius: .65rem;
+  padding: .45rem .7rem;
+}
+
+.section-estimate .form-announcer {
+  margin: .2rem 0 var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.section-estimate .form-step {
+  gap: var(--space-3);
+}
+
+.section-estimate .form-step h3 {
+  font-size: var(--text-xl);
+}
+
+.section-estimate .choice-grid {
+  gap: .55rem;
+}
+
+.section-estimate .choice-grid label {
+  display: grid;
+  grid-template-columns: 2.1rem minmax(0, 1fr);
+  gap: .65rem;
+  min-height: 3.35rem;
+  align-items: center;
+  padding: .65rem .8rem;
+}
+
+.section-estimate .choice-grid input[type="radio"] {
+  width: 1.45rem;
+  min-height: 1.45rem;
+  padding: 0;
+}
+
+.section-estimate input,
+.section-estimate textarea {
+  background: var(--color-surface);
+}
+
+@media (max-width: 68rem) {
+  .section-estimate .estimate-layout {
+    grid-template-columns: 1fr;
+    width: min(100% - 1.25rem, 42rem);
+  }
+
+  .section-estimate .estimate-copy h2 {
+    max-width: 14ch;
+  }
+}
+
+@media (max-width: 42rem) {
+  .section-estimate .estimate-layout {
+    padding: .65rem;
+  }
+
+  .section-estimate .estimate-copy {
+    padding: 1.15rem;
+  }
+
+  .section-estimate .form-progress {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .section-estimate .choice-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Homepage hero: use the project photo as the scene, not a small card */
 .home .hero {
   min-height: clamp(39rem, 72vh, 50rem);
