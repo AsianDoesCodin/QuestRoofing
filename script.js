@@ -29,6 +29,49 @@
       item.addEventListener("toggle", () => { if (item.open) list.querySelectorAll("details").forEach((other) => { if (other !== item) other.open = false; }); });
     });
   });
+  const serviceMapEl = document.getElementById("service-map");
+  if (serviceMapEl && window.L) {
+    const questBase = [33.2487, -111.6343];
+    const serviceCities = [
+      ["Queen Creek", 33.2487, -111.6343, true],
+      ["Gilbert", 33.3528, -111.7890],
+      ["Chandler", 33.3062, -111.8413],
+      ["Mesa", 33.4152, -111.8315],
+      ["Tempe", 33.4255, -111.9400],
+      ["Scottsdale", 33.4942, -111.9261],
+      ["Paradise Valley", 33.5312, -111.9426],
+      ["Phoenix", 33.4484, -112.0740]
+    ];
+    const map = L.map(serviceMapEl, {
+      center: [33.39, -111.86],
+      zoom: 10,
+      scrollWheelZoom: false,
+      dragging: true,
+      tap: false
+    });
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 18,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    const serviceRadius = L.circle(questBase, {
+      radius: 47000,
+      color: "#E85D24",
+      weight: 2,
+      opacity: 0.95,
+      fillColor: "#E85D24",
+      fillOpacity: 0.12
+    }).addTo(map).bindPopup("Approximate Greater Phoenix service radius from Queen Creek.");
+    map.fitBounds(serviceRadius.getBounds(), { padding: [18, 18] });
+    serviceCities.forEach(([name, lat, lng, isBase]) => {
+      L.circleMarker([lat, lng], {
+        radius: isBase ? 8 : 6,
+        color: isBase ? "#E85D24" : "#0B1D33",
+        weight: 2,
+        fillColor: isBase ? "#E85D24" : "#12A8D8",
+        fillOpacity: 0.95
+      }).addTo(map).bindTooltip(name, { direction: "top", offset: [0, -8] }).bindPopup(name);
+    });
+  }
   document.querySelectorAll("[data-estimate-form]").forEach((form) => {
     const steps = Array.from(form.querySelectorAll("[data-step]"));
     const tabs = Array.from(form.querySelectorAll("[data-step-target]"));
