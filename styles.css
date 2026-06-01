@@ -238,6 +238,10 @@
 
 /* Header logo-over-navigation layout */
 @media (min-width: 76.001rem) {
+  .top-bar {
+    display: none;
+  }
+
   .site-header {
     --header-field: var(--color-warm-off-white);
     background: var(--color-warm-off-white);
@@ -258,7 +262,9 @@
 
   .header-brand-panel {
     display: flex;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(1.25rem, 3vw, 3rem);
     min-width: 0;
     border: 0;
     border-radius: 0;
@@ -286,6 +292,88 @@
 
   .brand-location {
     color: var(--color-deep-navy);
+  }
+
+  .header-proof-cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, auto));
+    align-items: stretch;
+    justify-content: end;
+    gap: .65rem;
+    min-width: 0;
+    margin-left: auto;
+  }
+
+  .header-proof-card {
+    display: grid;
+    align-content: center;
+    min-width: 8.25rem;
+    min-height: 3.8rem;
+    border: var(--rule) solid color-mix(in srgb, var(--color-line), transparent 18%);
+    border-radius: .65rem;
+    background: linear-gradient(180deg, var(--color-surface), color-mix(in srgb, var(--color-quest-blue), var(--color-warm-off-white) 90%));
+    color: var(--color-deep-navy);
+    padding: .55rem .7rem;
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-white), transparent 10%),
+      0 10px 22px color-mix(in srgb, var(--color-deep-navy), transparent 92%);
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out);
+  }
+
+  .header-proof-card:hover,
+  .header-proof-card:focus-visible {
+    transform: translateY(-.08rem);
+    border-color: color-mix(in srgb, var(--color-quest-blue), transparent 46%);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-white), transparent 10%),
+      0 14px 28px color-mix(in srgb, var(--color-deep-navy), transparent 88%);
+  }
+
+  .header-proof-card span {
+    color: var(--color-accent-strong);
+    font-size: .68rem;
+    font-weight: 900;
+    letter-spacing: .06em;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .header-proof-card strong {
+    display: block;
+    margin-top: .18rem;
+    color: var(--color-deep-navy);
+    font-size: clamp(.82rem, .8vw, .94rem);
+    font-weight: 900;
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+
+  .header-proof-card em {
+    display: block;
+    margin-top: .12rem;
+    color: var(--color-ink-soft);
+    font-size: .72rem;
+    font-style: normal;
+    font-weight: 750;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .header-proof-card-phone {
+    border-color: color-mix(in srgb, var(--color-deep-navy), transparent 72%);
+    background: var(--color-deep-navy);
+    color: var(--color-white);
+  }
+
+  .header-proof-card-phone span {
+    color: color-mix(in srgb, var(--color-accent), var(--color-white) 24%);
+  }
+
+  .header-proof-card-phone strong {
+    color: var(--color-white);
   }
 
   .header-nav-panel {
@@ -380,6 +468,12 @@
   .header-nav-panel .site-nav .nav-cta:focus-visible {
     color: var(--color-white);
     background: color-mix(in srgb, var(--color-accent), var(--color-deep-navy) 10%);
+  }
+}
+
+@media (max-width: 76rem) {
+  .header-proof-cards {
+    display: none;
   }
 }
 
