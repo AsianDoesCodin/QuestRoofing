@@ -32,6 +32,7 @@
   const serviceMapEl = document.getElementById("service-map");
   if (serviceMapEl && window.L) {
     const questBase = [33.2487, -111.6343];
+    const phoenixCenter = [33.4484, -112.0740];
     const metroCenter = [33.45, -111.94];
     const serviceCities = [
       ["Queen Creek", 33.2487, -111.6343, true],
@@ -58,14 +59,14 @@
       maxZoom: 18,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
-    L.circle(questBase, {
-      radius: 47000,
+    L.circle(phoenixCenter, {
+      radius: 54000,
       color: "#E85D24",
       weight: 2,
       opacity: 0.95,
       fillColor: "#E85D24",
       fillOpacity: 0.12
-    }).addTo(map).bindPopup("Approximate Greater Phoenix service radius from Queen Creek.");
+    }).addTo(map).bindPopup("Approximate Greater Phoenix service radius.");
     serviceCities.forEach(([name, lat, lng, isBase]) => {
       L.circleMarker([lat, lng], {
         radius: isBase ? 8 : 6,
