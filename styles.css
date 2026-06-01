@@ -986,3 +986,5 @@
 @media (max-width:76rem){.header-nav-panel .site-nav{pointer-events:none}.header-nav-panel .site-nav.is-open{pointer-events:auto}}
 
 .city-proof-card{color:var(--color-deep-navy)}.city-proof-card strong{color:var(--color-deep-navy)}.city-proof-card p{color:var(--color-ink-soft)}
+
+.service-link-grid a{display:grid;align-content:start;gap:var(--space-2)}.service-link-grid strong,.service-link-grid span{display:block}
