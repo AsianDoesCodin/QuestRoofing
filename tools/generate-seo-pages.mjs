@@ -9,7 +9,7 @@ const email = "info@questroofing.com";
 const favicon = "https://questroofing.com/wp-content/uploads/2024/12/Untitled-design-92-1.png";
 const logoPath = "assets/images/quest-roofing-wordmark.png";
 const socialImage = `${siteUrl}/assets/quest-roofing-real/quest-roofing-social-card.jpg`;
-const cacheVersion = "2026-06-02-hero-bg-no-services-09";
+const cacheVersion = "2026-06-02-city-card-contrast-16";
 const rocUrl = "https://azroc.my.site.com/AZRoc/s/contractor-search?licenseId=a0ocs000004dh2nAAA";
 const gafUrl = "https://www.gaf.ca/en-ca/roofing-contractors/residential/usa/az/queen-creek/quest-roofing-llc-1149593";
 
@@ -483,6 +483,8 @@ const headerVisibleSlashCss = `.header-main{display:grid;grid-template-columns:c
 
 const headerColorPanelCss = `.header-main{display:grid;grid-template-columns:clamp(20rem,30vw,31.25rem) minmax(0,1fr);align-items:stretch;min-height:6.25rem;overflow:hidden;background:var(--color-warm-off-white)}.header-brand-panel{position:relative;display:flex;align-items:stretch;min-width:0;padding:0;background:radial-gradient(circle at 18% 28%,color-mix(in srgb,var(--color-quest-blue),transparent 70%),transparent 34%),linear-gradient(135deg,#ddf3fa 0%,#c9eaf5 55%,#eaf8fc 100%);clip-path:polygon(0 0,100% 0,calc(100% - 4rem) 100%,0 100%);color:var(--color-deep-navy);box-shadow:none;overflow:hidden}.header-brand-panel::before{content:"";position:absolute;left:0;top:0;bottom:0;width:.45rem;background:linear-gradient(180deg,var(--color-quest-blue),var(--color-accent));opacity:1;pointer-events:none}.header-brand-panel::after{content:"";position:absolute;top:.7rem;bottom:.7rem;right:3.45rem;width:.38rem;transform:skewX(-24deg);border-radius:var(--radius-pill);background:linear-gradient(180deg,var(--color-quest-blue) 0%,var(--color-deep-navy) 55%,var(--color-accent) 100%);box-shadow:0 8px 20px color-mix(in srgb,var(--color-deep-navy),transparent 84%);pointer-events:none}.brand-lockup{position:relative;z-index:1;width:100%;min-height:6.25rem;padding:.7rem clamp(var(--space-16),4vw,var(--space-24)) .65rem clamp(var(--space-8),4.5vw,var(--space-16));background:transparent}.brand-wordmark{width:clamp(14.375rem,20vw,21.25rem);height:auto;max-height:4.75rem;object-fit:contain;object-position:left center}.brand-location{margin-top:.05rem;color:var(--color-strong-navy);font-size:.72rem;line-height:1.1}.header-slash{display:none}.header-nav-panel{background:var(--color-warm-off-white);padding-left:clamp(var(--space-5),3vw,var(--space-12))}@media (max-width:76rem){.header-main{display:flex;align-items:center;min-height:5rem;padding:.55rem var(--space-3);overflow:visible;background:var(--color-warm-off-white)}.header-brand-panel{flex:1 1 auto;align-items:center;clip-path:none;border-radius:var(--radius-md);background:linear-gradient(135deg,#ddf3fa 0%,#eaf8fc 100%);box-shadow:none;overflow:hidden}.header-brand-panel::before{display:block;width:.3rem}.header-brand-panel::after{display:none}.brand-lockup{min-height:3.9rem;padding:.35rem .7rem}.brand-wordmark{width:auto;height:clamp(3rem,8vw,3.65rem);max-width:min(100%,14rem)}.brand-location{margin-top:.08rem;font-size:.68rem;line-height:1.1}.header-nav-panel{padding-left:var(--space-2)}}@media (max-width:42rem){.header-main{min-height:4.7rem;padding:.5rem .65rem}.header-brand-panel{border-radius:.8rem}.brand-lockup{padding:.3rem .55rem}.brand-wordmark{height:2.85rem;max-width:10.75rem}.brand-location{display:none}.header-nav-panel{padding-left:.45rem}}`;
 
+const cityProofCardCss = `.city-proof-card{color:var(--color-deep-navy)}.city-proof-card strong{color:var(--color-deep-navy)}.city-proof-card p{color:var(--color-ink-soft)}`;
+
 const scriptJs = `(() => {
   const footerYear = document.getElementById("footer-year");
   if (footerYear) footerYear.textContent = String(new Date().getFullYear());
@@ -578,7 +580,7 @@ function write(path, content) {
 }
 
 write("tokens.css", tokensCss);
-write("styles.css", stylesCss + stickyCtaCss + heroSplitCss + mobileHeroCss + imageCardCss + homepageCurrentCss + headerSplitCss + headerLogoCss + headerLogoFitCss + headerSlashCss + headerVisibleSlashCss + headerColorPanelCss);
+write("styles.css", stylesCss + stickyCtaCss + heroSplitCss + mobileHeroCss + imageCardCss + homepageCurrentCss + headerSplitCss + headerLogoCss + headerLogoFitCss + headerSlashCss + headerVisibleSlashCss + headerColorPanelCss + cityProofCardCss);
 write("script.js", scriptJs);
 write("index.html", homepage());
 services.forEach((service) => write(join("services", service.slug, "index.html"), servicePage(service)));
