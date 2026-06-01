@@ -207,6 +207,7 @@
 /* Filled navbar field behind logo and folder tabs */
 .site-header {
   --header-field: color-mix(in srgb, var(--color-quest-blue), var(--color-warm-off-white) 82%);
+  z-index: 1500;
   background: var(--header-field);
 }
 
@@ -237,12 +238,23 @@
 
 /* Leaflet service area map */
 .leaflet-service-map {
+  position: relative;
+  z-index: 0;
   min-height: 23rem;
   overflow: hidden;
   border: var(--rule) solid color-mix(in srgb, var(--color-line), transparent 12%);
   border-radius: var(--radius-card);
   background: var(--color-desert-sand);
   padding: 0;
+}
+
+.leaflet-service-map .leaflet-pane {
+  z-index: 1;
+}
+
+.leaflet-service-map .leaflet-top,
+.leaflet-service-map .leaflet-bottom {
+  z-index: 20;
 }
 
 .leaflet-service-map .leaflet-control-attribution {
@@ -290,8 +302,7 @@
 .inline-note,
 .contact-grid a,
 .proof-strip article,
-.faq-item,
-.leaflet-service-map {
+.faq-item {
   transition:
     transform var(--dur-base) var(--ease-out),
     box-shadow var(--dur-base) var(--ease-out),
@@ -310,8 +321,7 @@
 .contact-grid a:hover,
 .contact-grid a:focus-visible,
 .proof-strip article:hover,
-.faq-item:hover,
-.leaflet-service-map:hover {
+.faq-item:hover {
   transform: translateY(-.28rem);
   border-color: color-mix(in srgb, var(--color-quest-blue), transparent 42%);
   box-shadow: 0 24px 62px rgb(11 29 51 / .16);
