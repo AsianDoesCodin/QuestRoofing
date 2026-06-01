@@ -947,7 +947,7 @@
   background:
     linear-gradient(90deg, rgb(11 29 51 / .96) 0%, rgb(11 29 51 / .9) 38%, rgb(11 29 51 / .58) 68%, rgb(11 29 51 / .7) 100%),
     linear-gradient(180deg, rgb(11 29 51 / .18), rgb(11 29 51 / .32)),
-    url("assets/quest-roofing-real/roof-consultant-tile-roof.jpg") center 38% / cover no-repeat;
+      url("assets/quest-roofing-real/hero-roof-replacement-drone.jpg") center 54% / cover no-repeat;
 }
 
 .home .hero-grid {
@@ -971,7 +971,7 @@
     min-height: auto;
     background:
       linear-gradient(180deg, rgb(11 29 51 / .94) 0%, rgb(11 29 51 / .86) 52%, rgb(11 29 51 / .74) 100%),
-      url("assets/quest-roofing-real/roof-consultant-tile-roof.jpg") center 35% / cover no-repeat;
+      url("assets/quest-roofing-real/hero-roof-replacement-drone.jpg") center 54% / cover no-repeat;
   }
 }
 
