@@ -984,3 +984,5 @@
 .site-header,.header-main,.header-nav-panel,.header-nav-panel .site-nav{overflow:visible}
 
 @media (max-width:76rem){.header-nav-panel .site-nav{pointer-events:none}.header-nav-panel .site-nav.is-open{pointer-events:auto}}
+
+.city-proof-card p{color:var(--color-ink-soft)}
