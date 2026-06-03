@@ -102,6 +102,11 @@
       return true;
     };
     const validateAll = () => {
+      if (!steps.length) {
+        const invalid = Array.from(form.querySelectorAll("input, select, textarea")).find((field) => !field.checkValidity());
+        if (invalid) { invalid.reportValidity(); return false; }
+        return true;
+      }
       for (let index = 1; index <= steps.length; index += 1) {
         if (!validateStep(index)) { setStep(index); return false; }
       }
@@ -122,14 +127,19 @@
     form.addEventListener("submit", (event) => {
       if (!validateAll()) { event.preventDefault(); if (status) status.textContent = "Complete the required fields before submitting your estimate request."; return; }
       const isLocal = window.location.protocol === "file:" || ["", "localhost", "127.0.0.1"].includes(window.location.hostname);
-      if (!isLocal) { if (status) status.textContent = "Submitting your estimate request."; return; }
+      if (!isLocal) {
+        if (status) status.textContent = "Submitting your estimate request.";
+        return;
+      }
       event.preventDefault();
       const formData = new FormData(form);
-      const lines = ["Quest Roofing estimate request", "", "Service needed: " + (formData.get("service_needed") || ""), "Urgency: " + (formData.get("urgency") || ""), "Name: " + (formData.get("full_name") || ""), "Phone: " + (formData.get("phone") || ""), "Email: " + (formData.get("email") || ""), "Property location: " + (formData.get("property_location") || ""), "", "Project details:", String(formData.get("project_details") || "")];
+      const photo = formData.get("attachment");
+      const hasPhoto = photo instanceof File && photo.name;
+      const lines = ["Quest Roofing estimate request", "", "Service needed: " + (formData.get("service_needed") || ""), "Urgency: " + (formData.get("urgency") || ""), "Name: " + (formData.get("full_name") || ""), "Phone: " + (formData.get("phone") || ""), "Email: " + (formData.get("email") || ""), "Property location: " + (formData.get("property_location") || ""), "Roof photo selected: " + (hasPhoto ? photo.name + " (attach this file before sending)" : "No"), "", "Project details:", String(formData.get("project_details") || "")];
       const mailto = "mailto:info@questroofing.com?subject=" + encodeURIComponent("Estimate request from website") + "&body=" + encodeURIComponent(lines.join("\n"));
-      if (status) status.textContent = "Your request is ready. Email info@questroofing.com or call 602-399-6455.";
+      if (status) status.textContent = hasPhoto ? "Your email app is opening. Attach the selected roof photo before sending." : "Your email app is opening with your request.";
       window.location.href = mailto;
     });
-    setStep(1);
+    if (steps.length) setStep(1);
   });
 })();

@@ -74,9 +74,11 @@
             <div class="contact-method-card"><span>Response</span><strong>Inspection next step</strong><em>We confirm details before work begins.</em></div>
           </div>
         </div>
-        <form class="contact-estimate-form" name="quest-estimate" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
-          <input type="hidden" name="form-name" value="quest-estimate">
-          <p class="bot-field"><label>Do not fill this out <input name="bot-field"></label></p>
+        <form class="contact-estimate-form" name="quest-estimate" method="POST" action="https://formsubmit.co/info@questroofing.com" data-estimate-form enctype="multipart/form-data">
+          <input type="hidden" name="_subject" value="New Quest Roofing estimate request">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_next" value="https://questroofing.com/thank-you/">
+          <p class="bot-field"><label>Do not fill this out <input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></p>
           <div class="form-heading">
             <p class="eyebrow">Free estimate</p>
             <h3>How can we help?</h3>
@@ -90,8 +92,9 @@
             <label><span>Urgency</span><select name="urgency"><option value="">Select urgency</option><option>Active leak</option><option>Recent storm</option><option>Planning ahead</option><option>Not sure</option></select></label>
           </div>
           <label><span>Project details <b aria-hidden="true">*</b></span><textarea name="project_details" rows="5" required></textarea></label>
-          <label><span>Optional roof photo</span><input type="file" name="roof_photo" accept="image/*"></label>
-          <p class="form-note">For urgent roof leaks, call <a href="tel:6023996455">602-399-6455</a>.</p>
+          <label><span>Optional roof photo</span><input type="file" name="attachment" accept="image/*"></label>
+          <p class="form-note">For urgent roof leaks, call <a href="tel:6023996455">602-399-6455</a>. Photo uploads should stay under 10MB total.</p>
+          <p class="form-status" role="status" aria-live="polite"></p>
           <div class="form-actions"><button class="button button-primary" type="submit">Submit Request</button></div>
         </form>
       </div>
