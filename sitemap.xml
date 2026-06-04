@@ -157,6 +157,30 @@
     <priority>0.75</priority>
   </url>
   <url>
+    <loc>https://questroofing.com/process/</loc>
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://questroofing.com/service-area/</loc>
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://questroofing.com/reviews/</loc>
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://questroofing.com/faq/</loc>
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
     <loc>https://questroofing.com/contact/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>monthly</changefreq>
