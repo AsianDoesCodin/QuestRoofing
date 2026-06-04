@@ -1,0 +1,12 @@
+.git
+.hallmark
+Real-Assets
+output
+tools
+*.rar
+*.zip
+*.psd
+*.ai
+*.sketch
+node_modules
+npm-debug.log*
