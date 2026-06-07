@@ -1,12 +1,11 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 
-const siteUrl = "https://questroofing.com";
+const siteUrl = "https://www.questroofing.com";
 const lastmod = "2026-06-01";
 const phone = "602-399-6455";
 const phoneHref = "tel:6023996455";
 const email = "info@questroofing.com";
-const favicon = "https://questroofing.com/wp-content/uploads/2024/12/Untitled-design-92-1.png";
 const logoPath = "assets/images/quest-roofing-wordmark.png";
 const socialImage = `${siteUrl}/assets/quest-roofing-real/quest-roofing-social-card.jpg`;
 const cacheVersion = "2026-06-02-service-card-spacing-18";
@@ -14,6 +13,11 @@ const rocUrl = "https://azroc.my.site.com/AZRoc/s/contractor-search?licenseId=a0
 const gafUrl = "https://www.gaf.ca/en-ca/roofing-contractors/residential/usa/az/queen-creek/quest-roofing-llc-1149593";
 
 const asset = (prefix, path) => prefix ? `${prefix}/${path}` : path;
+const faviconLinks = (prefix = "") => [
+  `<link rel="icon" href="${asset(prefix, "favicon.ico")}" sizes="any">`,
+  `<link rel="icon" type="image/png" sizes="32x32" href="${asset(prefix, "favicon-32x32.png")}">`,
+  `<link rel="apple-touch-icon" href="${asset(prefix, "apple-touch-icon.png")}">`
+].join("");
 const versionedAsset = (prefix, path) => `${asset(prefix, path)}?v=${cacheVersion}`;
 const home = (prefix, hash = "") => `${prefix ? `${prefix}/index.html` : ""}${hash ? `#${hash}` : ""}`;
 const link = (prefix, path) => asset(prefix, path);
@@ -57,6 +61,18 @@ const img = (key, prefix = "", attrs = "") => {
 
 const mediaFrame = (key, prefix = "", attrs = "") => `<div class="media-frame">${img(key, prefix, attrs)}</div>`;
 const mediaFigure = (className, key, prefix, attrs, caption) => `<figure class="image-card image-card--overlay ${className}">${mediaFrame(key, prefix, attrs)}<figcaption class="caption">${caption}</figcaption></figure>`;
+
+const navServices = [
+  ["services/tile-roofing/index.html", "Tile Roofing"],
+  ["services/shingle-roofing/index.html", "Shingle Roofing"],
+  ["services/metal-roofing/index.html", "Metal Roofing"],
+  ["services/foam-roofing/index.html", "Foam Roofing"],
+  ["services/roof-repair/index.html", "Roof Repair"],
+  ["services/roof-inspection/index.html", "Free Inspection"],
+  ["services/storm-damage-roof-repair/index.html", "Storm & Emergency"],
+  ["services/roof-insurance-claims/index.html", "Insurance Claims"],
+  ["services/roof-maintenance/index.html", "Maintenance"]
+];
 
 const services = [
   {
@@ -186,7 +202,7 @@ const businessSchema = {
   address: { "@type": "PostalAddress", addressLocality: "Queen Creek", addressRegion: "AZ", addressCountry: "US" },
   identifier: "AZ ROC #355136",
   areaServed: cities.map((city) => ({ "@type": "City", name: city.name })),
-  knowsAbout: services.map((service) => service.nav)
+  knowsAbout: navServices.map(([, label]) => label)
 };
 
 const faqSchema = (faq) => ({
@@ -204,24 +220,27 @@ const pageSchema = (canonical, title, meta, extra = []) => ({
 });
 
 function header(prefix = "") {
+  const serviceMenu = navServices.map(([href, label]) => `<a href="${link(prefix, href)}">${label}</a>`).join("");
+  const cityMenu = cities.map((city) => `<a href="${link(prefix, `roofing-${city.slug}-az/index.html`)}">${city.name}</a>`).join("");
   return `<header class="site-header" id="top">
     <div class="top-bar"><div class="container top-bar-inner"><p>${roc()} / ${gaf()} / Free written estimates / Licensed, Bonded, Insured</p><div class="top-bar-actions"><a href="${phoneHref}">${phone}</a><a href="mailto:${email}">${email}</a></div></div></div>
     <div class="header-main">
       <div class="header-brand-panel">
-        <a class="brand-lockup" href="${prefix ? `${prefix}/index.html` : "index.html"}" aria-label="Quest Roofing home"><img class="brand-wordmark" src="${versionedAsset(prefix, logoPath)}" alt="Quest Roofing" width="1184" height="624"><span class="brand-location">Queen Creek, Arizona</span></a>
+        <a class="brand-lockup" href="${prefix ? `${prefix}/index.html` : "index.html"}" aria-label="Quest Roofing home"><img class="brand-wordmark" src="${versionedAsset(prefix, logoPath)}" alt="Quest Roofing" width="1184" height="624"><span class="brand-location">Queen Creek, Arizona</span></a><div class="header-proof-cards" aria-label="Quest Roofing credentials and contact"><a class="header-proof-card" href="${rocUrl}" target="_blank" rel="noopener"><span>License</span><strong>AZ ROC #355136</strong></a><a class="header-proof-card" href="${gafUrl}" target="_blank" rel="noopener"><span>Credential</span><strong>GAF Certified</strong></a><a class="header-proof-card" href="${estimatePage(prefix)}"><span>Estimate</span><strong>Free written estimates</strong><em>Licensed, bonded, insured</em></a><a class="header-proof-card header-proof-card-phone" href="${phoneHref}"><span>Call us</span><strong>${phone}</strong></a></div>
       </div>
       <div class="header-nav-panel">
         <a class="header-call" href="${phoneHref}">Call</a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation"><span></span><span></span></button>
         <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-          <a href="${link(prefix, "services/roof-repair/index.html")}">Services</a>
+          <div class="nav-dropdown"><a class="nav-parent" href="${link(prefix, "services/roof-repair/index.html")}" aria-haspopup="true">Services</a><div class="nav-menu" aria-label="Services submenu">${serviceMenu}</div></div>
           <a href="${link(prefix, "process/index.html")}">Process</a>
           <a href="${link(prefix, "gallery/index.html")}">Gallery</a>
-          <a href="${link(prefix, "service-area/index.html")}">Service Area</a>
+          <div class="nav-dropdown"><a class="nav-parent" href="${link(prefix, "service-area/index.html")}" aria-haspopup="true">Service Area</a><div class="nav-menu" aria-label="Service Area submenu">${cityMenu}</div></div>
           <a href="${link(prefix, "reviews/index.html")}">Reviews</a>
           <a href="${link(prefix, "faq/index.html")}">FAQ</a>
+          <a href="${link(prefix, "blog/index.html")}">Blog</a>
           <a href="${link(prefix, "contact/index.html")}">Contact</a>
-          <a class="nav-cta" href="${estimatePage(prefix)}">Schedule Free Inspection</a>
+          <a class="nav-cta" href="${estimatePage(prefix)}">Request Estimate</a>
         </nav>
       </div>
     </div>
@@ -229,7 +248,7 @@ function header(prefix = "") {
 }
 
 function footer(prefix = "") {
-  const footerServices = services.map((service) => `<a href="${link(prefix, `services/${service.slug}/index.html`)}">${service.nav}</a>`).join("\n");
+  const footerServices = navServices.map(([href, label]) => `<a href="${link(prefix, href)}">${label}</a>`).join("\n");
   const footerCities = cities.map((city) => `<a href="${link(prefix, `roofing-${city.slug}-az/index.html`)}">${city.name}</a>`).join("\n");
   return `<footer class="site-footer">
     <div class="container footer-layout">
@@ -241,13 +260,14 @@ ${footerCities}</div><div><strong>Company</strong>
 <a href="${link(prefix, "reviews/index.html")}">Reviews</a>
 <a href="${link(prefix, "resources/design-your-roof/index.html")}">Roof Planning</a>
 <a href="${link(prefix, "resources/roofing-glossary/index.html")}">Roofing Glossary</a>
+<a href="${link(prefix, "blog/index.html")}">Blog</a>
 <a href="${link(prefix, "contact/index.html")}">Contact</a></div></nav>
     </div>
     <div class="container footer-bottom"><span>Copyright <span id="footer-year">2026</span> Quest Roofing</span><a href="#top">Back to top</a></div>
   </footer><div class="mobile-cta-bar" aria-label="Quick contact"><a href="${phoneHref}">Call</a><a href="${estimatePage(prefix)}">Free Inspection</a></div>`;
 }
 
-function layout({ title, meta, canonical, body, schema, prefix = "", bodyClass = "" }) {
+function layout({ title, meta, canonical, body, schema, prefix = "", bodyClass = "", extraHead = "", extraScripts = "" }) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -260,7 +280,7 @@ function layout({ title, meta, canonical, body, schema, prefix = "", bodyClass =
   <meta name="geo.region" content="US-AZ">
   <meta name="geo.placename" content="Queen Creek">
   <link rel="canonical" href="${canonical}">
-  <link rel="icon" href="${favicon}">
+  ${faviconLinks(prefix)}
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Quest Roofing">
   <meta property="og:title" content="${title}">
@@ -275,6 +295,7 @@ function layout({ title, meta, canonical, body, schema, prefix = "", bodyClass =
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  ${extraHead}
   <link rel="stylesheet" href="${versionedAsset(prefix, "tokens.css")}">
   <link rel="stylesheet" href="${versionedAsset(prefix, "styles.css")}">
   <script type="application/ld+json">${JSON.stringify(schema)}</script>
@@ -282,6 +303,7 @@ function layout({ title, meta, canonical, body, schema, prefix = "", bodyClass =
 <body${bodyClass ? ` class="${bodyClass}"` : ""}>
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="site-shell">${header(prefix)}${body}${footer(prefix)}</div>
+  ${extraScripts}
   <script src="${versionedAsset(prefix, "script.js")}" defer></script>
 </body>
 </html>
@@ -329,15 +351,24 @@ function homepage() {
     <section class="section-band section-process" id="process"><div class="container"><div class="section-heading section-heading-light"><p class="eyebrow">Process</p><h2>A clearer roofing process.</h2><p>Every step is built around documentation, written scope, and homeowner understanding.</p></div><ol class="process-track"><li><span>1</span><h3>Request</h3><p>Tell us what you are seeing or schedule an inspection.</p></li><li><span>2</span><h3>Inspect</h3><p>Quest documents the roof condition with photos.</p></li><li><span>3</span><h3>Estimate</h3><p>You receive a written scope with clear repair or replacement options.</p></li><li><span>4</span><h3>Build</h3><p>Approved work is scheduled, completed, cleaned up, and reviewed.</p></li></ol></div></section>
     ${estimateSection()}
     <section class="section-band section-reviews" id="reviews"><div class="container review-layout"><div class="section-heading"><p class="eyebrow">Homeowner feedback</p><h2>Homeowner feedback that speaks to the work.</h2><p>Published here without star ratings or platform badges until review source details are approved.</p></div><!-- Replace with verified Google/CRM reviews when approved by client. --><div class="review-stack"><blockquote><p>"I had a leak that caused serious issues in my living room ceiling. From inspection to final repair they were professional, efficient, and transparent about costs."</p><footer>Kristin M.</footer></blockquote><blockquote><p>"Quest Roofing did an outstanding job installing a new roof on our home. They walked us through the process, helped us choose materials, and stuck to the timeline."</p><footer>Joshua S.</footer></blockquote></div></div></section>
-    <section class="section-band section-area" id="service-area"><div class="container area-layout"><div><p class="eyebrow">Service area</p><h2>Queen Creek-based. Serving the Greater Phoenix area.</h2><p>Quest is based in Queen Creek and serves nearby Phoenix-area communities with roof inspections, repairs, replacements, and written estimates.</p></div><div class="area-panel"><div class="map-card"><span>Queen Creek</span><strong>Greater Phoenix</strong><em>Documented inspections and written estimates across nearby communities.</em></div><div class="city-pills">${cities.map((city) => `<a href="roofing-${city.slug}-az/index.html">${city.name}</a>`).join("")}</div></div></div></section>
+    <section class="section-band section-area" id="service-area"><div class="container area-layout"><div><p class="eyebrow">Service area</p><h2>Queen Creek-based. Serving the Greater Phoenix area.</h2><p>Quest is based in Queen Creek and serves nearby Phoenix-area communities with roof inspections, repairs, replacements, and written estimates.</p></div><div class="area-panel"><div class="map-card leaflet-service-map" id="service-map" aria-label="Interactive map of Quest Roofing's Greater Phoenix service area"></div><p class="map-note"><strong>Service radius:</strong> approximate Greater Phoenix coverage area for nearby inspections and estimates.</p><div class="city-pills">${cities.map((city) => `<a href="roofing-${city.slug}-az/index.html">${city.name}</a>`).join("")}</div></div></div></section>
     <section class="section-band section-faq" id="faq"><div class="container faq-layout"><div class="section-heading"><p class="eyebrow">FAQ</p><h2>Questions homeowners ask before they book.</h2></div><div class="faq-list">${faq.map(([q, a]) => `<details class="faq-item"><summary>${q}</summary><p>${a}</p></details>`).join("")}</div></div></section>
     <section class="final-cta"><div class="container final-cta-inner"><p class="eyebrow">Ready for a documented roof inspection?</p><h2>Start with photos, a written scope, and a clear answer.</h2><p>Whether you are dealing with a leak, aging materials, or a full replacement decision, Quest Roofing can help you understand the next step before work begins.</p><div class="hero-actions"><a class="button button-primary" href="${estimatePage()}">Schedule Free Inspection</a><a class="button button-secondary button-on-dark" href="${phoneHref}">Call ${phone}</a></div></div></section>
   </main>`;
-  return layout({ title, meta, canonical: `${siteUrl}/`, body, schema, bodyClass: "home" });
+  return layout({
+    title,
+    meta,
+    canonical: `${siteUrl}/`,
+    body,
+    schema,
+    bodyClass: "home",
+    extraHead: '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">',
+    extraScripts: '<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>'
+  });
 }
 
 function estimateSection() {
-  return `<section class="section-band section-estimate" id="estimate"><div class="container estimate-layout"><div class="estimate-copy"><p class="eyebrow">Free estimate</p><h2>Get your free roof estimate.</h2><p>Send the basics and Quest Roofing will have what it needs to start the conversation.</p><ul class="contact-points"><li><span>Phone</span><a href="${phoneHref}">${phone}</a></li><li><span>Email</span><a href="mailto:${email}">${email}</a></li><li><span>Coverage</span><strong>Queen Creek-based service across Greater Phoenix</strong></li></ul></div><form class="estimate-form" name="quest-estimate" method="POST" action="https://formsubmit.co/info@questroofing.com" enctype="multipart/form-data" data-estimate-form><input type="hidden" name="_subject" value="New Quest Roofing estimate request"><input type="hidden" name="_template" value="table"><input type="hidden" name="_next" value="https://questroofing.com/thank-you/"><p class="bot-field"><label>Do not fill this out <input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></p><div class="form-progress" aria-label="Estimate request progress"><button class="form-step-tab is-active" type="button" data-step-target="1">Roof</button><button class="form-step-tab" type="button" data-step-target="2">Contact</button><button class="form-step-tab" type="button" data-step-target="3">Details</button></div><p class="form-announcer" aria-live="polite" data-step-status>Step 1 of 3: roof need.</p><section class="form-step is-active" data-step="1"><h3>Roof need</h3><fieldset><legend>Service needed <span aria-hidden="true">*</span></legend><div class="choice-grid">${["Roof Repair", "Tile Roofing", "Shingle Roofing", "Metal Roofing", "Foam Roofing", "Free Inspection", "Not Sure"].map((item) => `<label><input type="radio" name="service_needed" value="${item}" required><span>${item}</span></label>`).join("")}</div></fieldset><fieldset><legend>Urgency <span aria-hidden="true">*</span></legend><div class="choice-grid choice-grid-tight">${["Active leak", "Recent storm", "Planning ahead", "Not sure"].map((item) => `<label><input type="radio" name="urgency" value="${item}" required><span>${item}</span></label>`).join("")}</div></fieldset><div class="form-actions"><button class="button button-primary" type="button" data-next-step>Next</button></div></section><section class="form-step" data-step="2" hidden><h3>Contact</h3><label><span>Full name <b aria-hidden="true">*</b></span><input type="text" name="full_name" autocomplete="name" required></label><label><span>Phone <b aria-hidden="true">*</b></span><input type="tel" name="phone" autocomplete="tel" required></label><label><span>Email <b aria-hidden="true">*</b></span><input type="email" name="email" autocomplete="email" required></label><div class="form-actions"><button class="button button-secondary" type="button" data-prev-step>Back</button><button class="button button-primary" type="button" data-next-step>Next</button></div></section><section class="form-step" data-step="3" hidden><h3>Property and details</h3><label><span>Address or nearest cross streets <b aria-hidden="true">*</b></span><input type="text" name="property_location" autocomplete="street-address" required></label><label><span>Project details <b aria-hidden="true">*</b></span><textarea name="project_details" rows="5" required></textarea></label><label><span>Optional roof photo</span><input type="file" name="attachment" accept="image/*"></label><p class="form-note">For urgent roof leaks, call <a href="${phoneHref}">${phone}</a>.</p><div class="form-actions"><button class="button button-secondary" type="button" data-prev-step>Back</button><button class="button button-primary" type="submit">Submit Estimate Request</button></div><p class="form-status" aria-live="polite"></p></section></form></div></section>`;
+  return `<section class="section-band section-estimate" id="estimate"><div class="container estimate-layout"><div class="estimate-copy"><p class="eyebrow">Free estimate</p><h2>Get your free roof estimate.</h2><p>Send the basics and Quest Roofing will have what it needs to start the conversation.</p><ul class="contact-points"><li><span>Phone</span><a href="${phoneHref}">${phone}</a></li><li><span>Email</span><a href="mailto:${email}">${email}</a></li><li><span>Coverage</span><strong>Queen Creek-based service across Greater Phoenix</strong></li></ul></div><form class="estimate-form" name="quest-estimate" method="POST" action="https://formsubmit.co/info@questroofing.com" enctype="multipart/form-data" data-estimate-form><input type="hidden" name="_subject" value="New Quest Roofing estimate request"><input type="hidden" name="_template" value="table"><input type="hidden" name="_next" value="${siteUrl}/thank-you/"><p class="bot-field"><label>Do not fill this out <input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></p><div class="form-progress" aria-label="Estimate request progress"><button class="form-step-tab is-active" type="button" data-step-target="1">Roof</button><button class="form-step-tab" type="button" data-step-target="2">Contact</button><button class="form-step-tab" type="button" data-step-target="3">Details</button></div><p class="form-announcer" aria-live="polite" data-step-status>Step 1 of 3: roof need.</p><section class="form-step is-active" data-step="1"><h3>Roof need</h3><fieldset><legend>Service needed <span aria-hidden="true">*</span></legend><div class="choice-grid">${["Roof Repair", "Tile Roofing", "Shingle Roofing", "Metal Roofing", "Foam Roofing", "Free Inspection", "Not Sure"].map((item) => `<label><input type="radio" name="service_needed" value="${item}" required><span>${item}</span></label>`).join("")}</div></fieldset><fieldset><legend>Urgency <span aria-hidden="true">*</span></legend><div class="choice-grid choice-grid-tight">${["Active leak", "Recent storm", "Planning ahead", "Not sure"].map((item) => `<label><input type="radio" name="urgency" value="${item}" required><span>${item}</span></label>`).join("")}</div></fieldset><div class="form-actions"><button class="button button-primary" type="button" data-next-step>Next</button></div></section><section class="form-step" data-step="2" hidden><h3>Contact</h3><label><span>Full name <b aria-hidden="true">*</b></span><input type="text" name="full_name" autocomplete="name" required></label><label><span>Phone <b aria-hidden="true">*</b></span><input type="tel" name="phone" autocomplete="tel" required></label><label><span>Email <b aria-hidden="true">*</b></span><input type="email" name="email" autocomplete="email" required></label><div class="form-actions"><button class="button button-secondary" type="button" data-prev-step>Back</button><button class="button button-primary" type="button" data-next-step>Next</button></div></section><section class="form-step" data-step="3" hidden><h3>Property and details</h3><label><span>Address or nearest cross streets <b aria-hidden="true">*</b></span><input type="text" name="property_location" autocomplete="street-address" required></label><label><span>Project details <b aria-hidden="true">*</b></span><textarea name="project_details" rows="5" required></textarea></label><label><span>Optional roof photo</span><input type="file" name="attachment" accept="image/*"></label><p class="form-note">For urgent roof leaks, call <a href="${phoneHref}">${phone}</a>.</p><div class="form-actions"><button class="button button-secondary" type="button" data-prev-step>Back</button><button class="button button-primary" type="submit">Submit Estimate Request</button></div><p class="form-status" aria-live="polite"></p></section></form></div></section>`;
 }
 
 function servicePage(service) {
@@ -402,7 +433,7 @@ function contactPage() {
 }
 
 function notFoundPage() {
-  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Page Not Found | Quest Roofing</title><meta name="robots" content="noindex, follow"><meta name="theme-color" content="#0B1D33"><link rel="icon" href="${favicon}"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="${versionedAsset("", "tokens.css")}"><link rel="stylesheet" href="${versionedAsset("", "styles.css")}"></head><body class="subpage"><a class="skip-link" href="#main">Skip to content</a><div class="site-shell">${header(".")}<main id="main" class="subpage-main"><section class="subpage-hero"><div class="container subpage-hero-grid"><div><p class="eyebrow">404</p><h1>Page not found.</h1><p>The page may have moved. Start from the homepage, service pages, or call Quest Roofing directly.</p><div class="hero-actions"><a class="button button-primary" href="index.html">Go Home</a><a class="button button-secondary button-on-dark" href="${phoneHref}">Call ${phone}</a></div></div></div></section></main>${footer(".")}</div><script src="${versionedAsset("", "script.js")}" defer></script></body></html>`;
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Page Not Found | Quest Roofing</title><meta name="robots" content="noindex, follow"><meta name="theme-color" content="#0B1D33">${faviconLinks("")}<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="${versionedAsset("", "tokens.css")}"><link rel="stylesheet" href="${versionedAsset("", "styles.css")}"></head><body class="subpage"><a class="skip-link" href="#main">Skip to content</a><div class="site-shell">${header(".")}<main id="main" class="subpage-main"><section class="subpage-hero"><div class="container subpage-hero-grid"><div><p class="eyebrow">404</p><h1>Page not found.</h1><p>The page may have moved. Start from the homepage, service pages, or call Quest Roofing directly.</p><div class="hero-actions"><a class="button button-primary" href="index.html">Go Home</a><a class="button button-secondary button-on-dark" href="${phoneHref}">Call ${phone}</a></div></div></div></section></main>${footer(".")}</div><script src="${versionedAsset("", "script.js")}" defer></script></body></html>`;
 }
 
 const tokensCss = `/* Hallmark - pre-emit critique: P5 H5 E5 S5 R5 V5 | Quest Roofing documented Arizona trust */
@@ -496,15 +527,26 @@ const serviceLinkCardCss = `.service-link-grid a{display:grid;align-content:star
 const scriptJs = `(() => {
   const footerYear = document.getElementById("footer-year");
   if (footerYear) footerYear.textContent = String(new Date().getFullYear());
-  const navToggle = document.querySelector(".nav-toggle");
+  const navToggles = Array.from(document.querySelectorAll(".nav-toggle[aria-controls='site-nav']"));
   const siteNav = document.querySelector(".site-nav");
-  if (navToggle && siteNav) {
-    const closeNav = () => { navToggle.setAttribute("aria-expanded", "false"); navToggle.setAttribute("aria-label", "Open navigation"); siteNav.classList.remove("is-open"); document.body.classList.remove("nav-open"); };
-    const openNav = () => { navToggle.setAttribute("aria-expanded", "true"); navToggle.setAttribute("aria-label", "Close navigation"); siteNav.classList.add("is-open"); document.body.classList.add("nav-open"); };
-    navToggle.addEventListener("click", () => navToggle.getAttribute("aria-expanded") === "true" ? closeNav() : openNav());
+  if (navToggles.length && siteNav) {
+    const setNavState = (isOpen) => {
+      navToggles.forEach((toggle) => {
+        toggle.setAttribute("aria-expanded", String(isOpen));
+        toggle.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+      });
+      siteNav.classList.toggle("is-open", isOpen);
+      document.body.classList.toggle("nav-open", isOpen);
+    };
+    const closeNav = () => setNavState(false);
+    const openNav = () => setNavState(true);
+    navToggles.forEach((toggle) => toggle.addEventListener("click", () => toggle.getAttribute("aria-expanded") === "true" ? closeNav() : openNav()));
     siteNav.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeNav));
     document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeNav(); });
-    document.addEventListener("click", (event) => { const target = event.target; if (target instanceof Element && !siteNav.contains(target) && !navToggle.contains(target)) closeNav(); });
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (target instanceof Element && !siteNav.contains(target) && !navToggles.some((toggle) => toggle.contains(target))) closeNav();
+    });
   }
   const mobileCta = document.querySelector(".mobile-cta-bar");
   if (mobileCta) {
@@ -524,6 +566,75 @@ const scriptJs = `(() => {
       item.addEventListener("toggle", () => { if (item.open) list.querySelectorAll("details").forEach((other) => { if (other !== item) other.open = false; }); });
     });
   });
+  document.querySelectorAll("[data-blog-carousel]").forEach((carousel) => {
+    const track = carousel.querySelector("[data-carousel-track]");
+    const slides = track ? Array.from(track.querySelectorAll("[data-carousel-slide]")) : [];
+    const prev = carousel.querySelector("[data-carousel-prev]");
+    const next = carousel.querySelector("[data-carousel-next]");
+    if (!track || !slides.length || !prev || !next) return;
+    let activeIndex = 0;
+    const scrollToSlide = (index) => {
+      activeIndex = (index + slides.length) % slides.length;
+      const slide = slides[activeIndex];
+      track.scrollTo({ left: slide.offsetLeft - track.offsetLeft, behavior: "smooth" });
+    };
+    prev.addEventListener("click", () => scrollToSlide(activeIndex - 1));
+    next.addEventListener("click", () => scrollToSlide(activeIndex + 1));
+    track.addEventListener("scroll", () => {
+      const nearest = slides.reduce((best, slide, index) => {
+        const distance = Math.abs(slide.offsetLeft - track.offsetLeft - track.scrollLeft);
+        return distance < best.distance ? { index, distance } : best;
+      }, { index: activeIndex, distance: Number.POSITIVE_INFINITY });
+      activeIndex = nearest.index;
+    }, { passive: true });
+  });
+  const serviceMapEl = document.getElementById("service-map");
+  if (serviceMapEl && window.L) {
+    const phoenixCenter = [33.4484, -112.0740];
+    const metroCenter = [33.45, -111.94];
+    const serviceCities = [
+      ["Queen Creek", 33.2487, -111.6343, true],
+      ["Gilbert", 33.3528, -111.7890],
+      ["Chandler", 33.3062, -111.8413],
+      ["Mesa", 33.4152, -111.8315],
+      ["Tempe", 33.4255, -111.9400],
+      ["Scottsdale", 33.4942, -111.9261],
+      ["Paradise Valley", 33.5312, -111.9426],
+      ["Phoenix", 33.4484, -112.0740]
+    ];
+    const map = L.map(serviceMapEl, {
+      center: metroCenter,
+      zoom: serviceMapEl.offsetWidth < 520 ? 8 : 9,
+      boxZoom: false,
+      doubleClickZoom: false,
+      dragging: false,
+      keyboard: false,
+      scrollWheelZoom: false,
+      touchZoom: false,
+      tap: false
+    });
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 18,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    L.circle(phoenixCenter, {
+      radius: 54000,
+      color: "#E85D24",
+      weight: 2,
+      opacity: 0.95,
+      fillColor: "#E85D24",
+      fillOpacity: 0.12
+    }).addTo(map).bindPopup("Approximate Greater Phoenix service radius.");
+    serviceCities.forEach(([name, lat, lng, isBase]) => {
+      L.circleMarker([lat, lng], {
+        radius: isBase ? 8 : 6,
+        color: isBase ? "#E85D24" : "#0B1D33",
+        weight: 2,
+        fillColor: isBase ? "#E85D24" : "#12A8D8",
+        fillOpacity: 0.95
+      }).addTo(map).bindTooltip(name, { direction: "top", offset: [0, -8] }).bindPopup(name);
+    });
+  }
   document.querySelectorAll("[data-estimate-form]").forEach((form) => {
     const steps = Array.from(form.querySelectorAll("[data-step]"));
     const tabs = Array.from(form.querySelectorAll("[data-step-target]"));
@@ -534,50 +645,60 @@ const scriptJs = `(() => {
       const step = form.querySelector('[data-step="' + stepNumber + '"]');
       return step ? Array.from(step.querySelectorAll("input, select, textarea")) : [];
     };
+    const validateFields = (fields) => {
+      const invalid = fields.find((field) => !field.checkValidity());
+      if (invalid) { invalid.reportValidity(); return false; }
+      return true;
+    };
     const setStep = (stepNumber) => {
       activeStep = Math.min(Math.max(stepNumber, 1), steps.length);
       steps.forEach((step) => { const isActive = Number(step.dataset.step) === activeStep; step.classList.toggle("is-active", isActive); step.hidden = !isActive; });
       tabs.forEach((tab) => { const isActive = Number(tab.dataset.stepTarget) === activeStep; tab.classList.toggle("is-active", isActive); tab.setAttribute("aria-current", isActive ? "step" : "false"); });
       if (stepStatus) {
         const labels = ["roof need", "contact", "property and details"];
-        stepStatus.textContent = "Step " + activeStep + " of " + steps.length + ": " + labels[activeStep - 1] + ".";
+        stepStatus.textContent = "Step " + activeStep + " of " + steps.length + ": " + (labels[activeStep - 1] || "details") + ".";
       }
     };
     const validateStep = (stepNumber) => {
-      const invalid = fieldsForStep(stepNumber).find((field) => !field.checkValidity());
-      if (invalid) { invalid.reportValidity(); return false; }
-      return true;
+      return validateFields(fieldsForStep(stepNumber));
     };
     const validateAll = () => {
+      if (!steps.length) {
+        return validateFields(Array.from(form.querySelectorAll("input, select, textarea")));
+      }
       for (let index = 1; index <= steps.length; index += 1) {
         if (!validateStep(index)) { setStep(index); return false; }
       }
       return true;
     };
-    form.querySelectorAll("[data-next-step]").forEach((button) => button.addEventListener("click", () => { if (validateStep(activeStep)) setStep(activeStep + 1); }));
-    form.querySelectorAll("[data-prev-step]").forEach((button) => button.addEventListener("click", () => setStep(activeStep - 1)));
-    tabs.forEach((tab) => tab.addEventListener("click", () => {
-      const nextStep = Number(tab.dataset.stepTarget);
-      if (nextStep <= activeStep) {
-        setStep(nextStep);
-        return;
-      }
-      if (nextStep === activeStep + 1 && validateStep(activeStep)) {
-        setStep(nextStep);
-      }
-    }));
+    if (steps.length) {
+      form.querySelectorAll("[data-next-step]").forEach((button) => button.addEventListener("click", () => { if (validateStep(activeStep)) setStep(activeStep + 1); }));
+      form.querySelectorAll("[data-prev-step]").forEach((button) => button.addEventListener("click", () => setStep(activeStep - 1)));
+      tabs.forEach((tab) => tab.addEventListener("click", () => {
+        const nextStep = Number(tab.dataset.stepTarget);
+        if (nextStep <= activeStep) {
+          setStep(nextStep);
+          return;
+        }
+        if (nextStep === activeStep + 1 && validateStep(activeStep)) {
+          setStep(nextStep);
+        }
+      }));
+      setStep(1);
+    }
     form.addEventListener("submit", (event) => {
       if (!validateAll()) { event.preventDefault(); if (status) status.textContent = "Complete the required fields before submitting your estimate request."; return; }
       const isLocal = window.location.protocol === "file:" || ["", "localhost", "127.0.0.1"].includes(window.location.hostname);
       if (!isLocal) { if (status) status.textContent = "Submitting your estimate request."; return; }
       event.preventDefault();
       const formData = new FormData(form);
-      const lines = ["Quest Roofing estimate request", "", "Service needed: " + (formData.get("service_needed") || ""), "Urgency: " + (formData.get("urgency") || ""), "Name: " + (formData.get("full_name") || ""), "Phone: " + (formData.get("phone") || ""), "Email: " + (formData.get("email") || ""), "Property location: " + (formData.get("property_location") || ""), "", "Project details:", String(formData.get("project_details") || "")];
+      const photo = formData.get("attachment");
+      const hasPhoto = photo instanceof File && photo.name;
+      const lines = ["Quest Roofing estimate request", "", "Service needed: " + (formData.get("service_needed") || ""), "Urgency: " + (formData.get("urgency") || ""), "Name: " + (formData.get("full_name") || ""), "Phone: " + (formData.get("phone") || ""), "Email: " + (formData.get("email") || ""), "Property location: " + (formData.get("property_location") || ""), "Roof photo selected: " + (hasPhoto ? photo.name + " (attach this file before sending)" : "No"), "", "Project details:", String(formData.get("project_details") || "")];
       const mailto = "mailto:info@questroofing.com?subject=" + encodeURIComponent("Estimate request from website") + "&body=" + encodeURIComponent(lines.join("\\n"));
-      if (status) status.textContent = "Your request is ready. Email info@questroofing.com or call 602-399-6455.";
+      if (status) status.textContent = hasPhoto ? "Your email app is opening. Attach the selected roof photo before sending." : "Your email app is opening with your request.";
       window.location.href = mailto;
     });
-    setStep(1);
   });
 })();
 `;
@@ -599,10 +720,19 @@ write(join("about-us", "reviews", "index.html"), reviewsPage());
 write(join("gallery", "index.html"), galleryPage("gallery/"));
 write(join("contact", "index.html"), contactPage());
 write("404.html", notFoundPage());
+write("robots.txt", `User-agent: *
+Allow: /
+
+Sitemap: ${siteUrl}/sitemap.xml
+`);
+write("CNAME", "www.questroofing.com\n");
 
 const sitemapUrls = [
   ["", "1.0"],
   ...services.map((service) => [`services/${service.slug}/`, "0.9"]),
+  ["services/storm-damage-roof-repair/", "0.9"],
+  ["services/roof-insurance-claims/", "0.85"],
+  ["services/roof-maintenance/", "0.85"],
   ...cities.map((city) => [`roofing-${city.slug}-az/`, "0.85"]),
   ...supportPages.map((page) => [page.path, "0.75"]),
   ["about-us/completed-projects/", "0.75"],
