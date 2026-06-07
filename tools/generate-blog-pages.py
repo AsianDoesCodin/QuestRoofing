@@ -15,9 +15,9 @@ SITE_URL = "https://www.questroofing.com"
 SITE_ROOT = Path(__file__).resolve().parents[1]
 BLOG_SOURCE_DIR = SITE_ROOT / "BLOGS"
 BLOG_OUTPUT_DIR = SITE_ROOT / "blog"
-STYLE_VERSION = "2026-06-08-lighthouse-04"
-SCRIPT_VERSION = "2026-06-08-lighthouse-04"
-LOGO_VERSION = "2026-06-08-lighthouse-04"
+STYLE_VERSION = "2026-06-08-lighthouse-05"
+SCRIPT_VERSION = "2026-06-08-lighthouse-05"
+LOGO_VERSION = "2026-06-08-lighthouse-05"
 SOCIAL_IMAGE = f"{SITE_URL}/assets/roofing-tile-process/quest-roofing-social-card.jpg"
 PHONE = "602-399-6455"
 PHONE_HREF = "tel:6023996455"
@@ -40,6 +40,18 @@ IMAGE_LIBRARY = {
     "replacement": ("assets/roofing-tile-process/roof-deck-repair-open-area.jpg", "Open roof deck repair area before tile replacement", 1200, 900, "center center"),
     "systems": ("assets/roofing-tile-process/crew-installing-tile-roof.jpg", "Crew installing tile roofing under Arizona sun", 1400, 1050, "center center"),
     "coating": ("assets/roofing-tile-process/underlayment-roll-detail.jpg", "Underlayment roll detail on a roof deck", 1200, 900, "center center"),
+}
+
+BLOG_INDEX_IMAGE_VARIANTS = {
+    "maintenance": "assets/roofing-tile-process/tile-stacks-and-battens-blog-700.webp",
+    "calendar": "assets/roofing-tile-process/tile-roof-underlayment-rows-blog-500.webp",
+    "storm": "assets/roofing-tile-process/tile-roof-flashing-repair-blog-500.webp",
+}
+
+BLOG_INDEX_IMAGE_DIMENSIONS = {
+    "maintenance": (700, 525),
+    "calendar": (500, 375),
+    "storm": (500, 375),
 }
 
 
@@ -325,16 +337,24 @@ def footer(prefix: str) -> str:
   </footer><div class="mobile-cta-bar" aria-label="Quick contact"><a href="{PHONE_HREF}">Call</a><a href="{asset(prefix, "request-estimate/index.html")}">Free Inspection</a></div>"""
 
 
-def image_figure(post: BlogPost, prefix: str, eager: bool = False) -> str:
+def image_figure(post: BlogPost, prefix: str, eager: bool = False, blog_index_variant: bool = False) -> str:
     image_path, alt, width, height, position = IMAGE_LIBRARY[post.image_key]
+    source_path = BLOG_INDEX_IMAGE_VARIANTS.get(post.image_key) if blog_index_variant else None
+    if blog_index_variant and post.image_key in BLOG_INDEX_IMAGE_DIMENSIONS:
+        width, height = BLOG_INDEX_IMAGE_DIMENSIONS[post.image_key]
     loading = "eager" if eager else "lazy"
-    return f"""<figure class="image-card image-card--overlay subpage-photo blog-hero-photo"><div class="media-frame"><img src="{asset(prefix, image_path)}" alt="{attr(alt)}" width="{width}" height="{height}" style="--image-position:{position}" loading="{loading}" decoding="async"></div><figcaption class="caption">{text(post.category)} guidance from Quest Roofing.</figcaption></figure>"""
+    source_markup = f'<source srcset="{asset(prefix, source_path)}" type="image/webp">' if source_path else ""
+    return f"""<figure class="image-card image-card--overlay subpage-photo blog-hero-photo"><div class="media-frame"><picture>{source_markup}<img src="{asset(prefix, image_path)}" alt="{attr(alt)}" width="{width}" height="{height}" style="--image-position:{position}" loading="{loading}" decoding="async"></picture></div><figcaption class="caption">{text(post.category)} guidance from Quest Roofing.</figcaption></figure>"""
 
 
-def card_image(post: BlogPost, prefix: str, eager: bool = False) -> str:
+def card_image(post: BlogPost, prefix: str, eager: bool = False, blog_index_variant: bool = False) -> str:
     image_path, alt, width, height, position = IMAGE_LIBRARY[post.image_key]
+    source_path = BLOG_INDEX_IMAGE_VARIANTS.get(post.image_key) if blog_index_variant else None
+    if blog_index_variant and post.image_key in BLOG_INDEX_IMAGE_DIMENSIONS:
+        width, height = BLOG_INDEX_IMAGE_DIMENSIONS[post.image_key]
     loading = "eager" if eager else "lazy"
-    return f"""<a class="blog-card-media" href="{asset(prefix, post.url_path + "index.html")}" aria-label="Read {attr(post.title)}"><img src="{asset(prefix, image_path)}" alt="{attr(alt)}" width="{width}" height="{height}" style="--image-position:{position}" loading="{loading}" decoding="async"></a>"""
+    source_markup = f'<source srcset="{asset(prefix, source_path)}" type="image/webp">' if source_path else ""
+    return f"""<a class="blog-card-media" href="{asset(prefix, post.url_path + "index.html")}" aria-label="Read {attr(post.title)}"><picture>{source_markup}<img src="{asset(prefix, image_path)}" alt="{attr(alt)}" width="{width}" height="{height}" style="--image-position:{position}" loading="{loading}" decoding="async"></picture></a>"""
 
 
 def is_bullet(paragraph: str) -> bool:
@@ -391,9 +411,9 @@ def blog_card(post: BlogPost, prefix: str) -> str:
           </article>"""
 
 
-def carousel_card(post: BlogPost, prefix: str, index: int) -> str:
+def carousel_card(post: BlogPost, prefix: str, index: int, blog_index_variant: bool = False) -> str:
     return f"""<article class="blog-card blog-carousel-card" data-carousel-slide="{index}">
-              {card_image(post, prefix)}
+              {card_image(post, prefix, blog_index_variant=blog_index_variant)}
               <div class="blog-card-meta"><span>{text(post.category)}</span><time datetime="{post.published}">{post.date_label}</time></div>
               <h3><a href="{asset(prefix, post.url_path + "index.html")}">{text(post.title)}</a></h3>
               <p>{text(post.excerpt)}</p>
@@ -438,7 +458,7 @@ def blog_index(posts: list[BlogPost]) -> str:
             },
         ],
     }
-    carousel_cards = "\n            ".join(carousel_card(post, prefix, index) for index, post in enumerate(carousel_posts))
+    carousel_cards = "\n            ".join(carousel_card(post, prefix, index, blog_index_variant=True) for index, post in enumerate(carousel_posts))
     more_links = "\n              ".join(compact_article_link(post, prefix) for post in more_posts)
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -447,7 +467,7 @@ def blog_index(posts: list[BlogPost]) -> str:
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="site-shell">{header(prefix)}<main id="main" class="subpage-main">
     <section class="blog-intro-banner" aria-labelledby="blog-page-title"><div class="container blog-intro-banner-inner"><div><p class="eyebrow">Roofing Blog</p><h1 id="blog-page-title">Roofing guidance for Queen Creek homes.</h1><p>Practical roof maintenance, monsoon prep, repair, inspection, and replacement planning articles from Quest Roofing.</p></div><div class="hero-actions"><a class="button button-primary" href="{asset(prefix, latest.url_path + "index.html")}">Read Latest Article</a><a class="button button-secondary button-on-dark" href="{asset(prefix, "request-estimate/index.html")}">Free Inspection</a></div></div></section>
-    <section class="section-band section-sand blog-feature-band"><div class="container blog-feature blog-feature--with-media"><div><p class="eyebrow">Latest Article</p><h2><a href="{asset(prefix, latest.url_path + "index.html")}">{text(latest.title)}</a></h2><p>{text(latest.excerpt)}</p><div class="blog-card-meta"><span>{text(latest.category)}</span><time datetime="{latest.published}">{latest.date_label}</time><span>{latest.reading_minutes} min read</span></div><a class="button button-primary" href="{asset(prefix, latest.url_path + "index.html")}">Read Latest Article</a></div>{image_figure(latest, prefix, True)}</div></section>
+    <section class="section-band section-sand blog-feature-band"><div class="container blog-feature blog-feature--with-media"><div><p class="eyebrow">Latest Article</p><h2><a href="{asset(prefix, latest.url_path + "index.html")}">{text(latest.title)}</a></h2><p>{text(latest.excerpt)}</p><div class="blog-card-meta"><span>{text(latest.category)}</span><time datetime="{latest.published}">{latest.date_label}</time><span>{latest.reading_minutes} min read</span></div><a class="button button-primary" href="{asset(prefix, latest.url_path + "index.html")}">Read Latest Article</a></div>{image_figure(latest, prefix, True, blog_index_variant=True)}</div></section>
     <section class="section-band blog-carousel-band" aria-labelledby="past-articles-title"><div class="container blog-carousel" data-blog-carousel><div class="blog-carousel-header"><div><p class="eyebrow">Past Articles</p><h2 id="past-articles-title">Recent Queen Creek roofing reads.</h2></div><div class="blog-carousel-controls" aria-label="Past article carousel controls"><button class="blog-carousel-button" type="button" data-carousel-prev aria-label="Previous articles"><span aria-hidden="true">&lt;</span></button><button class="blog-carousel-button" type="button" data-carousel-next aria-label="Next articles"><span aria-hidden="true">&gt;</span></button></div></div><div class="blog-carousel-track" data-carousel-track>
             {carousel_cards}
           </div></div></section>

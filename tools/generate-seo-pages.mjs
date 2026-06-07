@@ -8,7 +8,7 @@ const phoneHref = "tel:6023996455";
 const email = "info@questroofing.com";
 const logoPath = "assets/images/quest-roofing-wordmark.png";
 const socialImage = `${siteUrl}/assets/quest-roofing-real/quest-roofing-social-card.jpg`;
-const cacheVersion = "2026-06-08-lighthouse-04";
+const cacheVersion = "2026-06-08-lighthouse-05";
 const rocUrl = "https://azroc.my.site.com/AZRoc/s/contractor-search?licenseId=a0ocs000004dh2nAAA";
 const gafUrl = "https://www.gaf.ca/en-ca/roofing-contractors/residential/usa/az/queen-creek/quest-roofing-llc-1149593";
 
