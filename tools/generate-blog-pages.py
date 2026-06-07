@@ -15,9 +15,9 @@ SITE_URL = "https://www.questroofing.com"
 SITE_ROOT = Path(__file__).resolve().parents[1]
 BLOG_SOURCE_DIR = SITE_ROOT / "BLOGS"
 BLOG_OUTPUT_DIR = SITE_ROOT / "blog"
-STYLE_VERSION = "2026-06-08-github-01"
-SCRIPT_VERSION = "2026-06-08-github-01"
-LOGO_VERSION = "2026-06-01-logo-panel-color-07"
+STYLE_VERSION = "2026-06-08-lighthouse-02"
+SCRIPT_VERSION = "2026-06-08-lighthouse-02"
+LOGO_VERSION = "2026-06-08-lighthouse-02"
 SOCIAL_IMAGE = f"{SITE_URL}/assets/roofing-tile-process/quest-roofing-social-card.jpg"
 PHONE = "602-399-6455"
 PHONE_HREF = "tel:6023996455"
@@ -260,9 +260,6 @@ def page_head(prefix: str, title_value: str, description: str, canonical_path: s
   <meta name="twitter:title" content="{attr(title_value)}">
   <meta name="twitter:description" content="{attr(description)}">
   <meta name="twitter:image" content="{SOCIAL_IMAGE}">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{asset(prefix, "tokens.css")}?v={LOGO_VERSION}">
   <link rel="stylesheet" href="{asset(prefix, "styles.css")}?v={STYLE_VERSION}">
   <script type="application/ld+json">{json.dumps(schema, separators=(",", ":"))}</script>
@@ -274,7 +271,7 @@ def header(prefix: str) -> str:
     <div class="top-bar"><div class="container top-bar-inner"><p>{roc_link()} / {gaf_link()} / Free written estimates / Licensed, Bonded, Insured</p><div class="top-bar-actions"><a href="{PHONE_HREF}">{PHONE}</a><a href="mailto:{EMAIL}">{EMAIL}</a></div></div></div>
     <div class="header-main">
       <div class="header-brand-panel">
-        <a class="brand-lockup" href="{asset(prefix, "index.html")}" aria-label="Quest Roofing home"><img class="brand-wordmark" src="{asset(prefix, "assets/images/quest-roofing-wordmark.png")}?v={LOGO_VERSION}" alt="Quest Roofing" width="1184" height="624"><span class="brand-location">Queen Creek, Arizona</span></a><div class="header-proof-cards" aria-label="Quest Roofing credentials and contact"><a class="header-proof-card" href="{ROC_URL}" target="_blank" rel="noopener"><span>License</span><strong>AZ ROC #355136</strong></a><a class="header-proof-card" href="{GAF_URL}" target="_blank" rel="noopener"><span>Credential</span><strong>GAF Certified</strong></a><a class="header-proof-card" href="{asset(prefix, "request-estimate/index.html")}"><span>Estimate</span><strong>Free written estimates</strong><em>Licensed, bonded, insured</em></a><a class="header-proof-card header-proof-card-phone" href="{PHONE_HREF}"><span>Call us</span><strong>{PHONE}</strong></a></div>
+        <a class="brand-lockup" href="{asset(prefix, "index.html")}"><img class="brand-wordmark" src="{asset(prefix, "assets/images/quest-roofing-wordmark.png")}?v={LOGO_VERSION}" alt="Quest Roofing" width="1184" height="624"><span class="brand-location">Queen Creek, Arizona</span></a><div class="header-proof-cards" aria-label="Quest Roofing credentials and contact"><a class="header-proof-card" href="{ROC_URL}" target="_blank" rel="noopener"><span>License</span><strong>AZ ROC #355136</strong></a><a class="header-proof-card" href="{GAF_URL}" target="_blank" rel="noopener"><span>Credential</span><strong>GAF Certified</strong></a><a class="header-proof-card" href="{asset(prefix, "request-estimate/index.html")}"><span>Estimate</span><strong>Free written estimates</strong><em>Licensed, bonded, insured</em></a><a class="header-proof-card header-proof-card-phone" href="{PHONE_HREF}"><span>Call us</span><strong>{PHONE}</strong></a></div>
       </div>
       <div class="header-nav-panel">
         <a class="header-call" href="{PHONE_HREF}">Call</a>
@@ -298,7 +295,7 @@ def header(prefix: str) -> str:
 def footer(prefix: str) -> str:
     return f"""<footer class="site-footer">
     <div class="container footer-layout">
-      <div><a class="footer-brand-lockup" href="{asset(prefix, "index.html")}" aria-label="Quest Roofing home"><img class="footer-brand-wordmark" src="{asset(prefix, "assets/images/quest-roofing-wordmark.png")}?v={LOGO_VERSION}" alt="Quest Roofing" width="1184" height="624"><span class="footer-brand-location">Queen Creek, Arizona</span></a><p>Queen Creek, Arizona roofing contractor serving the Greater Phoenix area with photo-backed inspections and written estimates.</p><ul class="footer-contact"><li><span>Phone</span><a href="{PHONE_HREF}">{PHONE}</a></li><li><span>Email</span><a href="mailto:{EMAIL}">{EMAIL}</a></li><li><span>License</span>{roc_link()}</li><li><span>Credential</span>{gaf_link()}</li><li><span>Trust</span><strong>Licensed, Bonded, Insured</strong></li></ul></div>
+      <div><a class="footer-brand-lockup" href="{asset(prefix, "index.html")}"><img class="footer-brand-wordmark" src="{asset(prefix, "assets/images/quest-roofing-wordmark.png")}?v={LOGO_VERSION}" alt="Quest Roofing" width="1184" height="624"><span class="footer-brand-location">Queen Creek, Arizona</span></a><p>Queen Creek, Arizona roofing contractor serving the Greater Phoenix area with photo-backed inspections and written estimates.</p><ul class="footer-contact"><li><span>Phone</span><a href="{PHONE_HREF}">{PHONE}</a></li><li><span>Email</span><a href="mailto:{EMAIL}">{EMAIL}</a></li><li><span>License</span>{roc_link()}</li><li><span>Credential</span>{gaf_link()}</li><li><span>Trust</span><strong>Licensed, Bonded, Insured</strong></li></ul></div>
       <nav class="footer-link-grid" aria-label="Footer navigation"><div><strong>Services</strong>
 <a href="{asset(prefix, "services/roof-repair/index.html")}">Roof Repair</a>
 <a href="{asset(prefix, "services/tile-roofing/index.html")}">Tile Roofing</a>
@@ -451,7 +448,7 @@ def blog_index(posts: list[BlogPost]) -> str:
   <div class="site-shell">{header(prefix)}<main id="main" class="subpage-main">
     <section class="blog-intro-banner" aria-labelledby="blog-page-title"><div class="container blog-intro-banner-inner"><div><p class="eyebrow">Roofing Blog</p><h1 id="blog-page-title">Roofing guidance for Queen Creek homes.</h1><p>Practical roof maintenance, monsoon prep, repair, inspection, and replacement planning articles from Quest Roofing.</p></div><div class="hero-actions"><a class="button button-primary" href="{asset(prefix, latest.url_path + "index.html")}">Read Latest Article</a><a class="button button-secondary button-on-dark" href="{asset(prefix, "request-estimate/index.html")}">Free Inspection</a></div></div></section>
     <section class="section-band section-sand blog-feature-band"><div class="container blog-feature blog-feature--with-media"><div><p class="eyebrow">Latest Article</p><h2><a href="{asset(prefix, latest.url_path + "index.html")}">{text(latest.title)}</a></h2><p>{text(latest.excerpt)}</p><div class="blog-card-meta"><span>{text(latest.category)}</span><time datetime="{latest.published}">{latest.date_label}</time><span>{latest.reading_minutes} min read</span></div><a class="button button-primary" href="{asset(prefix, latest.url_path + "index.html")}">Read Latest Article</a></div>{image_figure(latest, prefix, True)}</div></section>
-    <section class="section-band blog-carousel-band" aria-labelledby="past-articles-title"><div class="container blog-carousel" data-blog-carousel><div class="blog-carousel-header"><div><p class="eyebrow">Past Articles</p><h2 id="past-articles-title">Recent Queen Creek roofing reads.</h2></div><div class="blog-carousel-controls" aria-label="Past article carousel controls"><button class="blog-carousel-button" type="button" data-carousel-prev aria-label="Previous articles">&lt;</button><button class="blog-carousel-button" type="button" data-carousel-next aria-label="Next articles">&gt;</button></div></div><div class="blog-carousel-track" data-carousel-track>
+    <section class="section-band blog-carousel-band" aria-labelledby="past-articles-title"><div class="container blog-carousel" data-blog-carousel><div class="blog-carousel-header"><div><p class="eyebrow">Past Articles</p><h2 id="past-articles-title">Recent Queen Creek roofing reads.</h2></div><div class="blog-carousel-controls" aria-label="Past article carousel controls"><button class="blog-carousel-button" type="button" data-carousel-prev aria-label="Previous articles"><span aria-hidden="true">&lt;</span></button><button class="blog-carousel-button" type="button" data-carousel-next aria-label="Next articles"><span aria-hidden="true">&gt;</span></button></div></div><div class="blog-carousel-track" data-carousel-track>
             {carousel_cards}
           </div></div></section>
     <section class="section-band section-sand blog-more-band"><div class="container"><div class="blog-more-header"><p class="eyebrow">More Articles</p><h2>All roofing topics.</h2><p>Additional roof care topics remain linked here for readers and search engines.</p></div><ul class="blog-more-list">
@@ -641,6 +638,10 @@ BLOG_CSS = """
   aspect-ratio: 16 / 10;
   border-radius: calc(var(--radius-card) - 1px) calc(var(--radius-card) - 1px) 0 0;
   background: var(--color-deep-navy);
+}
+
+.blog-card-media picture {
+  height: 100%;
 }
 
 .blog-card-media img {
@@ -984,7 +985,7 @@ BLOG_CSS = """
 
   .blog-intro-banner .hero-actions {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: .55rem;
   }
 

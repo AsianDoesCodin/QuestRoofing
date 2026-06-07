@@ -1,12 +1,12 @@
 /* Hallmark - pre-emit critique: P5 H5 E5 S5 R5 V5 | Quest Roofing documented Arizona trust */
 :root {
-  --font-display: "Sora", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Aptos Display", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: "Aptos", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --color-deep-navy: #0B1D33;
   --color-strong-navy: #132B45;
   --color-quest-blue: #12A8D8;
-  --color-roof-orange: #E85D24;
-  --color-burnt-clay: #B95B35;
+  --color-roof-orange: #B94216;
+  --color-burnt-clay: #9D3514;
   --color-desert-sand: #F6EFE4;
   --color-warm-off-white: #FFFDF8;
   --color-asphalt-gray: #3C4652;
@@ -24,6 +24,7 @@
   --color-focus: var(--color-trust-green);
   --color-on-dark: var(--color-warm-off-white);
   --color-on-dark-soft: #DDE5E8;
+  --color-on-dark-accent: #FF8A4B;
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
