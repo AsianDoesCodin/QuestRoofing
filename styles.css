@@ -2010,4 +2010,40 @@ img {
   .site-header .nav-toggle[aria-expanded="true"] span:last-child {
     transform: rotate(-45deg);
   }
+
+  .site-header .header-nav-panel .site-nav .nav-dropdown {
+    display: grid;
+    width: 100%;
+    gap: .45rem;
+  }
+
+  .site-header .header-nav-panel .site-nav .nav-menu {
+    position: static;
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    gap: .35rem;
+    border: var(--rule) solid color-mix(in srgb, var(--color-line), transparent 10%);
+    border-radius: .75rem;
+    background: color-mix(in srgb, var(--color-deep-navy), var(--color-warm-off-white) 12%);
+    box-shadow: none;
+    padding: .5rem;
+    transform: none;
+  }
+
+  .site-header .header-nav-panel .site-nav .nav-menu a {
+    min-height: 2.65rem;
+    border: 0;
+    background: color-mix(in srgb, var(--color-white), transparent 92%);
+    color: var(--color-white);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+  }
+
+  .site-header .header-nav-panel .site-nav .nav-menu a:hover,
+  .site-header .header-nav-panel .site-nav .nav-menu a:focus-visible {
+    background: color-mix(in srgb, var(--color-white), transparent 86%);
+    color: var(--color-white);
+  }
 }
