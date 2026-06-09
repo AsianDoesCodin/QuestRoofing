@@ -147,10 +147,11 @@
           googleReviewTargets.forEach((target) => target.classList.add("is-fallback"));
         });
     };
-    if ("requestIdleCallback" in window) {
-      window.requestIdleCallback(loadGoogleReviews, { timeout: 1800 });
+    const scheduleGoogleReviews = () => window.setTimeout(loadGoogleReviews, 4200);
+    if (document.readyState === "complete") {
+      scheduleGoogleReviews();
     } else {
-      window.addEventListener("load", () => window.setTimeout(loadGoogleReviews, 250), { once: true });
+      window.addEventListener("load", scheduleGoogleReviews, { once: true });
     }
   }
   document.querySelectorAll("[data-blog-carousel]").forEach((carousel) => {
