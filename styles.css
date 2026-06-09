@@ -2268,6 +2268,47 @@ img {
   min-width: 12rem;
 }
 
+.google-review-panel {
+  align-content: start;
+}
+
+.google-review-list {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.google-review-list blockquote {
+  margin: 0;
+  border: var(--rule) solid var(--color-line);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  padding: var(--space-4);
+}
+
+.google-review-list p {
+  margin: 0;
+  color: var(--color-deep-navy);
+  font-size: var(--text-base);
+  font-weight: 850;
+  line-height: 1.45;
+}
+
+.google-review-list footer {
+  margin-top: var(--space-2);
+  color: var(--color-accent-strong);
+  font-size: var(--text-sm);
+  font-weight: 900;
+}
+
+.phone-inline {
+  color: var(--color-accent-strong);
+  font-weight: 900;
+  text-decoration: underline;
+  text-decoration-thickness: .08em;
+  text-underline-offset: .18em;
+}
+
 @media (max-width: 68rem) {
   .home .hero-grid,
   .credential-row,
