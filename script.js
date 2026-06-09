@@ -4,6 +4,25 @@
   const navToggles = Array.from(document.querySelectorAll(".nav-toggle[aria-controls='site-nav']"));
   const siteNav = document.querySelector(".site-nav");
   if (navToggles.length && siteNav) {
+    const navDropdowns = Array.from(siteNav.querySelectorAll(".nav-dropdown"));
+    const isMobileNav = () => window.matchMedia("(max-width: 76rem)").matches;
+    const setDropdownState = (dropdown, isExpanded) => {
+      const parent = dropdown.querySelector(".nav-parent");
+      dropdown.classList.toggle("is-expanded", isExpanded);
+      if (parent) parent.setAttribute("aria-expanded", String(isExpanded));
+    };
+    navDropdowns.forEach((dropdown) => {
+      const parent = dropdown.querySelector(".nav-parent");
+      if (!parent) return;
+      parent.setAttribute("aria-expanded", "false");
+      parent.addEventListener("click", (event) => {
+        if (!isMobileNav()) return;
+        event.preventDefault();
+        const isExpanded = dropdown.classList.contains("is-expanded");
+        navDropdowns.forEach((item) => setDropdownState(item, false));
+        setDropdownState(dropdown, !isExpanded);
+      });
+    });
     const setNavState = (isOpen) => {
       navToggles.forEach((toggle) => {
         toggle.setAttribute("aria-expanded", String(isOpen));
@@ -11,11 +30,15 @@
       });
       siteNav.classList.toggle("is-open", isOpen);
       document.body.classList.toggle("nav-open", isOpen);
+      if (!isOpen) navDropdowns.forEach((dropdown) => setDropdownState(dropdown, false));
     };
     const closeNav = () => setNavState(false);
     const openNav = () => setNavState(true);
     navToggles.forEach((toggle) => toggle.addEventListener("click", () => toggle.getAttribute("aria-expanded") === "true" ? closeNav() : openNav()));
-    siteNav.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeNav));
+    siteNav.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
+      if (isMobileNav() && link.classList.contains("nav-parent")) return;
+      closeNav();
+    }));
     document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeNav(); });
     document.addEventListener("click", (event) => {
       const target = event.target;

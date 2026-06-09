@@ -2019,7 +2019,7 @@ img {
 
   .site-header .header-nav-panel .site-nav .nav-menu {
     position: static;
-    display: grid;
+    display: none;
     width: 100%;
     min-width: 0;
     max-width: none;
@@ -2030,6 +2030,10 @@ img {
     box-shadow: none;
     padding: .5rem;
     transform: none;
+  }
+
+  .site-header .header-nav-panel .site-nav .nav-dropdown.is-expanded .nav-menu {
+    display: grid;
   }
 
   .site-header .header-nav-panel .site-nav .nav-menu a {
