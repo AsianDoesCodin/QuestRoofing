@@ -1156,12 +1156,75 @@
   text-underline-offset: .2em;
 }
 
+.contact-estimate-form .sms-consent {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: .7rem;
+  border: var(--rule) solid color-mix(in srgb, var(--color-line), transparent 14%);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-desert-sand), var(--color-white) 44%);
+  padding: .9rem;
+}
+
+.contact-estimate-form .sms-consent input[type="checkbox"] {
+  width: 1.15rem;
+  height: 1.15rem;
+  min-height: 0;
+  margin-top: .25rem;
+  accent-color: var(--color-deep-navy);
+}
+
+.contact-estimate-form .sms-consent span {
+  color: var(--color-ink-soft);
+  font-size: var(--text-sm);
+  font-weight: 750;
+  line-height: 1.45;
+}
+
+.sms-consent-links {
+  margin: -.35rem 0 0;
+  color: var(--color-ink-soft);
+  font-size: var(--text-sm);
+  font-weight: 850;
+}
+
+.sms-consent-links a {
+  color: var(--color-deep-navy);
+  text-decoration: underline;
+  text-decoration-thickness: .08em;
+  text-underline-offset: .2em;
+}
+
 .contact-estimate-form .form-actions {
   margin-top: .2rem;
 }
 
 .contact-estimate-form .button-primary {
   justify-self: start;
+}
+
+.policy-content {
+  max-width: 50rem;
+}
+
+.policy-content h2 {
+  margin: var(--space-8) 0 var(--space-2);
+  color: var(--color-deep-navy);
+  font-size: var(--text-2xl);
+}
+
+.policy-content p {
+  color: var(--color-ink-soft);
+  font-size: var(--text-lg);
+}
+
+.policy-content a {
+  color: var(--color-deep-navy);
+  font-weight: 900;
+  text-decoration: underline;
+  text-decoration-thickness: .08em;
+  text-underline-offset: .2em;
 }
 
 @media (max-width: 68rem) {
